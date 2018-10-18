@@ -224,4 +224,7 @@ ae_void_t ae_movie_make_camera_transformation( ae_vector3_t _target, ae_vector3_
 ae_void_t ae_movie_make_layer_transformation2d_interpolate( ae_vector2_t _anchor_point, ae_vector2_t _position, ae_vector2_t _scale, ae_quaternionzw_t _quaternion, ae_skew_t _skew, const aeMovieLayerTransformation2D * _transformation2d, ae_uint32_t _index, ae_float_t _t );
 ae_void_t ae_movie_make_layer_transformation2d_fixed( ae_vector2_t _anchor_point, ae_vector2_t _position, ae_vector2_t _scale, ae_quaternionzw_t _quaternion, ae_skew_t _skew, const aeMovieLayerTransformation2D * _transformation2d, ae_uint32_t _index );
 
+ae_void_t ae_movie_make_layer_transformation_color_interpolate( ae_color_t * _color, ae_color_channel_t * _opacity, const aeMovieLayerTransformation * _transformation, ae_uint32_t _index, ae_float_t _t );
+ae_void_t ae_movie_make_layer_transformation_color_fixed( ae_color_t * _color, ae_color_channel_t * _opacity, const aeMovieLayerTransformation * _transformation, ae_uint32_t _index );
+
 #endif

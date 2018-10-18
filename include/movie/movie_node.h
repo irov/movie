@@ -446,6 +446,9 @@ typedef struct aeMovieCompositionSceneEffectProviderCallbackData
     ae_quaternionzw_t quaternion;
     ae_skew_t skew;
 
+    ae_color_t color;
+    ae_color_channel_t opacity;
+
 } aeMovieCompositionSceneEffectProviderCallbackData;
 
 typedef struct aeMovieCompositionSceneEffectDeleterCallbackData
@@ -466,6 +469,9 @@ typedef struct aeMovieCompositionSceneEffectUpdateCallbackData
     ae_vector2_t scale;
     ae_quaternionzw_t quaternion;
     ae_skew_t skew;
+
+    ae_color_t color;
+    ae_color_channel_t opacity;
 
     ae_voidptr_t scene_effect_data;
 

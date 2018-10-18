@@ -969,6 +969,7 @@ AE_INTERNAL ae_bool_t __setup_movie_composition_scene_effect( aeMovieComposition
             callbackData.element = node->element_data;
 
             ae_movie_make_layer_transformation2d_fixed( callbackData.anchor_point, callbackData.position, callbackData.scale, callbackData.quaternion, callbackData.skew, transformation2d, 0 );
+            ae_movie_make_layer_transformation_color_fixed( &callbackData.color, &callbackData.opacity, layer->transformation, 0 );
 
             ae_voidptr_t scene_effect_data = AE_NULL;
             if( (*_composition->providers.scene_effect_provider)(&callbackData, &scene_effect_data, _composition->provider_data) == AE_FALSE )
@@ -3011,10 +3012,12 @@ AE_INTERNAL ae_void_t __update_movie_scene_effect( const aeMovieComposition * _c
         ae_float_t t = ae_fractional_f( frame_time );
 
         ae_movie_make_layer_transformation2d_interpolate( callbackData.anchor_point, callbackData.position, callbackData.scale, callbackData.quaternion, callbackData.skew, transformation2d, frameId, t );
+        ae_movie_make_layer_transformation_color_interpolate( &callbackData.color, &callbackData.opacity, layer->transformation, frameId, t );
     }
     else
     {
         ae_movie_make_layer_transformation2d_fixed( callbackData.anchor_point, callbackData.position, callbackData.scale, callbackData.quaternion, callbackData.skew, transformation2d, frameId );
+        ae_movie_make_layer_transformation_color_fixed( &callbackData.color, &callbackData.opacity, layer->transformation, frameId );
     }
 
     callbackData.scene_effect_data = _composition->scene_effect_data;
