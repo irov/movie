@@ -42,6 +42,6 @@ build_script:
 - cmake --version
 - mkdir build_cmake
 - cd build_cmake
-- cmake .. -G %GENERATOR% -T %TOOLSET% -DCMAKE_CONFIGURATION_TYPES:STRING="%configuration%" -DCMAKE_BUILD_TYPE=%configuration% -DLIBMOVIE_EXAMPLES_BUILD:BOOL=FALSE
+- cmake .. -G "%GENERATOR%" -T %TOOLSET% -DCMAKE_CONFIGURATION_TYPES:STRING="%configuration%" -DCMAKE_BUILD_TYPE=%configuration% -DLIBMOVIE_EXAMPLES_BUILD:BOOL=FALSE
 - cmake --build . --config %configuration%
 - echo "Complete!"
