@@ -7,27 +7,41 @@ branches:
 image:
 - Visual Studio 2017
 
-platform:
-- x32
-- x64
-
-configuration: 
+configuration:
 - Debug
 - Release
 
-init:
-- if %platform%=="x32" ( set cmake_generator_arch= )
-- if %platform%=="x64" ( set cmake_generator_arch= Win64 )
-- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%cmake_generator_arch%" )
-- if "%platform%"=="x32" ( set project=Win32 )
-- if "%platform%"=="x64" ( set project=Win64 )
+environment:
+  TOOLSET: v141
+  ToolsVersion: 15.0
+  VCVARSALL: '%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat'
+  
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2017'
+      PLATFORM: x86      
+      ARCHITECTURE: x86
+      GENERATOR: Visual Studio 15 2017
+      CMAKE_DEPENDENCIES_DIR: Depends_WIN32
+      CMAKE_SOLUTION_DIR: Win32
+    - APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2017'
+      PLATFORM: x64
+      ARCHITECTURE: x86_amd64
+      GENERATOR: Visual Studio 15 2017 Win64
+      CMAKE_DEPENDENCIES_DIR: Depends_WIN64
+      CMAKE_SOLUTION_DIR: Win64
     
 build_script:
+- echo "Platform '%PLATFORM%'"
+- echo "Generator '%GENERATOR%'"
+- echo "Toolset '%TOOLSET%'"
+- echo "ToolsetVersion '%ToolsVersion%'"
+- echo "Configuration '%configuration%'"
+- echo "Dependencies '%CMAKE_DEPENDENCIES_DIR%'"
+- echo "Solution '%CMAKE_SOLUTION_DIR%'"
+- call "%VCVARSALL%" %ARCHITECTURE%
+- cmake --version
 - mkdir build_cmake
 - cd build_cmake
-- cmake .. -G %generator% -DCMAKE_BUILD_TYPE=%configuration% -DTARGET_CPU=%platform% -DLIBMOVIE_EXAMPLES_BUILD:BOOL=FALSE
-- cmake --build .
-- ctest --output-on-failure
-
-test_script:
-- ctest --build-config %configuration%
+- cmake .. -G %GENERATOR% -T %TOOLSET% -DCMAKE_CONFIGURATION_TYPES:STRING="%configuration%" -DCMAKE_BUILD_TYPE=%configuration% -DLIBMOVIE_EXAMPLES_BUILD:BOOL=FALSE
+- cmake --build . --config %configuration%
+- echo "Complete!"
