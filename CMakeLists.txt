@@ -22,6 +22,7 @@ IF( NOT LIBMOVIE_EXTERNAL_BUILD )
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4710")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4738")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4820")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4711")
     endif()
 ENDIF()
 
