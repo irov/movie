@@ -2408,7 +2408,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
                     callbackData.element = node->element_data;
                     callbackData.layer = layer;
                     callbackData.loop = _animation->loop;
-                    callbackData.state = AE_MOVIE_STATE_UPDATE_END;
+                    callbackData.state = AE_MOVIE_STATE_UPDATE_STOP;
                     callbackData.offset = AE_TIME_OUTSCALE( 0.f );
                     callbackData.immutable_matrix = node->immutable_matrix;
                     callbackData.matrix = node->matrix;
@@ -2435,7 +2435,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
                     callbackData.element = node->element_data;
                     callbackData.layer = layer;
                     callbackData.loop = _animation->loop;
-                    callbackData.state = AE_MOVIE_STATE_UPDATE_END;
+                    callbackData.state = AE_MOVIE_STATE_UPDATE_STOP;
                     callbackData.offset = AE_TIME_OUTSCALE( 0.f );
                     callbackData.immutable_matrix = node->immutable_matrix;
                     callbackData.matrix = node->matrix;
