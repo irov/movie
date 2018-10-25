@@ -314,7 +314,7 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
     {
     case AE_MOVIE_STATE_UPDATE_BEGIN:
         {
-            EX_LOG( " NODE_UPDATE_BEGIN\n" );
+            EX_LOG( " AE_MOVIE_STATE_UPDATE_BEGIN\n" );
             EX_LOG( " Type:" );
 
             aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
@@ -339,7 +339,7 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
         }break;
     case AE_MOVIE_STATE_UPDATE_PROCESS:
         {
-            EX_LOG( " NODE_UPDATE_UPDATE\n" );
+            EX_LOG( " AE_MOVIE_STATE_UPDATE_PROCESS\n" );
             EX_LOG( " Type:" );
 
             aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
@@ -362,9 +362,33 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
     case AE_MOVIE_STATE_UPDATE_RESUME:
         {
         }break;
+    case AE_MOVIE_STATE_UPDATE_STOP:
+        {
+            EX_LOG( " AE_MOVIE_STATE_UPDATE_STOP\n" );
+            EX_LOG( " Type:" );
+
+            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
+
+            switch( layer_type )
+            {
+            case AE_MOVIE_LAYER_TYPE_VIDEO:
+                EX_LOG( " video\n" );
+                break;
+            case AE_MOVIE_LAYER_TYPE_SOUND:
+                //					ex_sound_node_t *sound_node = (ex_sound_node_t *)_callbackData->element;
+
+                EX_LOG( " sound\n" );
+                //					EX_LOG("  name: '%s'\n", sound_node->sound->path);
+
+                break;
+            default:
+                EX_LOG( " other\n" );
+                break;
+            }
+        }break;
     case AE_MOVIE_STATE_UPDATE_END:
         {
-            EX_LOG( " NODE_UPDATE_END\n" );
+            EX_LOG( " AE_MOVIE_STATE_UPDATE_END\n" );
             EX_LOG( " Type:" );
 
             aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
@@ -447,6 +471,11 @@ ae_void_t ex_callback_track_matte_update( const aeMovieTrackMatteUpdateCallbackD
             EX_LOG( " AE_MOVIE_STATE_UPDATE_RESUME\n" );
 
             // Should update track_matte_data->mesh with callback one.
+        }break;
+    case AE_MOVIE_STATE_UPDATE_STOP:
+        {
+            EX_LOG( " AE_MOVIE_STATE_UPDATE_STOP\n" );
+
         }break;
     case AE_MOVIE_STATE_UPDATE_END:
         {
