@@ -35,6 +35,6 @@
 #include "movie_instance.h"
 #include "movie_data.h"
 #include "movie_resource.h"
-#include "movie_node.h"
+#include "movie_composition.h"
 
 #endif

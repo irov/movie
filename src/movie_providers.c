@@ -27,45 +27,30 @@
 * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************/
 
-#ifndef MOVIE_BEZIER_H_
-#define MOVIE_BEZIER_H_
+#include "movie/movie_providers.h"
 
-#include "movie/movie_type.h"
-#include "movie/movie_config.h"
-#include "movie/movie_composition.h"
-
-typedef struct ae_bezier_t
+//////////////////////////////////////////////////////////////////////////
+ae_void_t ae_clear_movie_composition_providers( aeMovieCompositionProviders * _providers )
 {
-    ae_float_t ta;
-    ae_float_t tb;
-    ae_float_t tc;
-    ae_float_t td;
-} ae_bezier_t;
-
-
-AE_INTERNAL ae_uint32_t get_bezier_warp_line_count( ae_uint32_t _quality )
-{
-    ae_uint32_t line_count = AE_MOVIE_BEZIER_WARP_BASE_GRID + _quality * 2;
-
-    return line_count;
+    _providers->node_provider = 0;
+    _providers->node_deleter = 0;
+    _providers->node_update = 0;
+    _providers->camera_provider = 0;
+    _providers->camera_deleter = 0;
+    _providers->camera_update = 0;
+    _providers->track_matte_provider = 0;
+    _providers->track_matte_update = 0;
+    _providers->track_matte_deleter = 0;
+    _providers->shader_provider = 0;
+    _providers->shader_deleter = 0;
+    _providers->shader_property_update = 0;
+    _providers->composition_event = 0;
+    _providers->composition_state = 0;
+    _providers->composition_extra_interrupt = 0;
+    _providers->scene_effect_provider = 0;
+    _providers->scene_effect_deleter = 0;
+    _providers->scene_effect_update = 0;
+    _providers->subcomposition_provider = 0;
+    _providers->subcomposition_deleter = 0;
+    _providers->subcomposition_state = 0;
 }
-
-AE_INTERNAL ae_uint32_t get_bezier_warp_vertex_count( ae_uint32_t _quality )
-{
-    ae_uint32_t line_count = get_bezier_warp_line_count( _quality );
-    ae_uint32_t vertex_count = line_count * line_count;
-
-    return vertex_count;
-}
-
-AE_INTERNAL ae_uint32_t get_bezier_warp_index_count( ae_uint32_t _quality )
-{
-    ae_uint32_t line_count = get_bezier_warp_line_count( _quality );
-    ae_uint32_t index_count = (line_count - 1) * (line_count - 1) * 6;
-
-    return index_count;
-}
-
-ae_void_t make_layer_bezier_warp_vertices( const struct aeMovieInstance * _instance, const struct aeMovieLayerExtensionBezierWarp * _layerBezierWarp, ae_uint32_t _frame, ae_bool_t _interpolate, ae_float_t _t, const ae_matrix34_t _matrix, const ae_vector2_t * _uvs, aeMovieRenderMesh * _render );
-
-#endif

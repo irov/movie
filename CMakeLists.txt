@@ -49,7 +49,9 @@ public
     ${INCLUDE_DIR}/movie/movie_config.h
     ${INCLUDE_DIR}/movie/movie_data.h
     ${INCLUDE_DIR}/movie/movie_instance.h
-    ${INCLUDE_DIR}/movie/movie_node.h
+    ${INCLUDE_DIR}/movie/movie_composition.h
+    ${INCLUDE_DIR}/movie/movie_render.h
+    ${INCLUDE_DIR}/movie/movie_providers.h
     ${INCLUDE_DIR}/movie/movie_resource.h
     ${INCLUDE_DIR}/movie/movie_skeleton.h
     ${INCLUDE_DIR}/movie/movie_type.h
@@ -67,7 +69,8 @@ source
     ${SOURCE_DIR}/movie_math.c
     ${SOURCE_DIR}/movie_math.h
     ${SOURCE_DIR}/movie_memory.h
-    ${SOURCE_DIR}/movie_node.c
+    ${SOURCE_DIR}/movie_composition.c
+    ${SOURCE_DIR}/movie_providers.c
     ${SOURCE_DIR}/movie_skeleton.c
     ${SOURCE_DIR}/movie_stream.c
     ${SOURCE_DIR}/movie_stream.h

@@ -31,7 +31,7 @@
 #define MOVIE_STRUCT_H_
 
 #include "movie/movie_type.h"
-#include "movie/movie_node.h"
+#include "movie/movie_composition.h"
 
 #include "movie_bezier.h"
 
