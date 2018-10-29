@@ -2,7 +2,7 @@
 
 ## Settings
 ```sh
-scripts/ae_movie_settings.py
+ae_movie_settings.py
 ```
 arguments:
 *  project_path
@@ -12,11 +12,14 @@ arguments:
 
 results:
 *  api_key
+*  multi_export_config
 *  tool_folder
 *  export_path
 *  export_name
+*  mov_folder
 *  allow_atlas
 *  atlas
+*  allow_image_polygonize
 *  image_polygonize
 *  image_polygonize_tolerance
 *  image_polygonize_minimum_square
@@ -32,17 +35,21 @@ results:
 
 ## Image export
 ```sh
-scripts/ae_movie_export_image.py
+ae_movie_export_image.py
 ```
 arguments:
 *  in_path
 *  out_path
+*  export_path
+*  export_name
 *  project_name
 *  write_name
 *  write_path
-*  trim
-*  in_premultiplied
+*  image_bezmesh
+*  image_trackmatte
+*  image_premultiplied
 *  out_premultiplied
+*  use_sha1
 
 results:
 *  out_path
@@ -59,12 +66,13 @@ results:
 
 ## Sound export
 ```sh
-scripts/ae_movie_export_sound.py
+ae_movie_export_sound.py
 ```
 arguments:
 *  in_path
 *  out_path
-*  out_work
+*  export_path
+*  export_name
 *  project_name
 *  write_name
 *  write_path
@@ -77,12 +85,13 @@ results:
 
 ## Video export
 ```sh
-scripts/ae_movie_export_video.py
+ae_movie_export_video.py
 ```
 arguments:
 *  in_path
 *  out_path
-*  out_work
+*  export_path
+*  export_name
 *  project_name
 *  write_name
 *  write_path
@@ -104,12 +113,13 @@ results:
 
 ## Astralax export
 ```sh
-scripts/ae_movie_export_astralax.py
+ae_movie_export_astralax.py
 ```
 arguments:
 *  in_path
 *  out_path
-*  out_work
+*  export_path
+*  export_name
 *  project_name
 *  write_name
 *  write_path
@@ -129,14 +139,17 @@ results:
 
 ## Image polygonize
 ```sh
-scripts/ae_movie_image_polygonize.py
+ae_movie_image_polygonize.py
 ```
 arguments:
 *  in_path
+*  source_path
 *  offset_x
 *  offset_y
 *  width
 *  height
+*  tolerance
+*  use_sha1
 
 results:
 *  vertex_count
@@ -147,7 +160,7 @@ results:
 
 ## Polygon triangulate
 ```sh
-scripts/ae_movie_polygon_triangulate.py
+ae_movie_polygon_triangulate.py
 ```
 arguments:
 *  bb
@@ -169,7 +182,7 @@ results:
 
 ## Atlas export
 ```sh
-scripts/ae_movie_atlas.py
+ae_movie_atlas.py
 ```
 arguments:
 *  in_path
@@ -182,9 +195,12 @@ results:
 
 ## Prebuild
 ```sh
-scripts/ae_movie_prebuild.py
+ae_movie_prebuild.py
 ```
 arguments:
+*  export_path
+*  export_name
+*  project_path
 *  movie_folder
 *  movie_name
 *  project_name
@@ -194,9 +210,12 @@ results:
 
 ## Postbuild
 ```sh
-scripts/ae_movie_postbuild.py
+ae_movie_postbuild.py
 ```
 arguments:
+*  export_path
+*  export_name
+*  project_path
 *  movie_folder
 *  movie_name
 *  project_name
@@ -208,9 +227,11 @@ results:
 
 ## Preview
 ```sh
-scripts/ae_movie_preview.py
+ae_movie_preview.py
 ```
 arguments:
+*  export_path
+*  export_name
 *  project_path
 *  movie_name
 *  project_name
@@ -222,7 +243,7 @@ results:
 
 ## Multiexport
 ```sh
-scripts/ae_movie_multiexport.py
+ae_movie_multiexport.py
 ```
 arguments:
 *  cfg_path
@@ -239,7 +260,7 @@ results:
 
 ## Multiexport prebuild
 ```sh
-scripts/ae_movie_multiexport_prebuild.py
+ae_movie_multiexport_prebuild.py
 ```
 arguments:
 *  image_polygonize
@@ -248,7 +269,7 @@ results:
 
 ## Multiexport postbuild
 ```sh
-scripts/ae_movie_multiexport_postbuild.py
+ae_movie_multiexport_postbuild.py
 ```
 arguments:
 *  successful
@@ -257,7 +278,7 @@ results:
 
 ## Multiexport report
 ```sh
-scripts/ae_movie_multiexport_report.py
+ae_movie_multiexport_report.py
 ```
 arguments:
 *  log_path
@@ -266,7 +287,7 @@ results:
 
 ## Multiexport report
 ```sh
-scripts/ae_movie_check_settings.py
+ae_movie_check_settings.py
 ```
 arguments:
 
