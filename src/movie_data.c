@@ -2169,13 +2169,22 @@ AE_INTERNAL ae_result_t __load_movie_resource( aeMovieData * _movieData, aeMovie
         &__load_movie_resource_slot, //AE_MOVIE_RESOURCE_SLOT 
     };
 
+#ifdef AE_MOVIE_DEBUG
+    if( type >= sizeof( resource_loaders ) / sizeof( resource_loaders[0] ) )
+    {
+        AE_RETURN_ERROR_RESULT( AE_RESULT_INVALID_STREAM );
+    }
+#endif
+
     aeMovieResource * new_resource = AE_NULL;
     ae_load_movie_resource_t resource_loader = resource_loaders[type];
 
+#ifdef AE_MOVIE_DEBUG
     if( resource_loader == AE_NULL )
     {
         AE_RETURN_ERROR_RESULT( AE_RESULT_INVALID_STREAM );
     }
+#endif
 
     AE_RESULT( (*resource_loader), (instance, _stream, _atlases, _resources, &new_resource) );
 
