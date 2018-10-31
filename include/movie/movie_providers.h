@@ -435,8 +435,8 @@ typedef struct aeMovieCompositionProviders
     ae_movie_composition_callback_camera_update_t camera_update;
 
     ae_movie_composition_callback_track_matte_provider_t track_matte_provider;
-    ae_movie_composition_callback_track_matte_update_t track_matte_update;
     ae_movie_composition_callback_track_matte_deleter_t track_matte_deleter;
+    ae_movie_composition_callback_track_matte_update_t track_matte_update;
 
     ae_movie_composition_callback_shader_provider_t shader_provider;
     ae_movie_composition_callback_shader_deleter_t shader_deleter;

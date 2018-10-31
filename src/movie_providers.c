@@ -30,27 +30,179 @@
 #include "movie/movie_providers.h"
 
 //////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_node_provider(const aeMovieNodeProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    *_rd = AE_NULL;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_node_deleter(const aeMovieNodeDeleterCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_node_update(const aeMovieNodeUpdateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_camera_provider(const aeMovieCameraProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    *_rd = AE_NULL;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_camera_deleter(const aeMovieCameraDeleterCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_camera_update(const aeMovieCameraUpdateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_track_matte_provider(const aeMovieTrackMatteProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    *_rd = AE_NULL;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_track_matte_deleter(const aeMovieTrackMatteDeleterCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_track_matte_update(const aeMovieTrackMatteUpdateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_shader_provider(const aeMovieShaderProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    *_rd = AE_NULL;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_shader_deleter(const aeMovieShaderDeleterCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_shader_property_update(const aeMovieShaderPropertyUpdateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_composition_event(const aeMovieCompositionEventCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_composition_state(const aeMovieCompositionStateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_composition_extra_interrupt(const aeMovieCompositionExtraInterruptCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_scene_effect_provider(const aeMovieCompositionSceneEffectProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    *_rd = AE_NULL;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_scene_effect_deleter(const aeMovieCompositionSceneEffectDeleterCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_scene_effect_update(const aeMovieCompositionSceneEffectUpdateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_subcomposition_provider(const aeMovieSubCompositionProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+
+    *_rd = AE_NULL;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_subcomposition_deleter(const aeMovieSubCompositionDeleterCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_void_t __dummy_movie_composition_callback_subcomposition_state(const aeMovieSubCompositionStateCallbackData * _callbackData, ae_voidptr_t _ud)
+{
+    AE_UNUSED(_callbackData);
+    AE_UNUSED(_ud);
+}
+//////////////////////////////////////////////////////////////////////////
 ae_void_t ae_clear_movie_composition_providers( aeMovieCompositionProviders * _providers )
 {
-    _providers->node_provider = 0;
-    _providers->node_deleter = 0;
-    _providers->node_update = 0;
-    _providers->camera_provider = 0;
-    _providers->camera_deleter = 0;
-    _providers->camera_update = 0;
-    _providers->track_matte_provider = 0;
-    _providers->track_matte_update = 0;
-    _providers->track_matte_deleter = 0;
-    _providers->shader_provider = 0;
-    _providers->shader_deleter = 0;
-    _providers->shader_property_update = 0;
-    _providers->composition_event = 0;
-    _providers->composition_state = 0;
-    _providers->composition_extra_interrupt = 0;
-    _providers->scene_effect_provider = 0;
-    _providers->scene_effect_deleter = 0;
-    _providers->scene_effect_update = 0;
-    _providers->subcomposition_provider = 0;
-    _providers->subcomposition_deleter = 0;
-    _providers->subcomposition_state = 0;
+    _providers->node_provider = &__dummy_movie_composition_callback_node_provider;
+    _providers->node_deleter = &__dummy_movie_composition_callback_node_deleter;
+    _providers->node_update = &__dummy_movie_composition_callback_node_update;
+    _providers->camera_provider = &__dummy_movie_composition_callback_camera_provider;
+    _providers->camera_deleter = &__dummy_movie_composition_callback_camera_deleter;
+    _providers->camera_update = &__dummy_movie_composition_callback_camera_update;
+    _providers->track_matte_provider = &__dummy_movie_composition_callback_track_matte_provider;
+    _providers->track_matte_deleter = &__dummy_movie_composition_callback_track_matte_deleter;
+    _providers->track_matte_update = &__dummy_movie_composition_callback_track_matte_update;
+    _providers->shader_provider = &__dummy_movie_composition_callback_shader_provider;
+    _providers->shader_deleter = &__dummy_movie_composition_callback_shader_deleter;
+    _providers->shader_property_update = &__dummy_movie_composition_callback_shader_property_update;
+    _providers->composition_event = &__dummy_movie_composition_callback_composition_event;
+    _providers->composition_state = &__dummy_movie_composition_callback_composition_state;
+    _providers->composition_extra_interrupt = &__dummy_movie_composition_callback_composition_extra_interrupt;
+    _providers->scene_effect_provider = &__dummy_movie_composition_callback_scene_effect_provider;
+    _providers->scene_effect_deleter = &__dummy_movie_composition_callback_scene_effect_deleter;
+    _providers->scene_effect_update = &__dummy_movie_composition_callback_scene_effect_update;
+    _providers->subcomposition_provider = &__dummy_movie_composition_callback_subcomposition_provider;
+    _providers->subcomposition_deleter = &__dummy_movie_composition_callback_subcomposition_deleter;
+    _providers->subcomposition_state = &__dummy_movie_composition_callback_subcomposition_state;
 }
