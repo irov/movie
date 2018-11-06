@@ -43,6 +43,11 @@ typedef struct aeMovieResourceSolid
 
 } aeMovieResourceSolid;
 
+typedef enum
+{
+    AE_MOVIE_RESOURCE_VIDEO_PREMULTIPLIED = AE_BITWISE( 0 ),
+} ae_movie_resource_video_options;
+
 typedef struct aeMovieResourceVideo
 {
     AE_MOVIE_RESOURCE_BASE();
@@ -50,9 +55,10 @@ typedef struct aeMovieResourceVideo
     ae_string_t path;
     ae_uint32_t codec;
 
-    ae_float_t width;
-    ae_float_t height;
+    ae_uint32_t options;
 
+    ae_float_t base_width;
+    ae_float_t base_height;
     ae_float_t trim_width;
     ae_float_t trim_height;
     ae_float_t offset_x;

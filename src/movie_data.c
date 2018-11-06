@@ -1781,13 +1781,22 @@ AE_INTERNAL ae_result_t __load_movie_resource_video( const aeMovieInstance * _in
     AE_READ_STRING( _stream, resource->path );
     resource->codec = AE_READ8( _stream );
 
-    AE_READF( _stream, resource->width );
-    AE_READF( _stream, resource->height );
+    //TODO 17.6
+    //AE_READ( _stream, resource->options );
+    resource->options = 0;
+
+    AE_READF( _stream, resource->base_width );
+    AE_READF( _stream, resource->base_height );
 
     resource->has_alpha_channel = AE_READB( _stream );
 
     AE_READF( _stream, resource->frameRate );
     AE_READF( _stream, resource->duration );
+
+    resource->trim_width = resource->base_width;
+    resource->trim_height = resource->base_height;
+    resource->offset_x = 0.f;
+    resource->offset_y = 0.f;
 
     for( ;;)
     {

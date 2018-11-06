@@ -382,10 +382,13 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             }
             else
             {
-                ae_float_t width = resource_video->width;
-                ae_float_t height = resource_video->height;
+                ae_float_t offset_x = resource_video->offset_x;
+                ae_float_t offset_y = resource_video->offset_y;
 
-                __make_layer_sprite_vertices( instance, 0.f, 0.f, width, height, _node->matrix, instance->sprite_uv, _render );
+                ae_float_t width = resource_video->trim_width;
+                ae_float_t height = resource_video->trim_height;
+
+                __make_layer_sprite_vertices( instance, offset_x, offset_y, width, height, _node->matrix, instance->sprite_uv, _render );
 
                 if( resource_video->cache != AE_NULL )
                 {
