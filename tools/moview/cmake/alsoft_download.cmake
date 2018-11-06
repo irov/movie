@@ -2,6 +2,7 @@ include(ExternalProject)
 
 ExternalProject_Add(alsoft_download PREFIX alsoft
         GIT_REPOSITORY https://github.com/kcat/openal-soft.git
+        GIT_TAG openal-soft-1.19.1
         GIT_PROGRESS TRUE
 
         UPDATE_COMMAND ""
