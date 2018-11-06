@@ -95,6 +95,12 @@ typedef enum aeMovieCompositionFlag
 @{
 */
 
+typedef struct aeMovieDataCacheUVAvailableCallbackData
+{
+	ae_uint32_t dummy;
+
+} aeMovieDataCacheUVAvailableCallbackData;
+
 typedef struct aeMovieDataCacheUVProviderCallbackData
 {
     const aeMovieResource * resource;
@@ -119,7 +125,8 @@ typedef struct aeMovieDataCacheUVDeleterCallbackData
 typedef ae_bool_t( *ae_movie_data_callback_resource_provider_t )(const aeMovieResource * _resource, ae_voidptrptr_t _rd, ae_voidptr_t _ud);
 typedef ae_void_t( *ae_movie_data_callback_resource_deleter_t )(aeMovieResourceTypeEnum _type, ae_voidptr_t _data, ae_voidptr_t _ud);
 
-typedef ae_bool_t( *ae_movie_data_callback_cache_uv_provider_t )(const aeMovieDataCacheUVProviderCallbackData * _callbackData, ae_voidptrptr_t _cud, ae_voidptr_t _ud);
+typedef ae_bool_t( *ae_movie_data_callback_cache_uv_available_t )(const aeMovieDataCacheUVAvailableCallbackData * _callbackData, ae_voidptr_t _ud);
+typedef ae_bool_t( *ae_movie_data_callback_cache_uv_provider_t )(const aeMovieDataCacheUVProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud);
 typedef ae_void_t( *ae_movie_data_callback_cache_uv_deleter_t )(const aeMovieDataCacheUVDeleterCallbackData * _callbackData, ae_voidptr_t _ud);
 
 typedef struct aeMovieDataProviders
@@ -127,6 +134,7 @@ typedef struct aeMovieDataProviders
     ae_movie_data_callback_resource_provider_t resource_provider;
     ae_movie_data_callback_resource_deleter_t resource_deleter;
 
+	ae_movie_data_callback_cache_uv_available_t cache_uv_available;
     ae_movie_data_callback_cache_uv_provider_t cache_uv_provider;
     ae_movie_data_callback_cache_uv_deleter_t cache_uv_deleter;
 
