@@ -3001,12 +3001,10 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             node->current_frame = frameId;
             node->current_frame_t = 0.f;
 
-            __update_movie_composition_node_matrix( node, _revision, _composition, _compositionData, _animation, _subcomposition, frameId, AE_FALSE, 0.f );
-
-            node->update_revision = _revision;
-
             if( beginFrame < indexIn && endFrame >= indexIn )
             {
+                __update_movie_composition_node_matrix( node, _revision, _composition, _compositionData, _animation, _subcomposition, frameId, AE_FALSE, 0.f );
+
                 aeMovieCompositionEventCallbackData callbackData;
                 callbackData.index = enumerator;
                 callbackData.element = node->element_data;
@@ -3023,6 +3021,8 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             if( beginFrame < indexOut && endFrame >= indexOut )
             {
+                __update_movie_composition_node_matrix( node, _revision, _composition, _compositionData, _animation, _subcomposition, frameId, AE_FALSE, 0.f );
+
                 aeMovieCompositionEventCallbackData callbackData;
                 callbackData.index = enumerator;
                 callbackData.element = node->element_data;
@@ -3036,6 +3036,8 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
                 (*_composition->providers.composition_event)(&callbackData, _composition->provider_data);
             }
+
+            node->update_revision = _revision;
 
             continue;
         }
