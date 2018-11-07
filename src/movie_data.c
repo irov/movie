@@ -1837,6 +1837,8 @@ AE_INTERNAL ae_result_t __load_movie_resource_video( const aeMovieInstance * _in
     resource->offset_x = 0.f;
     resource->offset_y = 0.f;
 
+    resource->cache = AE_NULL;
+
     for( ;;)
     {
         ae_uint8_t param_type;
