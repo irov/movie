@@ -580,6 +580,13 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
 
     const aeMovieLayerData * node_layer = _node->layer;
 
+#ifdef AE_MOVIE_SAFE
+    if( _frameId >= node_layer->frame_count )
+    {
+        return;
+    }
+#endif
+
 #ifdef AE_MOVIE_DEBUG	
     if( __test_error_composition_layer_frame( _composition->movie_data->instance
         , _compositionData
@@ -698,12 +705,19 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
         return;
     }
 
-    const aeMovieLayerData * layer = _node->layer;
+    const aeMovieLayerData * node_layer = _node->layer;
+
+#ifdef AE_MOVIE_SAFE
+    if( _frameId >= node_layer->frame_count )
+    {
+        return;
+    }
+#endif
 
 #ifdef AE_MOVIE_DEBUG	
     if( __test_error_composition_layer_frame( _composition->movie_data->instance
         , _compositionData
-        , layer
+        , node_layer
         , _frameId
         , "__update_movie_composition_node_shader frame id out count"
     ) == AE_FALSE )
@@ -712,7 +726,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
     }
 #endif
 
-    const aeMovieLayerExtensionShader * shader = layer->extensions->shader;
+    const aeMovieLayerExtensionShader * shader = node_layer->extensions->shader;
 
     const struct aeMovieLayerShaderParameter ** it_parameter = shader->parameters;
     const struct aeMovieLayerShaderParameter ** it_parameter_end = shader->parameters + shader->parameter_count;
@@ -2825,6 +2839,13 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_state( const aeMovieCompos
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, const aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition, aeMovieNode * _node, ae_uint32_t _index, ae_uint32_t _revision, ae_float_t _time, ae_uint32_t _frameId, ae_float_t _t, ae_bool_t _loop, ae_bool_t _interpolate, ae_bool_t _begin )
 {
+#ifdef AE_MOVIE_SAFE
+    if( _frameId >= _node->frame_count )
+    {
+        return;
+    }
+#endif
+
 #ifdef AE_MOVIE_DEBUG	
     if( __test_error_composition_layer_frame( _composition->movie_data->instance
         , _compositionData
