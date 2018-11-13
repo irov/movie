@@ -2841,10 +2841,12 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_state( const aeMovieCompos
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, const aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition, aeMovieNode * _node, ae_uint32_t _index, ae_uint32_t _revision, ae_float_t _time, ae_uint32_t _frameId, ae_float_t _t, ae_bool_t _loop, ae_bool_t _interpolate, ae_bool_t _begin )
 {
+    const aeMovieLayerData * node_layer = _node->layer;
+
 #ifdef AE_MOVIE_DEBUG	
     if( __test_error_composition_layer_frame( _composition->movie_data->instance
         , _compositionData
-        , _node->layer
+        , node_layer
         , _frameId
         , "__update_node frame id out count"
     ) == AE_FALSE )
@@ -2854,15 +2856,13 @@ AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, co
 #endif
 
 #ifdef AE_MOVIE_SAFE
-    if( _frameId >= _node->frame_count )
+    if( _frameId >= node_layer->frame_count )
     {
         return;
     }
-#endif
+#endif    
 
-    const aeMovieLayerData * layer = _node->layer;
-
-    ae_bool_t node_interpolate = (_frameId + 1 == layer->frame_count) ? AE_FALSE : _interpolate;
+    ae_bool_t node_interpolate = (_frameId + 1 == node_layer->frame_count) ? AE_FALSE : _interpolate;
 
     __update_movie_composition_node_matrix( _node, _revision, _composition, _compositionData, _animation, _subcomposition, _frameId, node_interpolate, _t );
 
