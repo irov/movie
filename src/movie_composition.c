@@ -38,6 +38,10 @@
 
 #include "movie_struct.h"
 
+#ifndef AE_MOVIE_FRAME_EPSILON
+#define AE_MOVIE_FRAME_EPSILON 0.01f
+#endif
+
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_uint32_t __get_composition_update_revision( const aeMovieComposition * _composition )
 {
@@ -535,7 +539,7 @@ AE_INTERNAL ae_uint32_t __get_movie_frame_time( const struct aeMovieCompositionA
 
     ae_float_t current_time = animation_time - _node->in_time + _node->start_time;
 
-    ae_float_t frame_time = current_time / _node->stretch * frameDurationInv;
+    ae_float_t frame_time = current_time * _node->stretchInv * frameDurationInv;
 
     if( frame_time < 0.f )
     {
@@ -1341,7 +1345,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
             }
         }
 
-        node->stretch = _stretch * layer->stretch;
+        node->stretchInv = 1.f / _stretch;
 
         switch( layer->type )
         {
@@ -2865,7 +2869,7 @@ AE_INTERNAL ae_void_t __update_movie_scene_effect( const aeMovieComposition * _c
     ae_float_t frameDurationInv = layer->composition_data->frameDurationInv;
 
     ae_float_t current_time = _animation->time - scene_effect_node->in_time + scene_effect_node->start_time;
-    ae_float_t frame_time = current_time / scene_effect_node->stretch * frameDurationInv;
+    ae_float_t frame_time = current_time * scene_effect_node->stretchInv * frameDurationInv;
 
     ae_uint32_t frameId = (ae_uint32_t)frame_time;
 
@@ -2928,7 +2932,7 @@ AE_INTERNAL ae_void_t __refresh_movie_composition_matrix( const aeMovieCompositi
 
         ae_float_t frameDurationInv = node_layer->composition_data->frameDurationInv;
 
-        ae_float_t frame_time = node->current_time / node->stretch * frameDurationInv;
+        ae_float_t frame_time = node->current_time * node->stretchInv * frameDurationInv;
 
         ae_uint32_t frameId = (ae_uint32_t)frame_time;
 
@@ -2984,13 +2988,18 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
         ae_float_t in_time = (test_time == AE_TRUE && node->in_time <= loopBegin) ? loopBegin : node->in_time;
         ae_float_t out_time = (test_time == AE_TRUE && node->out_time >= loopEnd) ? loopEnd : node->out_time;
 
-        ae_uint32_t beginFrame = (ae_uint32_t)(_beginTime * frameDurationInv + 0.001f);
-        ae_uint32_t endFrame = (ae_uint32_t)(animation_time * frameDurationInv + 0.001f);
-        ae_uint32_t indexIn = (ae_uint32_t)(in_time * frameDurationInv + 0.001f);
-        ae_uint32_t indexOut = (ae_uint32_t)(out_time * frameDurationInv + 0.001f);
+        ae_float_t beginFrameF = _beginTime;
+        ae_float_t endFrameF = animation_time;
+        ae_float_t indexInF = in_time;
+        ae_float_t indexOutF = out_time;
 
-        ae_float_t current_time = (endFrame >= indexOut) ? out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
-        ae_float_t stretch_time = current_time / node->stretch;
+        ae_uint32_t beginFrame = (ae_uint32_t)(beginFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t endFrame = (ae_uint32_t)(endFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t indexIn = (ae_uint32_t)(indexInF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t indexOut = (ae_uint32_t)(indexOutF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+
+        ae_float_t current_time = (endFrameF >= indexOutF) ? out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
+        ae_float_t stretch_time = current_time * node->stretchInv;
         ae_float_t frame_time = stretch_time * frameDurationInv;
 
         ae_uint32_t frameId = (ae_uint32_t)frame_time;
@@ -3001,7 +3010,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             node->current_frame = frameId;
             node->current_frame_t = 0.f;
 
-            if( beginFrame < indexIn && endFrame >= indexIn )
+            if( beginFrameF < indexInF && endFrameF > indexInF )
             {
                 __update_movie_composition_node_matrix( node, _revision, _composition, _compositionData, _animation, _subcomposition, frameId, AE_FALSE, 0.f );
 
@@ -3019,7 +3028,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 (*_composition->providers.composition_event)(&callbackData, _composition->provider_data);
             }
 
-            if( beginFrame < indexOut && endFrame >= indexOut )
+            if( beginFrameF < indexOutF && endFrameF > indexOutF )
             {
                 __update_movie_composition_node_matrix( node, _revision, _composition, _compositionData, _animation, _subcomposition, frameId, AE_FALSE, 0.f );
 
@@ -3042,7 +3051,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             continue;
         }
 
-        if( indexIn > endFrame || indexOut < beginFrame )
+        if( indexInF > endFrameF || indexOutF < beginFrameF )
         {
             if( node->incessantly == AE_TRUE )
             {
@@ -3064,7 +3073,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             continue;
         }
-        else if( indexIn >= beginFrame && indexOut < endFrame )
+        else if( indexInF > beginFrameF && indexOutF < endFrameF )
         {
             if( node->incessantly == AE_TRUE )
             {
@@ -3201,19 +3210,24 @@ AE_INTERNAL ae_void_t __skip_movie_composition_node( const aeMovieComposition * 
         ae_float_t in_time = node->in_time;
         ae_float_t out_time = node->out_time;
 
-        ae_uint32_t beginFrame = (ae_uint32_t)(_beginTime * frameDurationInv + 0.001f);
-        ae_uint32_t endFrame = (ae_uint32_t)(_endTime * frameDurationInv + 0.001f);
-        ae_uint32_t indexIn = (ae_uint32_t)(in_time * frameDurationInv + 0.001f);
-        ae_uint32_t indexOut = (ae_uint32_t)(out_time * frameDurationInv + 0.001f);
+        ae_float_t beginFrameF = _beginTime;
+        ae_float_t endFrameF = _endTime;
+        ae_float_t indexInF = in_time;
+        ae_float_t indexOutF = out_time;
 
-        if( indexIn > endFrame || indexOut < beginFrame )
+        ae_uint32_t beginFrame = (ae_uint32_t)(beginFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t endFrame = (ae_uint32_t)(endFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t indexIn = (ae_uint32_t)(indexInF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t indexOut = (ae_uint32_t)(indexOutF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+
+        if( indexInF > endFrameF || indexOutF < beginFrameF )
         {
             node->active = AE_FALSE;
 
             continue;
         }
 
-        if( indexIn >= beginFrame && indexOut < endFrame )
+        if( indexInF > beginFrameF && indexOutF < endFrameF )
         {
             node->active = AE_FALSE;
 
@@ -3221,7 +3235,7 @@ AE_INTERNAL ae_void_t __skip_movie_composition_node( const aeMovieComposition * 
         }
 
         ae_float_t current_time = (endFrame >= indexOut) ? out_time - node->in_time + node->start_time : _animation->time - node->in_time + node->start_time;
-        ae_float_t frame_time = current_time / node->stretch * frameDurationInv;
+        ae_float_t frame_time = current_time * node->stretchInv * frameDurationInv;
 
         ae_uint32_t frameId = (ae_uint32_t)frame_time;
 
