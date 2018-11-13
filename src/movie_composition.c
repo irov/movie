@@ -1359,20 +1359,22 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
             }
         }
 
-        node->stretchInv = 1.f / _stretch;
+        ae_float_t to_stretch = _stretch * layer->stretch;
 
         switch( layer->type )
         {
         case AE_MOVIE_LAYER_TYPE_MOVIE:
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
             {
-                ae_float_t to_stretch = _stretch * layer->stretch;
+                node->stretchInv = 1.f / _stretch;
+
                 ae_float_t to_startTime = _startTime + layer->start_time - layer->in_time;
 
                 __setup_movie_node_time( _nodes, _iterator, layer->sub_composition_data, node, to_stretch, to_startTime );
             }break;
         default:
             {
+                node->stretchInv = 1.f / to_stretch;
             }break;
         }
     }
