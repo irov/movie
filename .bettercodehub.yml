@@ -1,11 +1,7 @@
+component_depth: 1
 languages:
-- cpp
-exclude:
-- build
-- cmake
-- doxygen
-- examples
-- export
-- frameworks
-- tests
-- tools
+  - name: cpp
+  production:
+    include:
+      - /src/.*\.c
+      - /include/movie/.*\.h
