@@ -2,7 +2,13 @@ component_depth: 1
 languages:
 - cpp
 
-- name: cpp
-  production:
-    include:
-      - /src/.*\.c
+exclude:
+- /build/.*
+- /cmake/.*
+- /doxygen/.*
+- /examples/.*
+- /export/.*
+- /frameworks/.*
+- /tests/.*
+- /tools/.*
+
