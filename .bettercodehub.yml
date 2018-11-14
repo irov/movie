@@ -1,5 +1,11 @@
 languages:
 - cpp
-include:
-- src
-- include
+exclude:
+- build
+- cmake
+- doxygen
+- examples
+- export
+- frameworks
+- tests
+- tools
