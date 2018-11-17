@@ -14,4 +14,6 @@ Sonar quality gate!
 Code Review by CodeFactor!
 [![CodeFactor](https://www.codefactor.io/repository/github/irov/libmovie/badge)](https://www.codefactor.io/repository/github/irov/libmovie)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/23c7dab2df584d4b82ed35a44838c0a2)](https://app.codacy.com/app/irov13/libmovie?utm_source=github.com&utm_medium=referral&utm_content=irov/libmovie&utm_campaign=Badge_Grade_Dashboard) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/23c7dab2df584d4b82ed35a44838c0a2)](https://app.codacy.com/app/irov13/libmovie?utm_source=github.com&utm_medium=referral&utm_content=irov/libmovie&utm_campaign=Badge_Grade_Dashboard)
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/irov/libmovie?branch=master)](https://bettercodehub.com/)
