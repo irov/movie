@@ -66,7 +66,7 @@ AE_CALLBACK ae_void_t __memory_copy( ae_voidptr_t _data, ae_constvoidptr_t _src,
     memcpy( _dst, _src, _size );
 }
 
-AE_CALLBACK ae_bool_t __resource_provider( const aeMovieResource * _resource, ae_voidptrptr_t _rd, ae_voidptr_t _ud )
+AE_CALLBACK ae_bool_t __resource_provider( const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud )
 {
     AE_UNUSED( _resource );
     AE_UNUSED( _rd );
@@ -75,7 +75,7 @@ AE_CALLBACK ae_bool_t __resource_provider( const aeMovieResource * _resource, ae
     return AE_TRUE;
 }
 
-AE_CALLBACK ae_void_t __resource_deleter( aeMovieResourceTypeEnum _type, ae_voidptr_t _data, ae_voidptr_t _ud )
+AE_CALLBACK ae_void_t __resource_deleter( aeMovieResourceTypeEnum _type, ae_voidptr_t _data, ae_userdata_t _ud )
 {
     AE_UNUSED( _type );
     AE_UNUSED( _data );
@@ -102,7 +102,7 @@ int main( int argc, char *argv[] )
     data_providers.resource_provider = &__resource_provider;
     data_providers.resource_deleter = &__resource_deleter;
 
-    aeMovieData * movie_data = ae_create_movie_data( instance, &data_providers, AE_NULL );
+    aeMovieData * movie_data = ae_create_movie_data( instance, &data_providers, AE_USERDATA_NULL );
 
     FILE * f = fopen( "../../examples/resources/Knight/Knight.aem", "rb" );
 

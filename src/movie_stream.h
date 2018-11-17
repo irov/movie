@@ -62,7 +62,7 @@
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t ae_magic_read_value( aeMovieStream * _stream, ae_voidptr_t _ptr, ae_size_t _size )
 {
-    ae_size_t bytesRead = _stream->memory_read( _stream->read_data, _ptr, _stream->carriage, _size );
+    ae_size_t bytesRead = _stream->memory_read( _stream->read_userdata, _ptr, _stream->carriage, _size );
 
     _stream->carriage += bytesRead;
 }

@@ -96,7 +96,7 @@ struct aeMovieInstance
     ae_movie_free_n_t memory_free_n;
     ae_movie_strncmp_t strncmp;
     ae_movie_logger_t logger;
-    ae_voidptr_t instance_data;
+    ae_userdata_t instance_userdata;
 
     ae_vector2_t sprite_uv[4];
     ae_uint16_t sprite_indices[6];
@@ -113,8 +113,8 @@ struct aeMovieStream
 
     ae_movie_stream_memory_read_t memory_read;
     ae_movie_stream_memory_copy_t memory_copy;
-    ae_voidptr_t read_data;
-    ae_voidptr_t copy_data;
+    ae_userdata_t read_userdata;
+    ae_userdata_t copy_userdata;
 
     ae_constvoidptr_t buffer;
     ae_size_t carriage;
@@ -142,10 +142,11 @@ struct aeMovieSubComposition
 {
     const aeMovieLayerData * layer;
     const aeMovieCompositionData * composition_data;
+    const aeMovieCompositionData * subcomposition_data;
 
     struct aeMovieCompositionAnimation * animation;
 
-    ae_voidptr_t subcomposition_data;
+    ae_userdata_t subcomposition_userdata;
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieNode
@@ -190,10 +191,10 @@ struct aeMovieNode
 
     ae_blend_mode_t blend_mode;
 
-    ae_voidptr_t element_data;
-    ae_voidptr_t camera_data;    
-    ae_voidptr_t shader_data;
-    ae_voidptr_t track_matte_data;
+    ae_userdata_t element_userdata;
+    ae_userdata_t camera_userdata;    
+    ae_userdata_t shader_userdata;
+    ae_userdata_t track_matte_userdata;
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieComposition
@@ -203,7 +204,7 @@ struct aeMovieComposition
 
     struct aeMovieCompositionAnimation * animation;
 
-    ae_voidptr_t camera_data;
+    ae_userdata_t camera_userdata;
 
     ae_uint32_t * update_revision;
 
@@ -213,13 +214,13 @@ struct aeMovieComposition
     aeMovieNode * nodes;
 
     aeMovieNode * scene_effect_node;
-    ae_voidptr_t scene_effect_data;
+    ae_userdata_t scene_effect_userdata;
 
     ae_uint32_t subcomposition_count;
     aeMovieSubComposition * subcompositions;
 
     aeMovieCompositionProviders providers;
-    ae_voidptr_t provider_data;
+    ae_userdata_t provider_userdata;
 };
 //////////////////////////////////////////////////////////////////////////
 typedef struct aeMovieCompositionCameraImuttable
@@ -302,7 +303,7 @@ struct aeMovieData
     ae_bool_t common_store;
 
     aeMovieDataProviders providers;
-    ae_voidptr_t provider_data;
+    ae_userdata_t provider_userdata;
 
     ae_uint32_t atlas_count;
     const aeMovieResource * const * atlases;
@@ -335,7 +336,7 @@ struct aeMovieLayerData
     const aeMovieLayerExtensions * extensions;
 
     const aeMovieResource * resource;
-    const aeMovieCompositionData * sub_composition_data;
+    const aeMovieCompositionData * subcomposition_data;
 
     ae_uint32_t parent_index;
 
@@ -474,23 +475,23 @@ struct aeMovieLayerExtensionPolygon
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieResourceImageCache
 {
-    ae_voidptr_t uv_cache_data;
-    ae_voidptr_t mesh_uv_cache_data;
-    ae_voidptr_t bezier_warp_uv_cache_data[AE_MOVIE_BEZIER_MAX_QUALITY];
+    ae_userdata_t uv_cache_userdata;
+    ae_userdata_t mesh_uv_cache_userdata;
+    ae_userdata_t bezier_warp_uv_cache_userdata[AE_MOVIE_BEZIER_MAX_QUALITY];
 
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieResourceVideoCache
 {
-    ae_voidptr_t uv_cache_data;
-    ae_voidptr_t bezier_warp_uv_cache_data[AE_MOVIE_BEZIER_MAX_QUALITY];
+    ae_userdata_t uv_cache_userdata;
+    ae_userdata_t bezier_warp_uv_cache_userdata[AE_MOVIE_BEZIER_MAX_QUALITY];
 
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerCache
 {
-    ae_voidptr_t immutable_mesh_uv_cache_data;
-    ae_voidptr_t * mesh_uv_cache_data;
+    ae_userdata_t immutable_mesh_uv_cache_userdata;
+    ae_userdata_t * mesh_uv_cache_userdata;
 };
 //////////////////////////////////////////////////////////////////////////
 #define AE_RESULT( Function, Args ) { ae_result_t result = (Function) Args; if( result != AE_RESULT_SUCCESSFUL ) { return result;}}

@@ -112,7 +112,7 @@ typedef struct aeMovieDataCacheUVProviderCallbackData
 
 typedef struct aeMovieDataCacheUVDeleterCallbackData
 {
-    ae_voidptr_t uv_cache_data;
+    ae_userdata_t uv_cache_userdata;
 
 } aeMovieDataCacheUVDeleterCallbackData;
 
@@ -122,12 +122,12 @@ typedef struct aeMovieDataCacheUVDeleterCallbackData
 @param [in] _data Object which will hold the resource reference after loading.
 @return Reference to the created resource.
 */
-typedef ae_bool_t( *ae_movie_data_callback_resource_provider_t )(const aeMovieResource * _resource, ae_voidptrptr_t _rd, ae_voidptr_t _ud);
-typedef ae_void_t( *ae_movie_data_callback_resource_deleter_t )(aeMovieResourceTypeEnum _type, ae_voidptr_t _data, ae_voidptr_t _ud);
+typedef ae_bool_t( *ae_movie_data_callback_resource_provider_t )(const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud);
+typedef ae_void_t( *ae_movie_data_callback_resource_deleter_t )(aeMovieResourceTypeEnum _type, ae_userdata_t _data, ae_userdata_t _ud);
 
-typedef ae_bool_t( *ae_movie_data_callback_cache_uv_available_t )(const aeMovieDataCacheUVAvailableCallbackData * _callbackData, ae_voidptr_t _ud);
-typedef ae_bool_t( *ae_movie_data_callback_cache_uv_provider_t )(const aeMovieDataCacheUVProviderCallbackData * _callbackData, ae_voidptrptr_t _rd, ae_voidptr_t _ud);
-typedef ae_void_t( *ae_movie_data_callback_cache_uv_deleter_t )(const aeMovieDataCacheUVDeleterCallbackData * _callbackData, ae_voidptr_t _ud);
+typedef ae_bool_t( *ae_movie_data_callback_cache_uv_available_t )(const aeMovieDataCacheUVAvailableCallbackData * _callbackData, ae_userdata_t _ud);
+typedef ae_bool_t( *ae_movie_data_callback_cache_uv_provider_t )(const aeMovieDataCacheUVProviderCallbackData * _callbackData, ae_userdataptr_t _rd, ae_userdata_t _ud);
+typedef ae_void_t( *ae_movie_data_callback_cache_uv_deleter_t )(const aeMovieDataCacheUVDeleterCallbackData * _callbackData, ae_userdata_t _ud);
 
 typedef struct aeMovieDataProviders
 {
@@ -147,7 +147,7 @@ ae_void_t ae_clear_movie_data_providers( aeMovieDataProviders * _providers );
 @param [in] _instance Instance.
 @return Pointer to the created structure.
 */
-aeMovieData * ae_create_movie_data( const aeMovieInstance * _instance, const aeMovieDataProviders * _providers, ae_voidptr_t _data );
+aeMovieData * ae_create_movie_data( const aeMovieInstance * _instance, const aeMovieDataProviders * _providers, ae_userdata_t _userdata );
 
 /**
 @brief Release data.
@@ -159,19 +159,19 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData );
 @brief Create a stream to load the data from the given data pointer.
 @param [in] _instance Instance.
 @param [in] _read,_copy User pointers to utility functions.
-@param [in] _data Object to use in above callbacks to read data from.
+@param [in] _userdata Object to use in above callbacks to read data from.
 @return Pointer to the stream.
 */
-aeMovieStream * ae_create_movie_stream( const aeMovieInstance * _instance, ae_movie_stream_memory_read_t _read, ae_movie_stream_memory_copy_t _copy, ae_voidptr_t _data );
+aeMovieStream * ae_create_movie_stream( const aeMovieInstance * _instance, ae_movie_stream_memory_read_t _read, ae_movie_stream_memory_copy_t _copy, ae_userdata_t _userdata );
 
 /**
 @brief Create a stream to load the data from the given data pointer.
 @param [in] _instance Instance.
 @param [in] _read,_copy User pointers to utility functions.
-@param [in] _data Object to use in above callbacks to read data from.
+@param [in] _userdata Object to use in above callbacks to read data from.
 @return Pointer to the stream.
 */
-aeMovieStream * ae_create_movie_stream_memory( const aeMovieInstance * _instance, ae_constvoidptr_t _buffer, ae_movie_stream_memory_copy_t _copy, ae_voidptr_t _data );
+aeMovieStream * ae_create_movie_stream_memory( const aeMovieInstance * _instance, ae_constvoidptr_t _buffer, ae_movie_stream_memory_copy_t _copy, ae_userdata_t _userdata );
 
 
 /**
@@ -240,9 +240,9 @@ ae_bool_t ae_has_movie_composition_data( const aeMovieData * _movieData, const a
 */
 const aeMovieCompositionData * ae_get_movie_composition_data( const aeMovieData * _movieData, const ae_char_t * _name );
 
-typedef ae_bool_t( *ae_movie_layer_data_visitor_t )(const aeMovieCompositionData * _compositionData, const aeMovieLayerData * _layer, ae_voidptr_t _ud);
+typedef ae_bool_t( *ae_movie_layer_data_visitor_t )(const aeMovieCompositionData * _compositionData, const aeMovieLayerData * _layer, ae_userdata_t _ud);
 
-ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_layer_data_visitor_t _visitor, ae_voidptr_t _ud );
+ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud );
 
 /**
 @param [in] _layer Layer.
@@ -294,7 +294,7 @@ const aeMovieResource * ae_get_movie_layer_data_resource( const aeMovieLayerData
 @param [in] _layer Layer.
 @return Pointer to the data referenced by the resource linked to the layer.
 */
-ae_voidptr_t ae_get_movie_layer_data_resource_data( const aeMovieLayerData * _layer );
+ae_userdata_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData * _layer );
 
 /**
 @param [in] _layer Layer.

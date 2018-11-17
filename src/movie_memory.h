@@ -47,10 +47,10 @@ AE_INTERNAL ae_voidptr_t __magic_memory_alloc( const aeMovieInstance * _instance
 {
     AE_UNUSED( _doc );
 
-    ae_voidptr_t ptr = _instance->memory_alloc( _instance->instance_data, _size );
+    ae_userdata_t ptr = _instance->memory_alloc( _instance->instance_userdata, _size );
 
 #   ifdef AE_MOVIE_MEMORY_INFO
-    _instance->logger( _instance->instance_data, AE_ERROR_MEMORY, "alloc type '%s' ptr '%p' size '%d'\n", _doc, ptr, (ae_uint32_t)_size );
+    _instance->logger( _instance->instance_userdata, AE_ERROR_MEMORY, "alloc type '%s' ptr '%p' size '%d'\n", _doc, ptr, (ae_uint32_t)_size );
 #   endif
 
     return ptr;
@@ -60,10 +60,10 @@ AE_INTERNAL ae_voidptr_t __magic_memory_alloc_n( const aeMovieInstance * _instan
 {
     AE_UNUSED( _type );
 
-    ae_voidptr_t ptr = _instance->memory_alloc_n( _instance->instance_data, _size, _count );
+    ae_userdata_t ptr = _instance->memory_alloc_n( _instance->instance_userdata, _size, _count );
 
 #   ifdef AE_MOVIE_MEMORY_INFO
-    _instance->logger( _instance->instance_data, AE_ERROR_MEMORY, "alloc n type '%s' ptr '%p' size '%d' count '%d'\n", _type, ptr, (ae_uint32_t)_size, (ae_uint32_t)_count );
+    _instance->logger( _instance->instance_userdata, AE_ERROR_MEMORY, "alloc n type '%s' ptr '%p' size '%d' count '%d'\n", _type, ptr, (ae_uint32_t)_size, (ae_uint32_t)_count );
 #   endif
 
     return ptr;
@@ -73,33 +73,33 @@ AE_INTERNAL ae_void_t __magic_memory_free( const aeMovieInstance * _instance, co
 {
     AE_UNUSED( _type );
 #   ifdef AE_MOVIE_MEMORY_INFO
-    _instance->logger( _instance->instance_data, AE_ERROR_MEMORY, "free type '%s' ptr '%p'\n", _type, _ptr );
+    _instance->logger( _instance->instance_userdata, AE_ERROR_MEMORY, "free type '%s' ptr '%p'\n", _type, _ptr );
 #   endif
 
-    _instance->memory_free( _instance->instance_data, _ptr );
+    _instance->memory_free( _instance->instance_userdata, _ptr );
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __magic_memory_free_n( const aeMovieInstance * _instance, const ae_char_t * _type, ae_constvoidptr_t _ptr )
 {
     AE_UNUSED( _type );
 #   ifdef AE_MOVIE_MEMORY_INFO
-    _instance->logger( _instance->instance_data, AE_ERROR_MEMORY, "free n type '%s' ptr '%p'\n", _type, _ptr );
+    _instance->logger( _instance->instance_userdata, AE_ERROR_MEMORY, "free n type '%s' ptr '%p'\n", _type, _ptr );
 #   endif
 
-    _instance->memory_free_n( _instance->instance_data, _ptr );
+    _instance->memory_free_n( _instance->instance_userdata, _ptr );
 }
 //////////////////////////////////////////////////////////////////////////
 #else
 //////////////////////////////////////////////////////////////////////////
-#	define AE_NEW(instance, type) ((type *)instance->memory_alloc( instance->instance_data, sizeof(type) ))
-#	define AE_NEWV(instance, size, doc) (instance->memory_alloc( instance->instance_data, size ))
-#	define AE_NEWN(instance, type, n) ((type *)instance->memory_alloc_n( instance->instance_data, sizeof(type), n ))
-#	define AE_DELETE(instance, ptr) (instance->memory_free( instance->instance_data, ptr))
-#	define AE_DELETEN(instance, ptr) (instance->memory_free_n( instance->instance_data, ptr))
-#	define AE_DELETE_STRING(instance, ptr) (instance->memory_free_n( instance->instance_data, ptr))
+#	define AE_NEW(instance, type) ((type *)instance->memory_alloc( instance->instance_userdata, sizeof(type) ))
+#	define AE_NEWV(instance, size, doc) (instance->memory_alloc( instance->instance_userdata, size ))
+#	define AE_NEWN(instance, type, n) ((type *)instance->memory_alloc_n( instance->instance_userdata, sizeof(type), n ))
+#	define AE_DELETE(instance, ptr) (instance->memory_free( instance->instance_userdata, ptr))
+#	define AE_DELETEN(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
+#	define AE_DELETE_STRING(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
 //////////////////////////////////////////////////////////////////////////
 #endif
 //////////////////////////////////////////////////////////////////////////
-#define AE_STRNCMP(instance, src, dst, count) (instance->strncmp(instance->instance_data, src, dst, count))
+#define AE_STRNCMP(instance, src, dst, count) (instance->strncmp(instance->instance_userdata, src, dst, count))
 
 #endif

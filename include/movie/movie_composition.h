@@ -221,11 +221,11 @@ ae_bool_t ae_update_movie_composition( const aeMovieComposition * _composition, 
 /**
 @brief Set user data for a slot.
 @param [in] _composition Composition.
-@param [in] _slotName Slot name.
-@param [in] _slotData Data pointer.
+@param [in] _name Slot name.
+@param [in] _userdata Data pointer.
 @return TRUE if successful.
 */
-ae_bool_t ae_set_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName, ae_voidptr_t _slotData );
+ae_bool_t ae_set_movie_composition_slot_userdata( const aeMovieComposition * _composition, const ae_char_t * _name, ae_userdata_t _userdata );
 
 /**
 @brief Search for a slot by the given name.
@@ -233,23 +233,23 @@ ae_bool_t ae_set_movie_composition_slot( const aeMovieComposition * _composition
 @param [in] _slotName Slot name.
 @return Pointer to the slot or AE_NULL if not found.
 */
-ae_voidptr_t ae_get_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName );
+ae_userdata_t ae_get_movie_composition_slot_userdata( const aeMovieComposition * _composition, const ae_char_t * _name );
 
 /**
 @brief Check for a slot by the given name.
 @param [in] _composition Composition.
-@param [in] _slotName Slot name.
+@param [in] _name Slot name.
 @return TRUE if found.
 */
-ae_bool_t ae_has_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName );
+ae_bool_t ae_has_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _name );
 
 /**
 @brief Remove user data from the slot.
 @param [in] _composition Composition.
-@param [in] _slotName Slot name.
+@param [in] _name Slot name.
 @return Pointer to data that was assigned to this slot prior to removal.
 */
-ae_voidptr_t ae_remove_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName );
+ae_userdata_t ae_remove_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _name );
 
 // slots
 /// @}
@@ -259,7 +259,7 @@ ae_voidptr_t ae_remove_movie_composition_slot( const aeMovieComposition * _compo
 @param [in] _composition Composition.
 @return Pointer to the data referenced by the camera linked to the composition.
 */
-ae_voidptr_t ae_get_movie_composition_camera_data( const aeMovieComposition * _composition );
+ae_userdata_t ae_get_movie_composition_camera_userdata( const aeMovieComposition * _composition );
 
 // slots
 /// @}
@@ -415,9 +415,9 @@ ae_bool_t ae_has_movie_sub_composition( const aeMovieComposition * _composition,
 const aeMovieSubComposition * ae_get_movie_sub_composition( const aeMovieComposition * _composition, const ae_char_t * _name );
 
 
-typedef ae_bool_t( *ae_movie_sub_composition_visitor_t )(const aeMovieComposition * _compositionData, ae_uint32_t _index, const ae_char_t * _name, const aeMovieSubComposition * _subcomposition, ae_voidptr_t _ud);
+typedef ae_bool_t( *ae_movie_sub_composition_visitor_t )(const aeMovieComposition * _compositionData, ae_uint32_t _index, const ae_char_t * _name, const aeMovieSubComposition * _subcomposition, ae_userdata_t _ud);
 
-ae_bool_t ae_visit_movie_sub_composition( const aeMovieComposition * _composition, ae_movie_sub_composition_visitor_t _visitor, ae_voidptr_t _ud );
+ae_bool_t ae_visit_movie_sub_composition( const aeMovieComposition * _composition, ae_movie_sub_composition_visitor_t _visitor, ae_userdata_t _ud );
 
 /**
 @brief Get name of a sub-composition.
@@ -550,6 +550,12 @@ ae_bool_t ae_set_movie_sub_composition_work_area( const aeMovieComposition * _co
 @param [in] _subcomposition Sub-composition.
 */
 ae_void_t ae_remove_movie_sub_composition_work_area( const aeMovieComposition * _composition, const aeMovieSubComposition * _subcomposition );
+
+/**
+@brief get composition data from subcomposition.
+@param [in] _subcomposition SubComposition.
+*/
+const aeMovieCompositionData * ae_get_movie_sub_composition_composition_data( const aeMovieSubComposition * _subcomposition );
 
 // subcompositions
 /// @}

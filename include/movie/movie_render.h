@@ -69,7 +69,7 @@ typedef struct aeMovieRenderMesh
     /**
     @brief Pointer to the resource data.
     */
-    ae_voidptr_t resource_data;
+    ae_userdata_t resource_userdata;
 
     /**
     @brief Number of vertices.
@@ -91,7 +91,7 @@ typedef struct aeMovieRenderMesh
     */
     ae_vector2_t uv[AE_MOVIE_MAX_VERTICES];
 
-    ae_voidptr_t uv_cache_data;
+    ae_userdata_t uv_cache_userdata;
 
     /**
     @brief Triangle indices.
@@ -110,7 +110,7 @@ typedef struct aeMovieRenderMesh
     /**
     @brief Pointer to a user-provided camera structure.
     */
-    ae_voidptr_t camera_data;
+    ae_userdata_t camera_userdata;
 
     ae_track_matte_mode_t track_matte_mode;
 
@@ -119,7 +119,7 @@ typedef struct aeMovieRenderMesh
 
     Contains track matte layer data.
     */
-    ae_voidptr_t track_matte_data;
+    ae_userdata_t track_matte_userdata;
 
     const ae_viewport_t * viewport;
 
@@ -128,14 +128,14 @@ typedef struct aeMovieRenderMesh
 
     Contains shader layer data.
     */
-    ae_voidptr_t shader_data;
+    ae_userdata_t shader_userdata;
 
     /**
     @brief Pointer to a user-provided node structure.
 
     Contains data for track matte, slot, socket etc.
     */
-    ae_voidptr_t element_data;
+    ae_userdata_t element_userdata;
 } aeMovieRenderMesh;
 
 // render

@@ -51,6 +51,8 @@ typedef ae_voidptr_t * ae_voidptrptr_t;
 typedef const ae_void_t * ae_constvoidptr_t;
 typedef ae_uint8_t * ae_byteptr_t;
 typedef const ae_uint8_t * ae_constbyteptr_t;
+typedef ae_voidptr_t ae_userdata_t;
+typedef ae_userdata_t * ae_userdataptr_t;
 
 typedef ae_char_t * ae_string_t;
 
@@ -68,6 +70,7 @@ typedef void( *ae_function_t )(void);
 static const ae_bool_t AE_TRUE = 1;
 static const ae_bool_t AE_FALSE = 0;
 static const ae_voidptr_t AE_NULL = 0;
+static const ae_userdata_t AE_USERDATA_NULL = 0;
 static const ae_function_t AE_FUNCTION_NULL = 0;
 
 #define AE_BITWISE(X) (1 << X)
@@ -144,7 +147,7 @@ typedef enum
 #define AE_MOVIE_RESOURCE_BASE()\
 	aeMovieResourceTypeEnum type;\
     ae_string_t name;\
-	ae_voidptr_t data    
+	ae_voidptr_t userdata
 
 typedef struct aeMovieResource
 {

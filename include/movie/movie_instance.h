@@ -72,7 +72,7 @@ const aeMovieInstance * ae_create_movie_instance(
     ae_movie_free_n_t _free_n,
     ae_movie_strncmp_t _strncmp,
     ae_movie_logger_t _logger,
-    ae_voidptr_t _data );
+    ae_userdata_t _userdata );
 
 /**
 @brief Delete an existing instance.

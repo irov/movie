@@ -45,6 +45,7 @@ arguments:
 *  project_name
 *  write_name
 *  write_path
+*  image_border
 *  image_bezmesh
 *  image_trackmatte
 *  image_premultiplied
@@ -188,7 +189,7 @@ arguments:
 *  in_path
 *  out_path
 *  image_count
-*  premultiply
+*  image_premultiply
 
 results:
 * [image_data] array ostruct [name; atlas_path; aw; ah; ox; oy; ow; oh; fw; fh; x0; y0; x1; y1; x2; y2; x3; y3; rotate]

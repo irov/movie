@@ -207,32 +207,32 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
     if( resource != AE_NULL )
     {
         _render->resource_type = resource->type;
-        _render->resource_data = resource->data;
+        _render->resource_userdata = resource->userdata;
     }
     else
     {
         _render->resource_type = AE_MOVIE_RESOURCE_NONE;
-        _render->resource_data = AE_NULL;
+        _render->resource_userdata = AE_NULL;
     }
 
-    _render->camera_data = _node->camera_data;
-    _render->element_data = _node->element_data;
-    _render->shader_data = _node->shader_data;
+    _render->camera_userdata = _node->camera_userdata;
+    _render->element_userdata = _node->element_userdata;
+    _render->shader_userdata = _node->shader_userdata;
 
     _render->viewport = _node->viewport;
 
     if( _node->track_matte_node != AE_NULL && _node->track_matte_node->active == AE_TRUE )
     {
         _render->track_matte_mode = layer->track_matte_mode;
-        _render->track_matte_data = _node->track_matte_node->track_matte_data;
+        _render->track_matte_userdata = _node->track_matte_node->track_matte_userdata;
     }
     else
     {
         _render->track_matte_mode = AE_MOVIE_TRACK_MATTE_NONE;
-        _render->track_matte_data = AE_NULL;
+        _render->track_matte_userdata = AE_NULL;
     }
 
-    _render->uv_cache_data = AE_NULL;
+    _render->uv_cache_userdata = AE_NULL;
 
     ae_float_t t_frame = 0.f;
     ae_uint32_t frame = __compute_movie_node_frame( _node, &t_frame );
@@ -300,7 +300,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             const aeMovieResourceImage * resource_image = resource_sequence->images[frame_sequence];
 
             _render->resource_type = resource_image->type;
-            _render->resource_data = resource_image->data;
+            _render->resource_userdata = resource_image->userdata;
 
             if( layer->extensions->mesh != AE_NULL )
             {
@@ -310,11 +310,11 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
                 {
                     if( layer->extensions->mesh->immutable == AE_TRUE )
                     {
-                        _render->uv_cache_data = layer->cache->immutable_mesh_uv_cache_data;
+                        _render->uv_cache_userdata = layer->cache->immutable_mesh_uv_cache_userdata;
                     }
                     else
                     {
-                        _render->uv_cache_data = layer->cache->mesh_uv_cache_data[frame];
+                        _render->uv_cache_userdata = layer->cache->mesh_uv_cache_userdata[frame];
                     }
                 }
             }
@@ -324,7 +324,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_image->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_image->cache->bezier_warp_uv_cache_data[layer->extensions->bezier_warp->quality];
+                    _render->uv_cache_userdata = resource_image->cache->bezier_warp_uv_cache_userdata[layer->extensions->bezier_warp->quality];
                 }
             }
             else if( resource_image->mesh != AE_NULL && _trackmatte == AE_FALSE )
@@ -333,7 +333,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_image->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_image->cache->mesh_uv_cache_data;
+                    _render->uv_cache_userdata = resource_image->cache->mesh_uv_cache_userdata;
                 }
             }
             else
@@ -348,7 +348,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_image->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_image->cache->uv_cache_data;
+                    _render->uv_cache_userdata = resource_image->cache->uv_cache_userdata;
                 }
             }
 
@@ -367,11 +367,11 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
                 {
                     if( layer->extensions->mesh->immutable == AE_TRUE )
                     {
-                        _render->uv_cache_data = layer->cache->immutable_mesh_uv_cache_data;
+                        _render->uv_cache_userdata = layer->cache->immutable_mesh_uv_cache_userdata;
                     }
                     else
                     {
-                        _render->uv_cache_data = layer->cache->mesh_uv_cache_data[frame];
+                        _render->uv_cache_userdata = layer->cache->mesh_uv_cache_userdata[frame];
                     }
                 }
             }
@@ -381,7 +381,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_video->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_video->cache->bezier_warp_uv_cache_data[layer->extensions->bezier_warp->quality];
+                    _render->uv_cache_userdata = resource_video->cache->bezier_warp_uv_cache_userdata[layer->extensions->bezier_warp->quality];
                 }
             }
             else
@@ -396,7 +396,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_video->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_video->cache->uv_cache_data;
+                    _render->uv_cache_userdata = resource_video->cache->uv_cache_userdata;
                 }
             }
 
@@ -415,11 +415,11 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
                 {
                     if( layer->extensions->mesh->immutable == AE_TRUE )
                     {
-                        _render->uv_cache_data = layer->cache->immutable_mesh_uv_cache_data;
+                        _render->uv_cache_userdata = layer->cache->immutable_mesh_uv_cache_userdata;
                     }
                     else
                     {
-                        _render->uv_cache_data = layer->cache->mesh_uv_cache_data[frame];
+                        _render->uv_cache_userdata = layer->cache->mesh_uv_cache_userdata[frame];
                     }
                 }
             }
@@ -429,7 +429,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_image->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_image->cache->bezier_warp_uv_cache_data[layer->extensions->bezier_warp->quality];
+                    _render->uv_cache_userdata = resource_image->cache->bezier_warp_uv_cache_userdata[layer->extensions->bezier_warp->quality];
                 }
             }
             else if( resource_image->mesh != AE_NULL && _trackmatte == AE_FALSE )
@@ -438,7 +438,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_image->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_image->cache->mesh_uv_cache_data;
+                    _render->uv_cache_userdata = resource_image->cache->mesh_uv_cache_userdata;
                 }
             }
             else
@@ -453,7 +453,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
                 if( resource_image->cache != AE_NULL )
                 {
-                    _render->uv_cache_data = resource_image->cache->uv_cache_data;
+                    _render->uv_cache_userdata = resource_image->cache->uv_cache_userdata;
                 }
             }
 
@@ -514,7 +514,7 @@ AE_INTERNAL ae_bool_t __test_error_composition_layer_frame( const aeMovieInstanc
 {
     if( _frameId >= _layerData->frame_count )
     {
-        _instance->logger( _instance->instance_data
+        _instance->logger( _instance->instance_userdata
             , AE_ERROR_INTERNAL
             , "composition '%s' layer '%s' - %s\n"
             , _compositionData->name
@@ -622,7 +622,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
     {
         ae_movie_make_layer_matrix( _node->matrix, layer_transformation, _interpolate, _frameId, _t );
 
-        if( node_layer->sub_composition_data != AE_NULL )
+        if( node_layer->subcomposition_data != AE_NULL )
         {
             _node->composition_color.r = local_r;
             _node->composition_color.g = local_g;
@@ -672,7 +672,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
         ae_mul_m34_m34_r( _node->matrix, local_matrix, node_relative->matrix );
     }
 
-    if( node_layer->sub_composition_data != AE_NULL )
+    if( node_layer->subcomposition_data != AE_NULL )
     {
         _node->composition_color.r = node_relative->composition_color.r * local_r;
         _node->composition_color.g = node_relative->composition_color.g * local_g;
@@ -751,7 +751,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
 
                 aeMovieShaderPropertyUpdateCallbackData callbackData;
                 callbackData.index = index;
-                callbackData.element = _node->shader_data;
+                callbackData.element_userdata = _node->shader_userdata;
                 callbackData.name = parameter_slider->name;
                 callbackData.uniform = parameter_slider->uniform;
                 callbackData.type = parameter_slider->type;
@@ -760,7 +760,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
                 callbackData.color.b = 0.f;
                 callbackData.value = value;
 
-                (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
             }break;
         case AE_MOVIE_EXTENSION_SHADER_PARAMETER_COLOR:
             {
@@ -774,7 +774,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
 
                 aeMovieShaderPropertyUpdateCallbackData callbackData;
                 callbackData.index = index;
-                callbackData.element = _node->shader_data;
+                callbackData.element_userdata = _node->shader_userdata;
                 callbackData.name = parameter_color->name;
                 callbackData.uniform = parameter_color->uniform;
                 callbackData.type = parameter_color->type;
@@ -783,7 +783,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
                 callbackData.color.b = color_b;
                 callbackData.value = 0.f;
 
-                (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
             }break;
         }
 
@@ -808,7 +808,7 @@ AE_INTERNAL ae_uint32_t __get_movie_composition_data_node_count( const aeMovieCo
         case AE_MOVIE_LAYER_TYPE_MOVIE:
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
             {
-                ae_uint32_t movie_layer_count = __get_movie_composition_data_node_count( layer->sub_composition_data );
+                ae_uint32_t movie_layer_count = __get_movie_composition_data_node_count( layer->subcomposition_data );
 
                 count += movie_layer_count;
             }break;
@@ -842,26 +842,26 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte( aeMovieNode * _nodes, ae_u
                 case AE_MOVIE_LAYER_TYPE_MOVIE:
                 case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
                     {
-                        ae_uint32_t sub_composition_node_count = __get_movie_composition_data_node_count( node->layer->sub_composition_data );
+                        ae_uint32_t sub_composition_node_count = __get_movie_composition_data_node_count( node->layer->subcomposition_data );
 
                         aeMovieNode * track_matte_node = _nodes + (*_iterator) + sub_composition_node_count;
 
                         node->track_matte_node = track_matte_node;
-                        node->track_matte_data = AE_NULL;
+                        node->track_matte_userdata = AE_NULL;
                     }break;
                 default:
                     {
                         aeMovieNode * track_matte_node = _nodes + (*_iterator);
 
                         node->track_matte_node = track_matte_node;
-                        node->track_matte_data = AE_NULL;
+                        node->track_matte_userdata = AE_NULL;
                     }break;
                 }
             }
             else
             {
                 node->track_matte_node = AE_NULL;
-                node->track_matte_data = AE_NULL;
+                node->track_matte_userdata = AE_NULL;
             }
         }
         else
@@ -873,7 +873,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte( aeMovieNode * _nodes, ae_u
             else
             {
                 node->track_matte_node = _trackMatte;
-                node->track_matte_data = AE_NULL;
+                node->track_matte_userdata = AE_NULL;
             }
         }
 
@@ -882,7 +882,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte( aeMovieNode * _nodes, ae_u
         case AE_MOVIE_LAYER_TYPE_MOVIE:
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
             {
-                if( __setup_movie_node_track_matte( _nodes, _iterator, layer->sub_composition_data, node->track_matte_node ) == AE_FALSE )
+                if( __setup_movie_node_track_matte( _nodes, _iterator, layer->subcomposition_data, node->track_matte_node ) == AE_FALSE )
                 {
                     return AE_FALSE;
                 }
@@ -920,7 +920,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte2( aeMovieComposition * _com
 
             aeMovieTrackMatteProviderCallbackData callbackData;
             callbackData.index = enumerator;
-            callbackData.element = node->element_data;
+            callbackData.element_userdata = node->element_userdata;
             callbackData.layer = layer;
             callbackData.loop = AE_FALSE;
             callbackData.offset = AE_TIME_OUTSCALE( node->start_time );
@@ -932,17 +932,17 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte2( aeMovieComposition * _com
             callbackData.mesh = &mesh;
             callbackData.track_matte_mode = layer->track_matte_mode;
 
-            ae_voidptr_t track_matte_data = AE_NULL;
-            if( (*_composition->providers.track_matte_provider)(&callbackData, &track_matte_data, _composition->provider_data) == AE_FALSE )
+            ae_userdata_t track_matte_userdata = AE_USERDATA_NULL;
+            if( (*_composition->providers.track_matte_provider)(&callbackData, &track_matte_userdata, _composition->provider_userdata) == AE_FALSE )
             {
                 return AE_FALSE;
             }
 
-            node->track_matte_data = track_matte_data;
+            node->track_matte_userdata = track_matte_userdata;
         }
         else
         {
-            node->track_matte_data = AE_NULL;
+            node->track_matte_userdata = AE_NULL;
         }
     }
 
@@ -952,7 +952,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte2( aeMovieComposition * _com
 AE_INTERNAL ae_bool_t __setup_movie_composition_scene_effect( aeMovieComposition * _composition )
 {
     _composition->scene_effect_node = AE_NULL;
-    _composition->scene_effect_data = AE_NULL;
+    _composition->scene_effect_userdata = AE_NULL;
 
     ae_uint32_t enumerator = 0U;
 
@@ -980,18 +980,18 @@ AE_INTERNAL ae_bool_t __setup_movie_composition_scene_effect( aeMovieComposition
 
         aeMovieCompositionSceneEffectProviderCallbackData callbackData;
         callbackData.index = enumerator;
-        callbackData.element = node->element_data;
+        callbackData.element_userdata = node->element_userdata;
 
         ae_movie_make_layer_transformation2d_fixed( callbackData.anchor_point, callbackData.position, callbackData.scale, callbackData.quaternion, callbackData.skew, transformation2d, 0 );
         ae_movie_make_layer_transformation_color_fixed( &callbackData.color, &callbackData.opacity, layer->transformation, 0 );
 
-        ae_voidptr_t scene_effect_data = AE_NULL;
-        if( (*_composition->providers.scene_effect_provider)(&callbackData, &scene_effect_data, _composition->provider_data) == AE_FALSE )
+        ae_userdata_t scene_effect_userdata = AE_USERDATA_NULL;
+        if( (*_composition->providers.scene_effect_provider)(&callbackData, &scene_effect_userdata, _composition->provider_userdata) == AE_FALSE )
         {
             return AE_FALSE;
         }
 
-        _composition->scene_effect_data = scene_effect_data;
+        _composition->scene_effect_userdata = scene_effect_userdata;
 
         break;
     }
@@ -1047,7 +1047,7 @@ AE_INTERNAL ae_bool_t __setup_movie_subcomposition2( aeMovieComposition * _compo
         {
         case AE_MOVIE_LAYER_TYPE_MOVIE:
             {
-                if( __setup_movie_subcomposition2( _composition, _node_iterator, _subcompositions, _subcomposition_iterator, layer->sub_composition_data, _subcomposition ) == AE_FALSE )
+                if( __setup_movie_subcomposition2( _composition, _node_iterator, _subcompositions, _subcomposition_iterator, layer->subcomposition_data, _subcomposition ) == AE_FALSE )
                 {
                     return AE_FALSE;
                 }
@@ -1058,6 +1058,7 @@ AE_INTERNAL ae_bool_t __setup_movie_subcomposition2( aeMovieComposition * _compo
 
                 subcomposition->layer = layer;
                 subcomposition->composition_data = layer->composition_data;
+                subcomposition->subcomposition_data = layer->subcomposition_data;
 
                 aeMovieCompositionAnimation * animation = AE_NEW( _composition->movie_data->instance, aeMovieCompositionAnimation );
 
@@ -1072,7 +1073,7 @@ AE_INTERNAL ae_bool_t __setup_movie_subcomposition2( aeMovieComposition * _compo
 
                 animation->time = 0.f;
 
-                const aeMovieCompositionData * sub_composition_data = layer->sub_composition_data;
+                const aeMovieCompositionData * sub_composition_data = layer->subcomposition_data;
 
                 animation->loop_segment_begin = sub_composition_data->loop_segment[0];
                 animation->loop_segment_end = sub_composition_data->loop_segment[1];
@@ -1087,15 +1088,15 @@ AE_INTERNAL ae_bool_t __setup_movie_subcomposition2( aeMovieComposition * _compo
                 callbackData.composition_data = subcomposition->composition_data;
                 callbackData.animation = subcomposition->animation;
 
-                ae_voidptr_t subcomposition_data = AE_NULL;
-                if( (*_composition->providers.subcomposition_provider)(&callbackData, &subcomposition_data, _composition->provider_data) == AE_FALSE )
+                ae_userdata_t subcomposition_userdata = AE_USERDATA_NULL;
+                if( (*_composition->providers.subcomposition_provider)(&callbackData, &subcomposition_userdata, _composition->provider_userdata) == AE_FALSE )
                 {
                     return AE_FALSE;
                 }
 
-                subcomposition->subcomposition_data = subcomposition_data;
+                subcomposition->subcomposition_userdata = subcomposition_userdata;
 
-                if( __setup_movie_subcomposition2( _composition, _node_iterator, _subcompositions, _subcomposition_iterator, layer->sub_composition_data, subcomposition ) == AE_FALSE )
+                if( __setup_movie_subcomposition2( _composition, _node_iterator, _subcompositions, _subcomposition_iterator, layer->subcomposition_data, subcomposition ) == AE_FALSE )
                 {
                     return AE_FALSE;
                 }
@@ -1186,7 +1187,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_relative( aeMovieNode * _nodes, ae_uint
         case AE_MOVIE_LAYER_TYPE_MOVIE:
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
             {
-                __setup_movie_node_relative( _nodes, _iterator, layer->sub_composition_data, node );
+                __setup_movie_node_relative( _nodes, _iterator, layer->subcomposition_data, node );
             }break;
         default:
             {
@@ -1370,7 +1371,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
 
                 ae_float_t to_startTime = _startTime + layer->start_time - layer->in_time;
 
-                __setup_movie_node_time( _nodes, _iterator, layer->sub_composition_data, node, to_stretch, to_startTime );
+                __setup_movie_node_time( _nodes, _iterator, layer->subcomposition_data, node, to_stretch, to_startTime );
             }break;
         default:
             {
@@ -1448,7 +1449,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_incessantly2( aeMovieNode * _nodes, ae_
                     layer_incessantly = AE_TRUE;
                 }
 
-                __setup_movie_node_incessantly2( _nodes, _iterator, layer->sub_composition_data, layer_incessantly );
+                __setup_movie_node_incessantly2( _nodes, _iterator, layer->subcomposition_data, layer_incessantly );
             }break;
         default:
             {
@@ -1480,7 +1481,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_blend_mode( aeMovieNode * _nodes, ae_ui
 
         ae_blend_mode_t composition_blend_mode = AE_MOVIE_BLEND_NORMAL;
 
-        if( layer->sub_composition_data != AE_NULL )
+        if( layer->subcomposition_data != AE_NULL )
         {
             composition_blend_mode = node->blend_mode;
         }
@@ -1490,7 +1491,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_blend_mode( aeMovieNode * _nodes, ae_ui
         case AE_MOVIE_LAYER_TYPE_MOVIE:
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
             {
-                __setup_movie_node_blend_mode( _nodes, _iterator, layer->sub_composition_data, node, composition_blend_mode );
+                __setup_movie_node_blend_mode( _nodes, _iterator, layer->subcomposition_data, node, composition_blend_mode );
             }break;
         default:
             {
@@ -1499,7 +1500,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_blend_mode( aeMovieNode * _nodes, ae_ui
     }
 }
 //////////////////////////////////////////////////////////////////////////
-AE_INTERNAL ae_void_t __setup_movie_node_camera2( aeMovieComposition * _composition, ae_uint32_t * _iterator, const aeMovieCompositionData * _compositionData, ae_voidptr_t _cameraData )
+AE_INTERNAL ae_void_t __setup_movie_node_camera2( aeMovieComposition * _composition, ae_uint32_t * _iterator, const aeMovieCompositionData * _compositionData, ae_userdata_t _userdata )
 {
     const aeMovieLayerData *it_layer = _compositionData->layers;
     const aeMovieLayerData *it_layer_end = _compositionData->layers + _compositionData->layer_count;
@@ -1511,11 +1512,11 @@ AE_INTERNAL ae_void_t __setup_movie_node_camera2( aeMovieComposition * _composit
 
         if( layer->threeD == AE_TRUE )
         {
-            node->camera_data = _composition->camera_data;
+            node->camera_userdata = _composition->camera_userdata;
         }
         else
         {
-            node->camera_data = _cameraData;
+            node->camera_userdata = _userdata;
         }
 
         switch( layer->type )
@@ -1523,7 +1524,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_camera2( aeMovieComposition * _composit
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
         case AE_MOVIE_LAYER_TYPE_MOVIE:
             {
-                __setup_movie_node_camera2( _composition, _iterator, layer->sub_composition_data, node->camera_data );
+                __setup_movie_node_camera2( _composition, _iterator, layer->subcomposition_data, node->camera_userdata );
             }break;
         default:
             {
@@ -1538,7 +1539,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_camera( aeMovieComposition * _compositi
 
     if( composition_data->camera == AE_NULL )
     {
-        _composition->camera_data = AE_NULL;
+        _composition->camera_userdata = AE_NULL;
 
         aeMovieNode *it_node = _composition->nodes;
         aeMovieNode *it_node_end = _composition->nodes + _composition->node_count;
@@ -1546,7 +1547,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_camera( aeMovieComposition * _compositi
         {
             aeMovieNode * node = it_node;
 
-            node->camera_data = AE_NULL;
+            node->camera_userdata = AE_NULL;
         }
 
         return AE_TRUE;
@@ -1565,13 +1566,13 @@ AE_INTERNAL ae_bool_t __setup_movie_node_camera( aeMovieComposition * _compositi
 
     ae_movie_make_camera_transformation( callbackData.target, callbackData.position, callbackData.quaternion, camera, 0, AE_FALSE, 0.f );
 
-    ae_voidptr_t camera_data = AE_NULL;
-    if( (*_composition->providers.camera_provider)(&callbackData, &camera_data, _composition->provider_data) == AE_FALSE )
+    ae_userdata_t camera_userdata = AE_USERDATA_NULL;
+    if( (*_composition->providers.camera_provider)(&callbackData, &camera_userdata, _composition->provider_userdata) == AE_FALSE )
     {
         return AE_FALSE;
     }
 
-    _composition->camera_data = camera_data;
+    _composition->camera_userdata = camera_userdata;
 
     ae_uint32_t node_camera_iterator = 0U;
     __setup_movie_node_camera2( _composition, &node_camera_iterator, composition_data, AE_NULL );
@@ -1603,7 +1604,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_viewport2( aeMovieComposition * _compos
         case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
         case AE_MOVIE_LAYER_TYPE_MOVIE:
             {
-                __setup_movie_node_viewport2( _composition, _iterator, layer->sub_composition_data, node->viewport );
+                __setup_movie_node_viewport2( _composition, _iterator, layer->subcomposition_data, node->viewport );
             }break;
         default:
             {
@@ -1684,7 +1685,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
 
         if( layer->extensions->shader == AE_NULL )
         {
-            node->shader_data = AE_NULL;
+            node->shader_userdata = AE_NULL;
 
             continue;
         }
@@ -1715,13 +1716,13 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
             paremeter_index++;
         }
 
-        ae_voidptr_t shader_data = AE_NULL;
-        if( (*_composition->providers.shader_provider)(&callbackData, &shader_data, _composition->provider_data) == AE_FALSE )
+        ae_userdata_t shader_userdata = AE_USERDATA_NULL;
+        if( (*_composition->providers.shader_provider)(&callbackData, &shader_userdata, _composition->provider_userdata) == AE_FALSE )
         {
             return AE_FALSE;
         }
 
-        node->shader_data = shader_data;
+        node->shader_userdata = shader_userdata;
     }
 
     return AE_TRUE;
@@ -1750,13 +1751,13 @@ AE_INTERNAL ae_bool_t __setup_movie_composition_element( aeMovieComposition * _c
         callbackData.volume = node->volume;
         callbackData.track_matte_layer = track_matte_layer;
 
-        ae_voidptr_t element_data = AE_NULL;
-        if( (*_composition->providers.node_provider)(&callbackData, &element_data, _composition->provider_data) == AE_FALSE )
+        ae_userdata_t element_userdata = AE_USERDATA_NULL;
+        if( (*_composition->providers.node_provider)(&callbackData, &element_userdata, _composition->provider_userdata) == AE_FALSE )
         {
             return AE_FALSE;
         }
 
-        node->element_data = element_data;
+        node->element_userdata = element_userdata;
     }
 
     return AE_TRUE;
@@ -1782,7 +1783,7 @@ AE_INTERNAL ae_void_t __setup_movie_composition_active( aeMovieComposition * _co
     }
 }
 //////////////////////////////////////////////////////////////////////////
-const aeMovieComposition * ae_create_movie_composition( const aeMovieData * _movieData, const aeMovieCompositionData * _compositionData, ae_bool_t _interpolate, const aeMovieCompositionProviders * _providers, ae_voidptr_t _data )
+const aeMovieComposition * ae_create_movie_composition( const aeMovieData * _movieData, const aeMovieCompositionData * _compositionData, ae_bool_t _interpolate, const aeMovieCompositionProviders * _providers, ae_userdata_t _userdata )
 {
     aeMovieComposition * composition = AE_NEW( _movieData->instance, aeMovieComposition );
 
@@ -1832,7 +1833,7 @@ const aeMovieComposition * ae_create_movie_composition( const aeMovieData * _mov
     composition->nodes = nodes;
 
     composition->providers = *_providers;
-    composition->provider_data = _data;
+    composition->provider_userdata = _userdata;
 
     ae_uint32_t node_relative_iterator = 0U;
     __setup_movie_node_relative( composition->nodes, &node_relative_iterator, _compositionData, AE_NULL );
@@ -1910,43 +1911,43 @@ AE_INTERNAL ae_void_t __delete_nodes( const aeMovieComposition * _composition )
 
         const aeMovieLayerData * layer = node->layer;
 
-        if( node->shader_data != AE_NULL )
+        if( node->shader_userdata != AE_NULL )
         {
             aeMovieShaderDeleterCallbackData callbackData;
             callbackData.index = enumerator;
-            callbackData.element = node->shader_data;
+            callbackData.element_userdata = node->shader_userdata;
             callbackData.name = layer->extensions->shader->name;
             callbackData.version = layer->extensions->shader->version;
 
-            (*_composition->providers.shader_deleter)(&callbackData, _composition->provider_data);
+            (*_composition->providers.shader_deleter)(&callbackData, _composition->provider_userdata);
         }
 
         if( layer->is_track_matte == AE_TRUE )
         {
             aeMovieTrackMatteDeleterCallbackData callbackData;
             callbackData.index = enumerator;
-            callbackData.element = node->element_data;
+            callbackData.element_userdata = node->element_userdata;
             callbackData.layer = layer;
-            callbackData.track_matte_data = node->track_matte_data;
+            callbackData.track_matte_userdata = node->track_matte_userdata;
 
-            (*_composition->providers.track_matte_deleter)(&callbackData, _composition->provider_data);
+            (*_composition->providers.track_matte_deleter)(&callbackData, _composition->provider_userdata);
         }
 
         const aeMovieLayerData * track_matte_layer = node->track_matte_node == AE_NULL ? AE_NULL : node->track_matte_node->layer;
 
         aeMovieNodeDeleterCallbackData callbackData;
         callbackData.index = enumerator;
-        callbackData.element = node->element_data;
+        callbackData.element_userdata = node->element_userdata;
         callbackData.layer = layer;
         callbackData.track_matte_layer = track_matte_layer;
 
-        (*_composition->providers.node_deleter)(&callbackData, _composition->provider_data);
+        (*_composition->providers.node_deleter)(&callbackData, _composition->provider_userdata);
     }
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __delete_camera( const aeMovieComposition * _composition )
 {
-    if( _composition->camera_data == AE_NULL )
+    if( _composition->camera_userdata == AE_NULL )
     {
         return;
     }
@@ -1956,9 +1957,9 @@ AE_INTERNAL ae_void_t __delete_camera( const aeMovieComposition * _composition )
 
     aeMovieCameraDeleterCallbackData callbackData;
     callbackData.name = camera->name;
-    callbackData.camera_data = _composition->camera_data;
+    callbackData.camera_userdata = _composition->camera_userdata;
 
-    (*_composition->providers.camera_deleter)(&callbackData, _composition->provider_data);
+    (*_composition->providers.camera_deleter)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __delete_scene_effect( const aeMovieComposition * _composition )
@@ -1971,10 +1972,10 @@ AE_INTERNAL ae_void_t __delete_scene_effect( const aeMovieComposition * _composi
     aeMovieNode * scene_effect_node = _composition->scene_effect_node;
 
     aeMovieCompositionSceneEffectDeleterCallbackData callbackData;
-    callbackData.element = scene_effect_node->element_data;
-    callbackData.scene_effect_data = _composition->scene_effect_data;
+    callbackData.element_userdata = scene_effect_node->element_userdata;
+    callbackData.scene_effect_userdata = _composition->scene_effect_userdata;
 
-    (*_composition->providers.scene_effect_deleter)(&callbackData, _composition->provider_data);
+    (*_composition->providers.scene_effect_deleter)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_delete_movie_composition( const aeMovieComposition * _composition )
@@ -1992,9 +1993,9 @@ ae_void_t ae_delete_movie_composition( const aeMovieComposition * _composition )
         const aeMovieSubComposition * subcomposition = it_subcomposition;
 
         aeMovieSubCompositionDeleterCallbackData callbackData;
-        callbackData.subcomposition_data = subcomposition->subcomposition_data;
+        callbackData.subcomposition_userdata = subcomposition->subcomposition_userdata;
 
-        (*_composition->providers.subcomposition_deleter)(&callbackData, _composition->provider_data);  
+        (*_composition->providers.subcomposition_deleter)(&callbackData, _composition->provider_userdata);  
 
         AE_DELETE( instance, subcomposition->animation );
     }
@@ -2347,7 +2348,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
 
                 aeMovieTrackMatteUpdateCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.layer = layer;
                 callbackData.loop = _animation->loop;
                 callbackData.state = AE_MOVIE_STATE_UPDATE_STOP;
@@ -2358,9 +2359,9 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
                 callbackData.color = node->color;
                 callbackData.opacity = node->opacity;
                 callbackData.mesh = &mesh;
-                callbackData.track_matte_data = node->track_matte_data;
+                callbackData.track_matte_userdata = node->track_matte_userdata;
 
-                (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
 
                 node->animate = AE_MOVIE_NODE_ANIMATE_STATIC;
             }
@@ -2371,7 +2372,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
             {
                 aeMovieNodeUpdateCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.layer = layer;
                 callbackData.loop = _animation->loop;
                 callbackData.state = AE_MOVIE_STATE_UPDATE_STOP;
@@ -2383,7 +2384,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
                 callbackData.opacity = node->opacity;
                 callbackData.volume = node->volume;
 
-                (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
 
                 node->animate = AE_MOVIE_NODE_ANIMATE_STATIC;
             }
@@ -2433,7 +2434,7 @@ AE_INTERNAL ae_void_t __notify_pause_nodies( const aeMovieComposition * _composi
 
                 aeMovieTrackMatteUpdateCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.layer = layer;
                 callbackData.loop = _animation->loop;
                 callbackData.state = AE_MOVIE_STATE_UPDATE_PAUSE;
@@ -2444,9 +2445,9 @@ AE_INTERNAL ae_void_t __notify_pause_nodies( const aeMovieComposition * _composi
                 callbackData.color = node->color;
                 callbackData.opacity = node->opacity;
                 callbackData.mesh = &mesh;
-                callbackData.track_matte_data = node->track_matte_data;
+                callbackData.track_matte_userdata = node->track_matte_userdata;
 
-                (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
             }
         }
         else
@@ -2455,7 +2456,7 @@ AE_INTERNAL ae_void_t __notify_pause_nodies( const aeMovieComposition * _composi
             {
                 aeMovieNodeUpdateCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.layer = layer;
                 callbackData.loop = _animation->loop;
                 callbackData.state = AE_MOVIE_STATE_UPDATE_PAUSE;
@@ -2467,7 +2468,7 @@ AE_INTERNAL ae_void_t __notify_pause_nodies( const aeMovieComposition * _composi
                 callbackData.opacity = node->opacity;
                 callbackData.volume = node->volume;
 
-                (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
             }
         }
     }
@@ -2508,7 +2509,7 @@ ae_void_t ae_pause_movie_composition( const aeMovieComposition * _composition )
     aeMovieCompositionStateCallbackData callbackData;
     callbackData.state = AE_MOVIE_COMPOSITION_PAUSE;
 
-    (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition )
@@ -2539,7 +2540,7 @@ AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _compos
 
                 aeMovieTrackMatteUpdateCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.layer = layer;
                 callbackData.loop = _animation->loop;
                 callbackData.state = AE_MOVIE_STATE_UPDATE_RESUME;
@@ -2550,9 +2551,9 @@ AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _compos
                 callbackData.color = node->color;
                 callbackData.opacity = node->opacity;
                 callbackData.mesh = &mesh;
-                callbackData.track_matte_data = node->track_matte_data;
+                callbackData.track_matte_userdata = node->track_matte_userdata;
 
-                (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
             }
         }
         else
@@ -2561,7 +2562,7 @@ AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _compos
             {
                 aeMovieNodeUpdateCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.layer = layer;
                 callbackData.loop = _animation->loop;
                 callbackData.state = AE_MOVIE_STATE_UPDATE_RESUME;
@@ -2573,7 +2574,7 @@ AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _compos
                 callbackData.opacity = node->opacity;
                 callbackData.volume = node->volume;
 
-                (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+                (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
             }
         }
     }
@@ -2614,7 +2615,7 @@ ae_void_t ae_resume_movie_composition( const aeMovieComposition * _composition )
     aeMovieCompositionStateCallbackData callbackData;
     callbackData.state = AE_MOVIE_COMPOSITION_RESUME;
 
-    (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_float_t __get_animation_loop_work_begin( const aeMovieCompositionAnimation * _animation )
@@ -2655,7 +2656,7 @@ AE_INTERNAL ae_float_t __get_animation_loop_work_end( const aeMovieCompositionAn
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovieComposition * _composition, const aeMovieCompositionAnimation * _animation, aeMovieNode * _node, ae_uint32_t _index, ae_bool_t _loop, ae_bool_t _begin, ae_float_t _time )
 {
-    if( _node->element_data == AE_NULL )
+    if( _node->element_userdata == AE_NULL )
     {
         return;
     }
@@ -2664,7 +2665,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
 
     aeMovieNodeUpdateCallbackData callbackData;
     callbackData.index = _index;
-    callbackData.element = _node->element_data;
+    callbackData.element_userdata = _node->element_userdata;
     callbackData.layer = layer;
     callbackData.loop = _loop;
     callbackData.immutable_matrix = _node->immutable_matrix;
@@ -2696,7 +2697,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
 
             callbackData.offset = AE_TIME_OUTSCALE( offset );
 
-            (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
         }
         else
         {
@@ -2705,7 +2706,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
             callbackData.state = AE_MOVIE_STATE_UPDATE_PROCESS;
             callbackData.offset = AE_TIME_OUTSCALE( 0.f );
 
-            (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
         }
     }
     else
@@ -2725,7 +2726,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
 
             callbackData.offset = AE_TIME_OUTSCALE( 0.f );
 
-            (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
         }
         else
         {
@@ -2733,7 +2734,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
 
             callbackData.state = AE_MOVIE_STATE_UPDATE_SKIP;
 
-            (*_composition->providers.node_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
         }
     }
 }
@@ -2760,7 +2761,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
 
     aeMovieTrackMatteUpdateCallbackData callbackData;
     callbackData.index = _index;
-    callbackData.element = _node->element_data;
+    callbackData.element_userdata = _node->element_userdata;
     callbackData.layer = layer;
     callbackData.loop = _loop;
 
@@ -2782,7 +2783,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
     callbackData.color = _node->color;
     callbackData.opacity = 0.f;
     callbackData.mesh = &mesh;
-    callbackData.track_matte_data = _node->track_matte_data;
+    callbackData.track_matte_userdata = _node->track_matte_userdata;
 
     if( _begin == AE_TRUE )
     {
@@ -2792,7 +2793,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
 
             callbackData.state = AE_MOVIE_STATE_UPDATE_BEGIN;
 
-            (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
         }
         else
         {
@@ -2800,7 +2801,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
 
             callbackData.state = AE_MOVIE_STATE_UPDATE_PROCESS;
 			
-            (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
         }
     }
     else
@@ -2818,7 +2819,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
                 callbackData.state = AE_MOVIE_STATE_UPDATE_INTERRUPT;
             }
 
-            (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_data);
+            (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
         }
         else
         {
@@ -2866,7 +2867,7 @@ AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, co
 
     __update_movie_composition_node_matrix( _node, _revision, _composition, _compositionData, _animation, _subcomposition, _frameId, node_interpolate, _t );
 
-    if( _node->shader_data != AE_NULL )
+    if( _node->shader_userdata != AE_NULL )
     {
         __update_movie_composition_node_shader( _node, _revision, _composition, _compositionData, _frameId, node_interpolate, _t );
     }
@@ -2897,7 +2898,7 @@ AE_INTERNAL ae_void_t __update_movie_scene_effect( const aeMovieComposition * _c
     ae_uint32_t frameId = (ae_uint32_t)frame_time;
 
     aeMovieCompositionSceneEffectUpdateCallbackData callbackData;
-    callbackData.element = scene_effect_node->element_data;
+    callbackData.element_userdata = scene_effect_node->element_userdata;
 
     ae_bool_t composition_interpolate = _composition->interpolate;
 
@@ -2914,9 +2915,9 @@ AE_INTERNAL ae_void_t __update_movie_scene_effect( const aeMovieComposition * _c
         ae_movie_make_layer_transformation_color_fixed( &callbackData.color, &callbackData.opacity, layer->transformation, frameId );
     }
 
-    callbackData.scene_effect_data = _composition->scene_effect_data;
+    callbackData.scene_effect_userdata = _composition->scene_effect_userdata;
 
-    (*_composition->providers.scene_effect_update)(&callbackData, _composition->provider_data);
+    (*_composition->providers.scene_effect_update)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __refresh_movie_composition_matrix( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, const aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition )
@@ -3039,7 +3040,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
                 aeMovieCompositionEventCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.name = node_layer->name;
                 callbackData.immutable_matrix = node->immutable_matrix;
                 callbackData.matrix = node->matrix;
@@ -3048,7 +3049,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 callbackData.opacity = node->opacity;
                 callbackData.begin = AE_TRUE;
 
-                (*_composition->providers.composition_event)(&callbackData, _composition->provider_data);
+                (*_composition->providers.composition_event)(&callbackData, _composition->provider_userdata);
             }
 
             if( beginFrameF < indexOutF && endFrameF > indexOutF )
@@ -3057,7 +3058,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
                 aeMovieCompositionEventCallbackData callbackData;
                 callbackData.index = enumerator;
-                callbackData.element = node->element_data;
+                callbackData.element_userdata = node->element_userdata;
                 callbackData.name = node_layer->name;
                 callbackData.immutable_matrix = node->immutable_matrix;
                 callbackData.matrix = node->matrix;
@@ -3066,7 +3067,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 callbackData.opacity = node->opacity;
                 callbackData.begin = AE_FALSE;
 
-                (*_composition->providers.composition_event)(&callbackData, _composition->provider_data);
+                (*_composition->providers.composition_event)(&callbackData, _composition->provider_userdata);
             }
 
             node->update_revision = _revision;
@@ -3172,7 +3173,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_movie_camera( const aeMovieComposition * _composition, const aeMovieCompositionAnimation * _animation )
 {
-    if( _composition->camera_data == AE_NULL )
+    if( _composition->camera_userdata == AE_NULL )
     {
         return;
     }
@@ -3183,7 +3184,7 @@ AE_INTERNAL ae_void_t __update_movie_camera( const aeMovieComposition * _composi
     ae_bool_t composition_interpolate = _composition->interpolate;
 
     aeMovieCameraUpdateCallbackData callbackData;
-    callbackData.camera_data = _composition->camera_data;
+    callbackData.camera_userdata = _composition->camera_userdata;
     callbackData.name = camera->name;
 
     ae_float_t frameDurationInv = composition_data->frameDurationInv;
@@ -3203,7 +3204,7 @@ AE_INTERNAL ae_void_t __update_movie_camera( const aeMovieComposition * _composi
         ae_movie_make_camera_transformation( callbackData.target, callbackData.position, callbackData.quaternion, composition_data->camera, frame_id, AE_TRUE, t );
     }
 
-    (*_composition->providers.camera_update)(&callbackData, _composition->provider_data);
+    (*_composition->providers.camera_update)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __skip_movie_composition_node( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition, ae_uint32_t _revision, ae_float_t _beginTime, ae_float_t _endTime )
@@ -3328,7 +3329,7 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
                     aeMovieCompositionExtraInterruptCallbackData callbackData;
                     callbackData.dummy = 0;
 
-                    ae_bool_t extra_interrupt = (*_composition->providers.composition_extra_interrupt)(&callbackData, _composition->provider_data);
+                    ae_bool_t extra_interrupt = (*_composition->providers.composition_extra_interrupt)(&callbackData, _composition->provider_userdata);
 
                     if( extra_interrupt == AE_FALSE )
                     {
@@ -3389,15 +3390,15 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
                         aeMovieCompositionStateCallbackData callbackData;
                         callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
 
-                        (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+                        (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
                     }
                     else
                     {
                         aeMovieSubCompositionStateCallbackData callbackData;
                         callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
-                        callbackData.subcomposition_data = _subcomposition->subcomposition_data;
+                        callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
-                        (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_data);                
+                        (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);                
                     }
                 }
 
@@ -3460,9 +3461,9 @@ ae_bool_t ae_update_movie_composition( const aeMovieComposition * _composition, 
         {
             aeMovieSubCompositionStateCallbackData callbackData;
             callbackData.state = AE_MOVIE_COMPOSITION_END;
-            callbackData.subcomposition_data = subcomposition->subcomposition_data;
+            callbackData.subcomposition_userdata = subcomposition->subcomposition_userdata;
 
-            (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_data);
+            (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
         }
     }
 
@@ -3471,7 +3472,7 @@ ae_bool_t ae_update_movie_composition( const aeMovieComposition * _composition, 
         aeMovieCompositionStateCallbackData callbackData;
         callbackData.state = AE_MOVIE_COMPOSITION_END;
 
-        (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+        (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
     }
 
     return composition_end;
@@ -3588,7 +3589,7 @@ ae_void_t ae_play_movie_composition( const aeMovieComposition * _composition, ae
     aeMovieCompositionStateCallbackData callbackData;
     callbackData.state = AE_MOVIE_COMPOSITION_PLAY;
 
-    (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_stop_movie_composition( const aeMovieComposition * _composition )
@@ -3613,7 +3614,7 @@ ae_void_t ae_stop_movie_composition( const aeMovieComposition * _composition )
     aeMovieCompositionStateCallbackData callbackData;
     callbackData.state = AE_MOVIE_COMPOSITION_STOP;
 
-    (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_interrupt_movie_composition( const aeMovieComposition * _composition, ae_bool_t _skip )
@@ -3652,7 +3653,7 @@ ae_void_t ae_interrupt_movie_composition( const aeMovieComposition * _compositio
     aeMovieCompositionStateCallbackData callbackData;
     callbackData.state = AE_MOVIE_COMPOSITION_INTERRUPT;
 
-    (*_composition->providers.composition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_set_movie_composition_time( const aeMovieComposition * _composition, ae_time_t _time )
@@ -3714,7 +3715,7 @@ ae_void_t ae_get_movie_composition_in_out_loop( const aeMovieComposition * _comp
     *_out = AE_TIME_OUTSCALE( work_end );
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_set_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName, ae_voidptr_t _slotData )
+ae_bool_t ae_set_movie_composition_slot_userdata( const aeMovieComposition * _composition, const ae_char_t * _name, ae_voidptr_t _userdata )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
 
@@ -3731,12 +3732,12 @@ ae_bool_t ae_set_movie_composition_slot( const aeMovieComposition * _composition
             continue;
         }
 
-        if( AE_STRNCMP( instance, layer->name, _slotName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        if( AE_STRNCMP( instance, layer->name, _name, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
         {
             continue;
         }
 
-        node->element_data = _slotData;
+        node->element_userdata = _userdata;
 
         return AE_TRUE;
     }
@@ -3744,7 +3745,7 @@ ae_bool_t ae_set_movie_composition_slot( const aeMovieComposition * _composition
     return AE_FALSE;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_voidptr_t ae_get_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName )
+ae_userdata_t ae_get_movie_composition_slot_userdata( const aeMovieComposition * _composition, const ae_char_t * _name )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
 
@@ -3761,18 +3762,18 @@ ae_voidptr_t ae_get_movie_composition_slot( const aeMovieComposition * _composit
             continue;
         }
 
-        if( AE_STRNCMP( instance, layer->name, _slotName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        if( AE_STRNCMP( instance, layer->name, _name, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
         {
             continue;
         }
 
-        return node->element_data;
+        return node->element_userdata;
     }
 
-    return AE_NULL;
+    return AE_USERDATA_NULL;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_has_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName )
+ae_bool_t ae_has_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _name )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
 
@@ -3789,7 +3790,7 @@ ae_bool_t ae_has_movie_composition_slot( const aeMovieComposition * _composition
             continue;
         }
 
-        if( AE_STRNCMP( instance, layer->name, _slotName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        if( AE_STRNCMP( instance, layer->name, _name, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
         {
             continue;
         }
@@ -3800,7 +3801,7 @@ ae_bool_t ae_has_movie_composition_slot( const aeMovieComposition * _composition
     return AE_FALSE;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_voidptr_t ae_remove_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _slotName )
+ae_userdata_t ae_remove_movie_composition_slot( const aeMovieComposition * _composition, const ae_char_t * _name )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
 
@@ -3817,24 +3818,24 @@ ae_voidptr_t ae_remove_movie_composition_slot( const aeMovieComposition * _compo
             continue;
         }
 
-        if( AE_STRNCMP( instance, layer->name, _slotName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        if( AE_STRNCMP( instance, layer->name, _name, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
         {
             continue;
         }
 
-        ae_voidptr_t prev_element_data = node->element_data;
+        ae_userdata_t prev_element_userdata = node->element_userdata;
 
-        node->element_data = AE_NULL;
+        node->element_userdata = AE_NULL;
 
-        return prev_element_data;
+        return prev_element_userdata;
     }
 
-    return AE_NULL;
+    return AE_USERDATA_NULL;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_voidptr_t ae_get_movie_composition_camera_data( const aeMovieComposition * _composition )
+ae_userdata_t ae_get_movie_composition_camera_userdata( const aeMovieComposition * _composition )
 {
-    return _composition->camera_data;
+    return _composition->camera_userdata;
 }
 //////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_get_movie_composition_socket( const aeMovieComposition * _composition, const ae_char_t * _slotName, const ae_polygon_t ** _polygon )
@@ -4274,7 +4275,7 @@ const aeMovieSubComposition * ae_get_movie_sub_composition( const aeMovieComposi
     return AE_NULL;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_visit_movie_sub_composition( const aeMovieComposition * _composition, ae_movie_sub_composition_visitor_t _visitor, ae_voidptr_t _ud )
+ae_bool_t ae_visit_movie_sub_composition( const aeMovieComposition * _composition, ae_movie_sub_composition_visitor_t _visitor, ae_userdata_t _ud )
 {
     ae_uint32_t subcomposition_iterator = 0U;
 
@@ -4363,9 +4364,9 @@ ae_bool_t ae_stop_movie_sub_composition( const aeMovieComposition * _composition
     aeMovieSubCompositionStateCallbackData callbackData;
 
     callbackData.state = AE_MOVIE_COMPOSITION_STOP;
-    callbackData.subcomposition_data = _subcomposition->subcomposition_data;
+    callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
-    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
 
     return AE_TRUE;
 }
@@ -4391,9 +4392,9 @@ ae_bool_t ae_pause_movie_sub_composition( const aeMovieComposition * _compositio
     aeMovieSubCompositionStateCallbackData callbackData;
 
     callbackData.state = AE_MOVIE_COMPOSITION_PAUSE;
-    callbackData.subcomposition_data = _subcomposition->subcomposition_data;
+    callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
-    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
 
     return AE_TRUE;
 }
@@ -4419,9 +4420,9 @@ ae_bool_t ae_resume_movie_sub_composition( const aeMovieComposition * _compositi
     aeMovieSubCompositionStateCallbackData callbackData;
 
     callbackData.state = AE_MOVIE_COMPOSITION_RESUME;
-    callbackData.subcomposition_data = _subcomposition->subcomposition_data;
+    callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
-    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
 
     return AE_TRUE;
 }
@@ -4461,9 +4462,9 @@ ae_void_t ae_interrupt_movie_sub_composition( const aeMovieComposition * _compos
     aeMovieSubCompositionStateCallbackData callbackData;
 
     callbackData.state = AE_MOVIE_COMPOSITION_INTERRUPT;
-    callbackData.subcomposition_data = _subcomposition->subcomposition_data;
+    callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
-    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_data);
+    (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_is_play_movie_sub_composition( const aeMovieSubComposition * _subcomposition )
@@ -4579,5 +4580,12 @@ ae_void_t ae_remove_movie_sub_composition_work_area( const aeMovieComposition * 
     animation->work_area_end = _composition->composition_data->duration;
 
     __set_movie_composition_time( _composition, composition_data, animation, 0.f, _subcomposition );
+}
+//////////////////////////////////////////////////////////////////////////
+const aeMovieCompositionData * ae_get_movie_sub_composition_composition_data( const aeMovieSubComposition * _subcomposition )
+{
+    const aeMovieCompositionData * composition_data = _subcomposition->subcomposition_data;
+
+    return composition_data;
 }
 //////////////////////////////////////////////////////////////////////////

@@ -47,7 +47,7 @@ int main( int argc, char *argv[] )
     aeMovieDataProviders data_providers;
     ae_clear_movie_data_providers( &data_providers );
 
-    aeMovieData * movieData = ae_create_movie_data( movieInstance, &data_providers, AE_NULL );
+    aeMovieData * movieData = ae_create_movie_data( movieInstance, &data_providers, AE_USERDATA_NULL );
 
     ae_delete_movie_data( movieData );
 
