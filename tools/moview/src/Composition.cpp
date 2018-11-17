@@ -505,7 +505,7 @@ void Composition::Draw( const DrawMode mode )
     aeMovieRenderMesh render_mesh;
     while( ae_compute_movie_mesh( mComposition, &render_mesh_it, &render_mesh ) == AE_TRUE )
     {
-        if( render_mesh.track_matte_data == AE_NULL )
+        if( render_mesh.track_matte_userdata == AE_NULL )
         {
             switch( render_mesh.layer_type )
             {
@@ -522,7 +522,7 @@ void Composition::Draw( const DrawMode mode )
                 {
                     if( render_mesh.vertexCount && render_mesh.indexCount )
                     {
-                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(render_mesh.resource_data);
+                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(render_mesh.resource_userdata);
                         this->DrawMesh( &render_mesh, imageRes, nullptr, nullptr );
                     }
                 } break;
@@ -538,13 +538,13 @@ void Composition::Draw( const DrawMode mode )
             case AE_MOVIE_LAYER_TYPE_SEQUENCE:
             case AE_MOVIE_LAYER_TYPE_IMAGE:
                 {
-                    if( render_mesh.element_data && render_mesh.vertexCount )
+                    if( render_mesh.element_userdata && render_mesh.vertexCount )
                     {
-                        const TrackMatteDesc* track_matte_desc = reinterpret_cast<const TrackMatteDesc*>(render_mesh.track_matte_data);
+                        const TrackMatteDesc* track_matte_desc = reinterpret_cast<const TrackMatteDesc*>(render_mesh.track_matte_userdata);
                         const aeMovieRenderMesh& track_matte_mesh = track_matte_desc->mesh;
 
-                        ResourceImage* matteImageRes = reinterpret_cast<ResourceImage*>(render_mesh.element_data);
-                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(render_mesh.resource_data);
+                        ResourceImage* matteImageRes = reinterpret_cast<ResourceImage*>(render_mesh.element_userdata);
+                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(render_mesh.resource_userdata);
 
                         for( ae_uint32_t i = 0; i != track_matte_mesh.vertexCount; ++i )
                         {
@@ -1235,7 +1235,7 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
             {
                 ViewerLogger << " sound" << std::endl;
 
-                ae_voidptr_t rd = ae_get_movie_layer_data_resource_data( _callbackData->layer );
+                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer );
 
                 ResourceSound * resourceSound = reinterpret_cast<ResourceSound*>( rd );
 
@@ -1245,7 +1245,7 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
             {
                 ViewerLogger << " image" << std::endl;
 
-                ae_voidptr_t rd = ae_get_movie_layer_data_resource_data( _callbackData->layer );
+                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer );
 
                 ResourceImage* resourceImage = reinterpret_cast<ResourceImage*>( rd );
 
@@ -1272,7 +1272,7 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
             {
                 ViewerLogger << " image" << std::endl;
 
-                ae_voidptr_t rd = ae_get_movie_layer_data_resource_data( _callbackData->track_matte_layer );
+                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->track_matte_layer );
 
                 ResourceImage* resourceTrackMatteImage = reinterpret_cast<ResourceImage*>(rd);
 
@@ -1303,7 +1303,7 @@ void Composition::OnUpdateNode( const aeMovieNodeUpdateCallbackData* _callbackDa
 
     if( AE_MOVIE_LAYER_TYPE_SOUND == layerType )
     {
-        ae_voidptr_t rd = ae_get_movie_layer_data_resource_data( _callbackData->layer );
+        ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer );
 
         ResourceSound * resourceSound = reinterpret_cast<ResourceSound*>( rd );
 
@@ -1381,7 +1381,7 @@ void Composition::OnUpdateTrackMatte( const aeMovieTrackMatteUpdateCallbackData*
     {
     case AE_MOVIE_STATE_UPDATE_BEGIN:
         {
-            TrackMatteDesc* desc = reinterpret_cast<TrackMatteDesc *>(_callbackData->track_matte_data);
+            TrackMatteDesc* desc = reinterpret_cast<TrackMatteDesc *>(_callbackData->track_matte_userdata);
 
             if( desc != nullptr )
             {
@@ -1391,7 +1391,7 @@ void Composition::OnUpdateTrackMatte( const aeMovieTrackMatteUpdateCallbackData*
         }break;
     case AE_MOVIE_STATE_UPDATE_PROCESS:
         {
-            TrackMatteDesc* desc = reinterpret_cast<TrackMatteDesc *>(_callbackData->track_matte_data);
+            TrackMatteDesc* desc = reinterpret_cast<TrackMatteDesc *>(_callbackData->track_matte_userdata);
 
             if( desc != nullptr )
             {
@@ -1407,7 +1407,7 @@ void Composition::OnUpdateTrackMatte( const aeMovieTrackMatteUpdateCallbackData*
 //////////////////////////////////////////////////////////////////////////
 void Composition::OnDeleteTrackMatte( const aeMovieTrackMatteDeleterCallbackData* _callbackData )
 {
-    TrackMatteDesc* desc = reinterpret_cast<TrackMatteDesc *>(_callbackData->track_matte_data);
+    TrackMatteDesc* desc = reinterpret_cast<TrackMatteDesc *>(_callbackData->track_matte_userdata);
 
     if( desc != nullptr )
     {
