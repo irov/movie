@@ -1,6 +1,6 @@
 @echo off
 
-set "CONFIGURATION=Debug"
+set "CONFIGURATION=Release"
 set "SOLUTION_DIR=..\solutions\libmovie_msvc15_test_%CONFIGURATION%"
 
 @pushd ..

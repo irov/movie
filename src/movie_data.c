@@ -260,6 +260,8 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
 
             AE_DELETE( instance, atlas );
         }
+
+        AE_DELETEN( instance, _movieData->atlases );
     }
 
     if( _movieData->resources != AE_NULL )
@@ -415,6 +417,15 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
                     AE_DELETE( instance, extensions->viewport );
                 }
 
+                if( extensions->volume != AE_NULL )
+                {
+                    const aeMovieLayerExtensionVolume * volume = extensions->volume;
+
+                    AE_DELETE( instance, volume->property_volume );
+
+                    AE_DELETE( instance, extensions->volume );
+                }
+
                 if( extensions != &instance->layer_extensions_default )
                 {
                     AE_DELETE( instance, layer->extensions );
@@ -473,6 +484,7 @@ AE_INTERNAL ae_result_t __load_movie_data_composition_camera( aeMovieStream * _s
         ae_float_t height = _compositionData->height;
 
         camera->immutable_property_mask = AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_CAMERA;
+        camera->identity_property_mask = AE_MOVIE_PROPERTY_ANCHOR_POINT_Z | AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION;
 
         camera->immutable.position_x = width * 0.5f;
         camera->immutable.position_y = height * 0.5f;

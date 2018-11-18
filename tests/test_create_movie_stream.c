@@ -7,13 +7,13 @@
 static const ae_char_t * test_example_license_hash = "52ad6f051099762d0a0787b4eb2d07c8a0ee4491";
 static const ae_char_t * test_example_file_path = "examples/resources/Knight/Knight.aem";
 
-AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_voidptr_t _data, ae_size_t _size ) {
-    AE_UNUSED( _data );
+AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _userdata, ae_size_t _size ) {
+    AE_UNUSED( _userdata );
     return malloc( _size );
 }
 
-AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_voidptr_t _data, ae_size_t _size, ae_size_t _count ) {
-    AE_UNUSED( _data );
+AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _userdata, ae_size_t _size, ae_size_t _count ) {
+    AE_UNUSED( _userdata );
     ae_size_t total = _size * _count;
     return malloc( total );
 }

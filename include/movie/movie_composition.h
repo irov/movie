@@ -47,11 +47,11 @@
 @param [in] _movieData Resource holding movie data.
 @param [in] _compositionData Resource holding composition data.
 @param [in] _interpolate If TRUE, composition will be interpolated.
-@param [in] providers Set of callbacks which provide data used during playback.
-@param [in] _data Link to the object that will hold the data providers give.
+@param [in] _providers Set of callbacks which provide data used during playback.
+@param [in] _userdata Link to the object that will hold the data providers give.
 @return A composition or AE_NULL if failed.
 */
-const aeMovieComposition * ae_create_movie_composition( const aeMovieData * _movieData, const aeMovieCompositionData * _compositionData, ae_bool_t _interpolate, const aeMovieCompositionProviders * _providers, ae_voidptr_t _data );
+const aeMovieComposition * ae_create_movie_composition( const aeMovieData * _movieData, const aeMovieCompositionData * _compositionData, ae_bool_t _interpolate, const aeMovieCompositionProviders * _providers, ae_userdata_t _userdata );
 
 /**
 @brief Release a composition from memory.

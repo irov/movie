@@ -38,12 +38,18 @@
 @{
 */
 
-typedef ae_voidptr_t( *ae_movie_alloc_t )(ae_voidptr_t _data, ae_size_t _size);
-typedef ae_voidptr_t( *ae_movie_alloc_n_t )(ae_voidptr_t _data, ae_size_t _size, ae_size_t _n);
-typedef ae_void_t( *ae_movie_free_t )(ae_voidptr_t _data, ae_constvoidptr_t _ptr);
-typedef ae_void_t( *ae_movie_free_n_t )(ae_voidptr_t _data, ae_constvoidptr_t _ptr);
+#ifdef AE_MOVIE_MEMORY_DEBUG
+typedef ae_voidptr_t( *ae_movie_alloc_t )(ae_userdata_t _userdata, ae_size_t _size, const ae_char_t * _file, ae_uint32_t _line);
+typedef ae_voidptr_t( *ae_movie_alloc_n_t )(ae_userdata_t _userdata, ae_size_t _size, ae_size_t _n, const ae_char_t * _file, ae_uint32_t _line);
+#else
+typedef ae_voidptr_t( *ae_movie_alloc_t )(ae_userdata_t _userdata, ae_size_t _size);
+typedef ae_voidptr_t( *ae_movie_alloc_n_t )(ae_userdata_t _userdata, ae_size_t _size, ae_size_t _n);
+#endif
 
-typedef ae_int32_t( *ae_movie_strncmp_t )(ae_voidptr_t _data, const ae_char_t * _src, const ae_char_t * _dst, ae_size_t _count);
+typedef ae_void_t( *ae_movie_free_t )(ae_userdata_t _userdata, ae_constvoidptr_t _ptr);
+typedef ae_void_t( *ae_movie_free_n_t )(ae_userdata_t _userdata, ae_constvoidptr_t _ptr);
+
+typedef ae_int32_t( *ae_movie_strncmp_t )(ae_userdata_t _userdata, const ae_char_t * _src, const ae_char_t * _dst, ae_size_t _count);
 
 typedef enum
 {
@@ -57,7 +63,7 @@ typedef enum
     AE_ERROR_CRITICAL,
 } aeMovieErrorCode;
 
-typedef ae_void_t( *ae_movie_logger_t )(ae_voidptr_t _data, aeMovieErrorCode _code, const ae_char_t * _message, ...);
+typedef ae_void_t( *ae_movie_logger_t )(ae_userdata_t _userdata, aeMovieErrorCode _code, const ae_char_t * _message, ...);
 
 /**
 @brief Create a new instance.

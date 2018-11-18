@@ -139,10 +139,6 @@ if(NOT APPLE)
     target_link_libraries(${PROJECT_NAME}
         alsoft
     )
-
-    add_dependencies(${PROJECT_NAME}
-        alsoft_download
-    )
 endif()
 
 target_link_libraries(${PROJECT_NAME}
@@ -152,6 +148,12 @@ target_link_libraries(${PROJECT_NAME}
     imgui
     nativefiledialog
 )
+
+if(NOT APPLE)
+    add_dependencies(${PROJECT_NAME}
+        alsoft_download
+    )
+endif()
 
 add_dependencies(${PROJECT_NAME}
     glad_download

@@ -129,7 +129,11 @@ const aeMovieInstance * ae_create_movie_instance( const ae_char_t * _hashkey, ae
         return AE_NULL;
     }
 
+#ifdef AE_MOVIE_MEMORY_DEBUG
+    aeMovieInstance * instance = (*_alloc)(_userdata, sizeof( aeMovieInstance ), __FILE__, __LINE__);
+#else
     aeMovieInstance * instance = (*_alloc)(_userdata, sizeof( aeMovieInstance ));
+#endif
 
     instance->hashmask[0] = 0;
     instance->hashmask[1] = 0;

@@ -32,9 +32,7 @@
 
 #ifndef NDEBUG
 #   ifndef AE_MOVIE_NO_DEBUG
-#	    ifndef AE_MOVIE_DEBUG
-#	        define AE_MOVIE_DEBUG
-#	    endif
+#	    define AE_MOVIE_DEBUG
 #	endif
 #endif
 
