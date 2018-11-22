@@ -228,7 +228,7 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
 
     EX_LOG( " Layer: '%s'", ae_get_movie_layer_data_name( _callbackData->layer ) );
 
-    if( _callbackData->track_matte_layer == AE_NULL ) {
+    if( _callbackData->track_matte_layer == AE_NULLPTR ) {
         EX_LOG( " Has track matte: no\n" );
 
         EX_LOG( " Type:" );
@@ -362,30 +362,6 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
     case AE_MOVIE_STATE_UPDATE_RESUME:
         {
         }break;
-    case AE_MOVIE_STATE_UPDATE_INTERRUPT:
-        {
-            EX_LOG( " AE_MOVIE_STATE_UPDATE_INTERRUPT\n" );
-            EX_LOG( " Type:" );
-
-            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
-
-            switch( layer_type )
-            {
-            case AE_MOVIE_LAYER_TYPE_VIDEO:
-                EX_LOG( " video\n" );
-                break;
-            case AE_MOVIE_LAYER_TYPE_SOUND:
-                //					ex_sound_node_t *sound_node = (ex_sound_node_t *)_callbackData->element;
-
-                EX_LOG( " sound\n" );
-                //					EX_LOG("  name: '%s'\n", sound_node->sound->path);
-
-                break;
-            default:
-                EX_LOG( " other\n" );
-                break;
-            }
-        }break;
     case AE_MOVIE_STATE_UPDATE_STOP:
         {
             EX_LOG( " AE_MOVIE_STATE_UPDATE_STOP\n" );
@@ -495,11 +471,6 @@ ae_void_t ex_callback_track_matte_update( const aeMovieTrackMatteUpdateCallbackD
             EX_LOG( " AE_MOVIE_STATE_UPDATE_RESUME\n" );
 
             // Should update track_matte_data->mesh with callback one.
-        }break;
-    case AE_MOVIE_STATE_UPDATE_INTERRUPT:
-        {
-            EX_LOG( " AE_MOVIE_STATE_UPDATE_INTERRUPT\n" );
-
         }break;
     case AE_MOVIE_STATE_UPDATE_STOP:
         {
@@ -638,16 +609,16 @@ ae_void_t ex_set_composition( ae_void_t ) {
 
     const aeMovieCompositionData * comp_data = ae_get_movie_composition_data( ex.data, ex.comp_name );
 
-    if( comp_data == AE_NULL ) {
+    if( comp_data == AE_NULLPTR ) {
         EX_LOG( "...failed.\n" );
         exit( 0 );
     }
 
     EX_LOG( "Creating composition.\n" );
 
-    const aeMovieComposition * composition = ae_create_movie_composition( ex.data, comp_data, AE_TRUE, &ex.comp_providers, AE_NULL );
+    const aeMovieComposition * composition = ae_create_movie_composition( ex.data, comp_data, AE_TRUE, &ex.comp_providers, AE_NULLPTR );
 
-    if( composition == AE_NULL ) {
+    if( composition == AE_NULLPTR ) {
         EX_LOG( "...failed.\n" );
         exit( 0 );
     }
@@ -693,7 +664,7 @@ ae_void_t ex_render( ae_void_t ) {
 
         EX_LOG( " Track matte: " );
 
-        if( render_mesh.track_matte_userdata == AE_NULL ) {
+        if( render_mesh.track_matte_userdata == AE_NULLPTR ) {
             //
             // layer has no track matte
             //
@@ -848,7 +819,7 @@ ae_void_t ex_render( ae_void_t ) {
 
                     ae_userdata_t track_matte_ref = render_mesh.element_userdata;
 
-                    if( track_matte_ref == AE_NULL )
+                    if( track_matte_ref == AE_NULLPTR )
                         break;
                     if( render_mesh.vertexCount == 0 || render_mesh.indexCount == 0 )
                         break;
@@ -926,7 +897,7 @@ ae_void_t ex_init( const ae_char_t * license, const ae_char_t * path, const ae_c
         , &stdlib_movie_free_n
         , (ae_movie_strncmp_t)AE_FUNCTION_NULL
         , &stdlib_movie_logerror
-        , AE_NULL );
+        , AE_NULLPTR );
 }
 
 //
@@ -948,24 +919,24 @@ ae_void_t ex_shutdown( ae_void_t ) {
     if( ex.composition ) {
         EX_LOG( "Deleting movie composition.\n" );
         ae_delete_movie_composition( ex.composition );
-        ex.composition = AE_NULL;
+        ex.composition = AE_NULLPTR;
     }
 
 	if( ex.data ) {
 		EX_LOG( "Deleting movie data.\n" );
 		ae_delete_movie_data( ex.data );
-		ex.data = AE_NULL;
+		ex.data = AE_NULLPTR;
 	}
 
     if( ex.data ) {
         EX_LOG( "Deleting movie data.\n" );
         ae_delete_movie_data( ex.data );
-        ex.data = AE_NULL;
+        ex.data = AE_NULLPTR;
     }
 
     if( ex.instance ) {
         EX_LOG( "Deleting library instance.\n" );
         ae_delete_movie_instance( ex.instance );
-        ex.instance = AE_NULL;
+        ex.instance = AE_NULLPTR;
     }
 }

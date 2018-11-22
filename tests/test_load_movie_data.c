@@ -59,9 +59,9 @@ int main( int argc, char *argv[] )
         , &stdlib_movie_free_n
         , (ae_movie_strncmp_t)AE_FUNCTION_NULL
         , (ae_movie_logger_t)AE_FUNCTION_NULL
-        , AE_NULL );
+        , AE_NULLPTR );
 
-    if( movieInstance == AE_NULL )
+    if( movieInstance == AE_NULLPTR )
     {
         return EXIT_FAILURE;
     }

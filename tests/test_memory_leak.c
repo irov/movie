@@ -43,7 +43,7 @@ static ae_voidptr_t memory_info_alloc( memory_info_t * _info, ae_size_t _size, c
 
     if( _info->memory_records_count == TEST_MEMORY_MAX_RECORDS )
     {
-        return AE_NULL;
+        return AE_NULLPTR;
     }
 
     void * ptr_data = ptr_header + 1;
@@ -138,7 +138,7 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _userdata, ae_size_
 AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _userdata, ae_constvoidptr_t _ptr ) {
     memory_info_t * info = (memory_info_t *)_userdata;
 
-    if( _ptr == AE_NULL )
+    if( _ptr == AE_NULLPTR )
     {
         return;
     }
@@ -149,7 +149,7 @@ AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _userdata, ae_constvoidpt
 AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_userdata_t _userdata, ae_constvoidptr_t _ptr ) {
     memory_info_t * info = (memory_info_t *)_userdata;
 
-    if( _ptr == AE_NULL )
+    if( _ptr == AE_NULLPTR )
     {
         return;
     }
@@ -193,7 +193,7 @@ int main( int argc, char *argv[] )
         , (ae_movie_logger_t)AE_FUNCTION_NULL
         , mi );
 
-    if( movieInstance == AE_NULL )
+    if( movieInstance == AE_NULLPTR )
     {
         return EXIT_FAILURE;
     }
@@ -248,7 +248,7 @@ int main( int argc, char *argv[] )
 
             const aeMovieComposition * composition = ae_create_movie_composition( movieData, composition_data, AE_TRUE, &providers, AE_USERDATA_NULL );
 
-            if( composition == AE_NULL )
+            if( composition == AE_NULLPTR )
             {
                 return EXIT_FAILURE;
             }

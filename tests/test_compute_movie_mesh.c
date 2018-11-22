@@ -60,9 +60,9 @@ int main( int argc, char *argv[] )
         , &stdlib_movie_free_n
         , (ae_movie_strncmp_t)AE_FUNCTION_NULL
         , (ae_movie_logger_t)AE_FUNCTION_NULL
-        , AE_NULL );
+        , AE_NULLPTR );
 
-    if( movieInstance == AE_NULL )
+    if( movieInstance == AE_NULLPTR )
     {
         return EXIT_FAILURE;
     }
@@ -103,7 +103,7 @@ int main( int argc, char *argv[] )
 
     const aeMovieCompositionData * movieCompositionData = ae_get_movie_composition_data( movieData, test_example_composition_name );
 
-    if( movieCompositionData == AE_NULL )
+    if( movieCompositionData == AE_NULLPTR )
     {
         return EXIT_FAILURE;
     }
@@ -111,9 +111,9 @@ int main( int argc, char *argv[] )
     aeMovieCompositionProviders movieCompositionProviders;
     ae_clear_movie_composition_providers( &movieCompositionProviders );
 
-    const aeMovieComposition * movieComposition = ae_create_movie_composition( movieData, movieCompositionData, AE_TRUE, &movieCompositionProviders, AE_NULL );
+    const aeMovieComposition * movieComposition = ae_create_movie_composition( movieData, movieCompositionData, AE_TRUE, &movieCompositionProviders, AE_NULLPTR );
 
-    if( movieComposition == AE_NULL )
+    if( movieComposition == AE_NULLPTR )
     {
         return EXIT_FAILURE;
     }

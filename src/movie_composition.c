@@ -2667,6 +2667,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
     callbackData.index = _index;
     callbackData.element_userdata = _node->element_userdata;
     callbackData.layer = layer;
+    callbackData.interrupt = _animation->interrupt;
     callbackData.loop = _loop;
     callbackData.immutable_matrix = _node->immutable_matrix;
     callbackData.matrix = _node->matrix;
@@ -2715,14 +2716,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
         {
             _node->animate = AE_MOVIE_NODE_ANIMATE_END;
 
-            if( _animation->interrupt == AE_FALSE )
-            {
-                callbackData.state = AE_MOVIE_STATE_UPDATE_END;
-            }
-            else
-            {
-                callbackData.state = AE_MOVIE_STATE_UPDATE_INTERRUPT;
-            }
+            callbackData.state = AE_MOVIE_STATE_UPDATE_END;
 
             callbackData.offset = AE_TIME_OUTSCALE( 0.f );
 
@@ -2763,6 +2757,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
     callbackData.index = _index;
     callbackData.element_userdata = _node->element_userdata;
     callbackData.layer = layer;
+    callbackData.interrupt = _animation->interrupt;
     callbackData.loop = _loop;
 
     ae_float_t offset = layer->start_time + _time - _node->in_time;
@@ -2810,15 +2805,8 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
         {
             _node->animate = AE_MOVIE_NODE_ANIMATE_END;
 
-            if( _animation->interrupt == AE_FALSE )
-            {
-                callbackData.state = AE_MOVIE_STATE_UPDATE_END;
-            }
-            else
-            {
-                callbackData.state = AE_MOVIE_STATE_UPDATE_INTERRUPT;
-            }
-
+            callbackData.state = AE_MOVIE_STATE_UPDATE_END;
+            
             (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
         }
         else
@@ -3570,6 +3558,8 @@ ae_void_t ae_play_movie_composition( const aeMovieComposition * _composition, ae
 
     if( animation->play == AE_TRUE )
     {
+        animation->interrupt = AE_FALSE;
+
         return;
     }
 
@@ -3598,6 +3588,8 @@ ae_void_t ae_stop_movie_composition( const aeMovieComposition * _composition )
 
     if( animation->play == AE_FALSE )
     {
+        animation->interrupt = AE_FALSE;
+
         return;
     }
 
@@ -4325,6 +4317,8 @@ ae_bool_t ae_play_movie_sub_composition( const aeMovieComposition * _composition
 
     if( animation->play == AE_TRUE )
     {
+        animation->interrupt = AE_FALSE;
+
         return AE_TRUE;
     }
 

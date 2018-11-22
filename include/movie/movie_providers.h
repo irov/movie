@@ -54,7 +54,6 @@ typedef enum
     AE_MOVIE_STATE_UPDATE_PROCESS,
     AE_MOVIE_STATE_UPDATE_PAUSE,
     AE_MOVIE_STATE_UPDATE_RESUME,
-    AE_MOVIE_STATE_UPDATE_INTERRUPT,
     AE_MOVIE_STATE_UPDATE_STOP,
     AE_MOVIE_STATE_UPDATE_END,
     AE_MOVIE_STATE_UPDATE_SKIP
@@ -152,6 +151,7 @@ typedef struct aeMovieNodeUpdateCallbackData
     const aeMovieLayerData * layer;
 
     ae_bool_t loop;
+    ae_bool_t interrupt;
     aeMovieStateUpdateEnum state;
     ae_time_t offset;
 
@@ -207,6 +207,7 @@ typedef struct aeMovieTrackMatteUpdateCallbackData
     ae_userdata_t element_userdata;
     const aeMovieLayerData * layer;
 
+    ae_bool_t interrupt;
     ae_bool_t loop;
     aeMovieStateUpdateEnum state;
     ae_time_t offset;

@@ -94,7 +94,7 @@ int main( int argc, char *argv[] )
         , &stdlib_movie_free_n
         , (ae_movie_strncmp_t)AE_FUNCTION_NULL
         , &stdlib_movie_logerror
-        , AE_NULL );
+        , AE_NULLPTR );
 
     aeMovieDataProviders data_providers;
     ae_clear_movie_data_providers( &data_providers );
@@ -136,7 +136,7 @@ int main( int argc, char *argv[] )
 
     const aeMovieCompositionData * compositionData = ae_get_movie_composition_data( movie_data, "Knight" );
 
-    if( compositionData == AE_NULL )
+    if( compositionData == AE_NULLPTR )
     {
         return 0;
     }
@@ -144,7 +144,7 @@ int main( int argc, char *argv[] )
     aeMovieCompositionProviders providers;
     memset( &providers, 0, sizeof( providers ) );
 
-    const aeMovieComposition * composition = ae_create_movie_composition( movie_data, compositionData, AE_TRUE, &providers, AE_NULL );
+    const aeMovieComposition * composition = ae_create_movie_composition( movie_data, compositionData, AE_TRUE, &providers, AE_NULLPTR );
 
     ae_play_movie_composition( composition, 0.f );
 
