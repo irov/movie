@@ -55,7 +55,7 @@ ae_result_t ae_magic_read_polygon( aeMovieStream * _stream, ae_polygon_t * _poly
 
     if( point_count == 0 )
     {
-        _polygon->points = AE_NULL;
+        _polygon->points = AE_NULLPTR;
 
         return AE_RESULT_SUCCESSFUL;
     }
@@ -104,9 +104,9 @@ ae_result_t ae_magic_read_mesh( aeMovieStream * _stream, ae_mesh_t * _mesh )
         _mesh->vertex_count = 0;
         _mesh->index_count = 0;
 
-        _mesh->positions = AE_NULL;
-        _mesh->uvs = AE_NULL;
-        _mesh->indices = AE_NULL;
+        _mesh->positions = AE_NULLPTR;
+        _mesh->uvs = AE_NULLPTR;
+        _mesh->indices = AE_NULLPTR;
 
         return AE_RESULT_SUCCESSFUL;
     }

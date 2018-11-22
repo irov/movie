@@ -199,7 +199,7 @@ ae_void_t make_layer_bezier_warp_vertices( const aeMovieInstance * _instance, co
 
     const ae_vector2_t * bezier_warp_uvs = _instance->bezier_warp_uvs[bezier_warp_quality];
 
-    if( _uvs == AE_NULL )
+    if( _uvs == AE_NULLPTR )
     {
         ae_uint32_t vertex_index = 0;
         for( ; vertex_index != vertex_count; ++vertex_index )

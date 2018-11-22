@@ -136,7 +136,7 @@ Viewer::~Viewer()
 bool Viewer::Initialize( int argc, char** argv )
 {
     // Create our config save folders and make full path to session.txt
-    std::string cfgSaveFolder = Platform::PathConcat( Platform::PathConcat( Platform::GetAppDataFolder(), "irov" ), "moview" );
+    std::string cfgSaveFolder = Platform::PathConcat( Platform::GetAppDataFolder(), "moview" );
     Platform::CreateDirs( cfgSaveFolder );
 
     mSettingsFileName = Platform::PathConcat( cfgSaveFolder, mSettingsFileName );

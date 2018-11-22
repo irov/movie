@@ -11,14 +11,21 @@ ExternalProject_Add(alsoft_download PREFIX alsoft
             -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
             -DBUILD_SHARED_LIBS=OFF
             -DLIBTYPE=STATIC
-            -DALSOFT_BACKEND_DSOUND=OFF
-            -DALSOFT_BACKEND_WASAPI=OFF
-            -DALSOFT_BUILD_ROUTER=OFF
-            -DALSOFT_BUILD_ROUTER=OFF
-            -DALSOFT_EXAMPLES=OFF
-            -DALSOFT_NO_CONFIG_UTIL=ON
-            -DALSOFT_TESTS=OFF
+            -DFORCE_STATIC_VCRT=STATIC
+            -DALSOFT_STATIC_LIBGCC=ON
+            -DALSOFT_DLOPEN=OFF
+            -DALSOFT_WERROR=OFF
             -DALSOFT_UTILS=OFF
+            -DALSOFT_NO_CONFIG_UTIL=ON
+            -DALSOFT_EXAMPLES=OFF
+            -DALSOFT_TESTS=OFF
+            -DALSOFT_CONFIG=OFF
+            -DALSOFT_HRTF_DEFS=OFF
+            -DALSOFT_AMBDEC_PRESETS=OFF
+            -DALSOFT_NO_UID_DEFS=OFF
+            -DALSOFT_EMBED_HRTF_DATA=OFF
+            -DALSOFT_BUILD_IMPORT_LIB=OFF
+            -DALSOFT_BACKEND_WAVE=OFF
 )
 
 ExternalProject_Get_Property(alsoft_download INSTALL_DIR)

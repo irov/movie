@@ -151,7 +151,7 @@ bool Movie::LoadFromMemory( const void* data, size_t dataLength, const std::stri
         &my_logerror,
         nullptr );
 
-    if( movie == AE_NULL )
+    if( movie == AE_NULLPTR )
     {
         return false;
     }
@@ -311,7 +311,7 @@ Composition* Movie::OpenMainCompositionByIdx( uint32_t idx ) const
 
     const aeMovieCompositionData* compData = mCompositionDatas[idx];
 
-    if( compData == AE_NULL )
+    if( compData == AE_NULLPTR )
     {
         return nullptr;
     }
@@ -362,7 +362,7 @@ Composition* Movie::OpenDefaultComposition()
 
     const aeMovieCompositionData* compData = mCompositionDatas.front();
 
-    if( compData == AE_NULL )
+    if( compData == AE_NULLPTR )
     {
         return nullptr;
     }
@@ -416,7 +416,7 @@ bool Movie::OnProvideResource( const aeMovieResource* _resource, void** _rd, voi
 
             ResourceImage* image = ResourcesManager::Instance().GetImageRes( ae_image->path );
 
-            if( ae_image->atlas_image == AE_NULL ) 
+            if( ae_image->atlas_image == AE_NULLPTR ) 
             {
                 image->textureRes = ResourcesManager::Instance().GetTextureRes( fullPath );
             }

@@ -2,9 +2,6 @@
 
 #ifdef PLATFORM_WINDOWS
 
-#define WIN32_LEAN_AND_MEAN
-#define VC_EXTRALEAN
-#define NOMINMAX
 #include <Windows.h>
 #include <Shlobj.h>
 #include <shlwapi.h>
@@ -301,12 +298,15 @@ namespace Platform
         std::string result;
 
 #if defined( PLATFORM_WINDOWS )
-        LPWSTR wszPath = nullptr;
-        HRESULT hr = ::SHGetKnownFolderPath( FOLDERID_RoamingAppData, KF_FLAG_CREATE, nullptr, &wszPath );
-        if( SUCCEEDED( hr ) && wszPath )
+        TCHAR wszPath[MAX_PATH];
+        HRESULT hr = ::SHGetFolderPath( NULL, CSIDL_LOCAL_APPDATA, nullptr, 0, wszPath );
+        if( SUCCEEDED( hr ) )
         {
+#ifdef _UNICODE
             result = UnicodeToUtf8( wszPath );
-            ::CoTaskMemFree( wszPath );
+#else
+            result = wszPath;
+#endif
         }
 #elif defined( PLATFORM_MACOS )
         result = get_home() + "/Library/Application Support";

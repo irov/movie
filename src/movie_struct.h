@@ -77,13 +77,13 @@ typedef struct aeMovieLayerExtensions
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __clear_layer_extensions( aeMovieLayerExtensions * _extensions )
 {
-    _extensions->timeremap = AE_NULL;
-    _extensions->mesh = AE_NULL;
-    _extensions->bezier_warp = AE_NULL;
-    _extensions->polygon = AE_NULL;
-    _extensions->shader = AE_NULL;
-    _extensions->viewport = AE_NULL;
-    _extensions->volume = AE_NULL;
+    _extensions->timeremap = AE_NULLPTR;
+    _extensions->mesh = AE_NULLPTR;
+    _extensions->bezier_warp = AE_NULLPTR;
+    _extensions->polygon = AE_NULLPTR;
+    _extensions->shader = AE_NULLPTR;
+    _extensions->viewport = AE_NULLPTR;
+    _extensions->volume = AE_NULLPTR;
 }
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieInstance

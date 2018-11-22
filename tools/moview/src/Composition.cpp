@@ -505,7 +505,7 @@ void Composition::Draw( const DrawMode mode )
     aeMovieRenderMesh render_mesh;
     while( ae_compute_movie_mesh( mComposition, &render_mesh_it, &render_mesh ) == AE_TRUE )
     {
-        if( render_mesh.track_matte_userdata == AE_NULL )
+        if( render_mesh.track_matte_userdata == AE_NULLPTR )
         {
             switch( render_mesh.layer_type )
             {
@@ -814,7 +814,7 @@ bool Composition::Create( const aeMovieData* moviewData, const aeMovieCompositio
 
     mComposition = ae_create_movie_composition( moviewData, compData, AE_TRUE, &providers, this );
 
-    if( mComposition == AE_NULL )
+    if( mComposition == AE_NULLPTR )
     {
         return false;
     }
@@ -965,7 +965,7 @@ bool Composition::CreateDrawingData()
 
     const aeMovieCompositionData * data = ae_get_movie_composition_composition_data( mComposition );
 
-    if( data == AE_NULL )
+    if( data == AE_NULLPTR )
     {
         return false;
     }

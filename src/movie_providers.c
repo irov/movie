@@ -35,7 +35,7 @@ AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_node_provider(const aeM
     AE_UNUSED(_callbackData);
     AE_UNUSED(_ud);
 
-    *_rd = AE_NULL;
+    *_rd = AE_NULLPTR;
 
     return AE_TRUE;
 }
@@ -57,7 +57,7 @@ AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_camera_provider(const a
     AE_UNUSED(_callbackData);
     AE_UNUSED(_ud);
 
-    *_rd = AE_NULL;
+    *_rd = AE_NULLPTR;
 
     return AE_TRUE;
 }
@@ -79,7 +79,7 @@ AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_track_matte_provider(co
     AE_UNUSED(_callbackData);
     AE_UNUSED(_ud);
 
-    *_rd = AE_NULL;
+    *_rd = AE_NULLPTR;
 
     return AE_TRUE;
 }
@@ -101,7 +101,7 @@ AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_shader_provider(const a
     AE_UNUSED(_callbackData);
     AE_UNUSED(_ud);
 
-    *_rd = AE_NULL;
+    *_rd = AE_NULLPTR;
 
     return AE_TRUE;
 }
@@ -143,7 +143,7 @@ AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_scene_effect_provider(c
     AE_UNUSED(_callbackData);
     AE_UNUSED(_ud);
 
-    *_rd = AE_NULL;
+    *_rd = AE_NULLPTR;
 
     return AE_TRUE;
 }
@@ -165,7 +165,7 @@ AE_INTERNAL ae_bool_t __dummy_movie_composition_callback_subcomposition_provider
     AE_UNUSED(_callbackData);
     AE_UNUSED(_ud);
 
-    *_rd = AE_NULL;
+    *_rd = AE_NULLPTR;
 
     return AE_TRUE;
 }

@@ -69,28 +69,28 @@ AE_INTERNAL ae_bool_t __test_movie_skeleton_base( aeMovieComposition * _base )
 //////////////////////////////////////////////////////////////////////////
 aeMovieSkeleton * ae_movie_create_skeleton( aeMovieComposition * _base )
 {
-    if( _base == AE_NULL )
+    if( _base == AE_NULLPTR )
     {
-        return AE_NULL;
+        return AE_NULLPTR;
     }
 
     if( __test_movie_skeleton_base( _base ) == AE_FALSE )
     {
-        return AE_NULL;
+        return AE_NULLPTR;
     }
 
     const aeMovieInstance * instance = _base->movie_data->instance;
 
     aeMovieSkeleton * skeleton = AE_NEW( instance, aeMovieSkeleton );
 
-    AE_MOVIE_PANIC_MEMORY( skeleton, AE_NULL );
+    AE_MOVIE_PANIC_MEMORY( skeleton, AE_NULLPTR );
 
     skeleton->base = _base;
 
     ae_uint32_t i = 0;
     for( ; i != 8; ++i )
     {
-        skeleton->animations[i] = AE_NULL;
+        skeleton->animations[i] = AE_NULLPTR;
     }
 
     return skeleton;
@@ -136,7 +136,7 @@ AE_INTERNAL ae_uint32_t __movie_skeleton_find_free_animation_place( aeMovieSkele
     ae_uint32_t i = 0;
     for( ; i != 8; ++i )
     {
-        if( _skeleton->animations[i] != AE_NULL )
+        if( _skeleton->animations[i] != AE_NULLPTR )
         {
             continue;
         }

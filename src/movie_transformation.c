@@ -44,7 +44,7 @@ AE_INTERNAL ae_constvoidptr_t __load_movie_layer_transformation_timeline( aeMovi
 
     ae_voidptr_t timeline = AE_NEWV( _stream->instance, zp_data_size, _doc );
 
-    AE_MOVIE_PANIC_MEMORY( timeline, AE_NULL );
+    AE_MOVIE_PANIC_MEMORY( timeline, AE_NULLPTR );
 
     AE_READV( _stream, timeline, (ae_size_t)zp_data_size );
 
@@ -277,12 +277,12 @@ AE_INTERNAL ae_void_t __make_movie_layer_transformation3d_immutable( ae_matrix34
     if( identity_property_mask & Mask )\
     {\
         _transformation->immutable.Name = Default;\
-        if( _transformation->timeline != AE_NULL ) {_transformation->timeline->Name = AE_NULL;}\
+        if( _transformation->timeline != AE_NULLPTR ) {_transformation->timeline->Name = AE_NULLPTR;}\
     }\
 	else if( immutable_property_mask & Mask )\
 	{\
 		AE_READ( _stream, _transformation->immutable.Name );\
-		if( _transformation->timeline != AE_NULL ) {_transformation->timeline->Name = AE_NULL;}\
+		if( _transformation->timeline != AE_NULLPTR ) {_transformation->timeline->Name = AE_NULLPTR;}\
 	}\
 	else\
 	{\
@@ -324,7 +324,7 @@ AE_INTERNAL ae_result_t __load_movie_layer_transformation2d( aeMovieStream * _st
     }
     else
     {
-        _transformation->immutable_matrix = AE_NULL;
+        _transformation->immutable_matrix = AE_NULLPTR;
     }
 
     return AE_RESULT_SUCCESSFUL;
@@ -368,7 +368,7 @@ AE_INTERNAL ae_result_t __load_movie_layer_transformation3d( aeMovieStream * _st
     }
     else
     {
-        _transformation->immutable_matrix = AE_NULL;
+        _transformation->immutable_matrix = AE_NULLPTR;
     }
 
     return AE_RESULT_SUCCESSFUL;
@@ -405,12 +405,12 @@ AE_CALLBACK ae_void_t __make_layer_transformation_fixed_immutable( ae_matrix34_t
 }
 //////////////////////////////////////////////////////////////////////////
 #define AE_INTERPOLATE_PROPERTY( Transformation, Name, OutName )\
-	OutName = (Transformation->timeline == AE_NULL || Transformation->timeline->Name == AE_NULL) ? Transformation->immutable.Name : __get_movie_layer_transformation_property_interpolate(\
+	OutName = (Transformation->timeline == AE_NULLPTR || Transformation->timeline->Name == AE_NULLPTR) ? Transformation->immutable.Name : __get_movie_layer_transformation_property_interpolate(\
 		Transformation->timeline->Name,\
 		_index, _t )
 //////////////////////////////////////////////////////////////////////////
 #define AE_FIXED_PROPERTY( Transformation, Name, Index, OutName)\
-	OutName = (Transformation->timeline == AE_NULL || Transformation->timeline->Name == AE_NULL) ? Transformation->immutable.Name : __get_movie_layer_transformation_property_fixed(\
+	OutName = (Transformation->timeline == AE_NULLPTR || Transformation->timeline->Name == AE_NULLPTR) ? Transformation->immutable.Name : __get_movie_layer_transformation_property_fixed(\
 		Transformation->timeline->Name,\
 		_index + Index )
 //////////////////////////////////////////////////////////////////////////
@@ -1002,7 +1002,7 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     {
         aeMovieLayerTransformation2D * transformation2d = (aeMovieLayerTransformation2D *)_transformation;
 
-        aeMovieLayerTransformation2DTimeline * timeline = AE_NULL;
+        aeMovieLayerTransformation2DTimeline * timeline = AE_NULLPTR;
 
         if( (immutable_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL) != AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL )
         {
@@ -1086,7 +1086,7 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     {
         aeMovieLayerTransformation3D * transformation3d = (aeMovieLayerTransformation3D *)_transformation;
 
-        aeMovieLayerTransformation3DTimeline * timeline = AE_NULL;
+        aeMovieLayerTransformation3DTimeline * timeline = AE_NULLPTR;
 
         if( (immutable_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL) != AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL )
         {
@@ -1170,12 +1170,12 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     if( identity_property_mask & AE_MOVIE_PROPERTY_COLOR_R )
     {
         _transformation->immutable_color.color_r = 1.f;
-        _transformation->timeline_color.color_r = AE_NULL;
+        _transformation->timeline_color.color_r = AE_NULLPTR;
     }
     else if( immutable_property_mask & AE_MOVIE_PROPERTY_COLOR_R )
     {
         AE_READF( _stream, _transformation->immutable_color.color_r );
-        _transformation->timeline_color.color_r = AE_NULL;
+        _transformation->timeline_color.color_r = AE_NULLPTR;
     }
     else
     {
@@ -1185,12 +1185,12 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     if( identity_property_mask & AE_MOVIE_PROPERTY_COLOR_G )
     {
         _transformation->immutable_color.color_g = 1.f;
-        _transformation->timeline_color.color_g = AE_NULL;
+        _transformation->timeline_color.color_g = AE_NULLPTR;
     }
     else if( immutable_property_mask & AE_MOVIE_PROPERTY_COLOR_G )
     {
         AE_READF( _stream, _transformation->immutable_color.color_g );
-        _transformation->timeline_color.color_g = AE_NULL;
+        _transformation->timeline_color.color_g = AE_NULLPTR;
     }
     else
     {
@@ -1200,12 +1200,12 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     if( identity_property_mask & AE_MOVIE_PROPERTY_COLOR_B )
     {
         _transformation->immutable_color.color_b = 1.f;
-        _transformation->timeline_color.color_b = AE_NULL;
+        _transformation->timeline_color.color_b = AE_NULLPTR;
     }
     else if( immutable_property_mask & AE_MOVIE_PROPERTY_COLOR_B )
     {
         AE_READF( _stream, _transformation->immutable_color.color_b );
-        _transformation->timeline_color.color_b = AE_NULL;
+        _transformation->timeline_color.color_b = AE_NULLPTR;
     }
     else
     {
@@ -1215,12 +1215,12 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     if( identity_property_mask & AE_MOVIE_PROPERTY_OPACITY )
     {
         _transformation->immutable_opacity = 1.f;
-        _transformation->timeline_opacity = AE_NULL;
+        _transformation->timeline_opacity = AE_NULLPTR;
     }
     else if( immutable_property_mask & AE_MOVIE_PROPERTY_OPACITY )
     {
         AE_READF( _stream, _transformation->immutable_opacity );
-        _transformation->timeline_opacity = AE_NULL;
+        _transformation->timeline_opacity = AE_NULLPTR;
     }
     else
     {
@@ -1263,7 +1263,7 @@ ae_result_t ae_movie_load_camera_transformation( aeMovieStream * _stream, aeMovi
 
     _camera->identity_property_mask = identity_property_mask;
 
-    aeMovieCompositionCameraTimeline * timeline = AE_NULL;
+    aeMovieCompositionCameraTimeline * timeline = AE_NULLPTR;
 
     if( (immutable_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_CAMERA) != AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_CAMERA )
     {
@@ -1281,7 +1281,7 @@ ae_result_t ae_movie_load_camera_transformation( aeMovieStream * _stream, aeMovi
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __delete_layer_transformation2d( const aeMovieInstance * _instance, const aeMovieLayerTransformation2D * _transformation )
 {
-    if( _transformation->timeline != AE_NULL )
+    if( _transformation->timeline != AE_NULLPTR )
     {
         aeMovieLayerTransformation2DTimeline * timeline = _transformation->timeline;
 
@@ -1303,7 +1303,7 @@ AE_INTERNAL ae_void_t __delete_layer_transformation2d( const aeMovieInstance * _
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __delete_layer_transformation3d( const aeMovieInstance * _instance, const aeMovieLayerTransformation3D * _transformation )
 {
-    if( _transformation->timeline != AE_NULL )
+    if( _transformation->timeline != AE_NULLPTR )
     {
         aeMovieLayerTransformation3DTimeline * timeline = _transformation->timeline;
 
@@ -1344,7 +1344,7 @@ ae_void_t ae_movie_delete_layer_transformation( const aeMovieInstance * _instanc
         __delete_layer_transformation3d( _instance, (const aeMovieLayerTransformation3D *)_transformation );
     }
 
-    if( _transformation->immutable_matrix != AE_NULL )
+    if( _transformation->immutable_matrix != AE_NULLPTR )
     {
         AE_DELETE( _instance, _transformation->immutable_matrix );
     }
@@ -1407,7 +1407,7 @@ ae_void_t ae_movie_make_camera_transformation( ae_vector3_t _target, ae_vector3_
 //////////////////////////////////////////////////////////////////////////
 ae_color_channel_t ae_movie_make_layer_color_r( const aeMovieLayerTransformation * _transformation, ae_uint32_t _index, ae_bool_t _interpolate, ae_float_t _t )
 {
-    if( _transformation->timeline_color.color_r == AE_NULL )
+    if( _transformation->timeline_color.color_r == AE_NULLPTR )
     {
         return _transformation->immutable_color.color_r;
     }
@@ -1428,7 +1428,7 @@ ae_color_channel_t ae_movie_make_layer_color_r( const aeMovieLayerTransformation
 //////////////////////////////////////////////////////////////////////////
 ae_color_channel_t ae_movie_make_layer_color_g( const aeMovieLayerTransformation * _transformation, ae_uint32_t _index, ae_bool_t _interpolate, ae_float_t _t )
 {
-    if( _transformation->timeline_color.color_g == AE_NULL )
+    if( _transformation->timeline_color.color_g == AE_NULLPTR )
     {
         return _transformation->immutable_color.color_g;
     }
@@ -1449,7 +1449,7 @@ ae_color_channel_t ae_movie_make_layer_color_g( const aeMovieLayerTransformation
 //////////////////////////////////////////////////////////////////////////
 ae_color_channel_t ae_movie_make_layer_color_b( const aeMovieLayerTransformation * _transformation, ae_uint32_t _index, ae_bool_t _interpolate, ae_float_t _t )
 {
-    if( _transformation->timeline_color.color_b == AE_NULL )
+    if( _transformation->timeline_color.color_b == AE_NULLPTR )
     {
         return _transformation->immutable_color.color_b;
     }
@@ -1470,7 +1470,7 @@ ae_color_channel_t ae_movie_make_layer_color_b( const aeMovieLayerTransformation
 //////////////////////////////////////////////////////////////////////////
 ae_color_channel_t ae_movie_make_layer_opacity( const aeMovieLayerTransformation * _transformation, ae_uint32_t _index, ae_bool_t _interpolate, ae_float_t _t )
 {
-    if( _transformation->timeline_opacity == AE_NULL )
+    if( _transformation->timeline_opacity == AE_NULLPTR )
     {
         return _transformation->immutable_opacity;
     }
@@ -1538,30 +1538,30 @@ ae_void_t ae_movie_make_layer_transformation2d_fixed( ae_vector2_t _anchor_point
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_movie_make_layer_transformation_color_interpolate( ae_color_t * _color, ae_color_channel_t * _opacity, const aeMovieLayerTransformation * _transformation, ae_uint32_t _index, ae_float_t _t )
 {
-    _color->r = (_transformation->timeline_color.color_r == AE_NULL) ?
+    _color->r = (_transformation->timeline_color.color_r == AE_NULLPTR) ?
         _transformation->immutable_color.color_r : __get_movie_layer_transformation_property_interpolate( _transformation->timeline_color.color_r, _index, _t );
 
-    _color->g = (_transformation->timeline_color.color_g == AE_NULL) ?
+    _color->g = (_transformation->timeline_color.color_g == AE_NULLPTR) ?
         _transformation->immutable_color.color_g : __get_movie_layer_transformation_property_interpolate( _transformation->timeline_color.color_g, _index, _t );
 
-    _color->b = (_transformation->timeline_color.color_b == AE_NULL) ?
+    _color->b = (_transformation->timeline_color.color_b == AE_NULLPTR) ?
         _transformation->immutable_color.color_b : __get_movie_layer_transformation_property_interpolate( _transformation->timeline_color.color_b, _index, _t );
 
-    *_opacity = (_transformation->timeline_opacity == AE_NULL) ?
+    *_opacity = (_transformation->timeline_opacity == AE_NULLPTR) ?
         _transformation->immutable_opacity : __get_movie_layer_transformation_property_interpolate( _transformation->timeline_opacity, _index, _t );
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_movie_make_layer_transformation_color_fixed( ae_color_t * _color, ae_color_channel_t * _opacity, const aeMovieLayerTransformation * _transformation, ae_uint32_t _index )
 {
-    _color->r = (_transformation->timeline_color.color_r == AE_NULL) ?
+    _color->r = (_transformation->timeline_color.color_r == AE_NULLPTR) ?
         _transformation->immutable_color.color_r : __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_r, _index );
 
-    _color->g = (_transformation->timeline_color.color_g == AE_NULL) ?
+    _color->g = (_transformation->timeline_color.color_g == AE_NULLPTR) ?
         _transformation->immutable_color.color_g : __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_g, _index );
 
-    _color->b = (_transformation->timeline_color.color_b == AE_NULL) ?
+    _color->b = (_transformation->timeline_color.color_b == AE_NULLPTR) ?
         _transformation->immutable_color.color_b : __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_b, _index );
 
-    *_opacity = (_transformation->timeline_opacity == AE_NULL) ?
+    *_opacity = (_transformation->timeline_opacity == AE_NULLPTR) ?
         _transformation->immutable_opacity : __get_movie_layer_transformation_property_fixed( _transformation->timeline_opacity, _index );
 }
