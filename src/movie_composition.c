@@ -644,6 +644,8 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
         _node->color.b = local_b;
 
         _node->opacity = local_opacity;
+        
+        _node->transparent = ae_equal_f_z( _node->opacity );
 
         return;
     }
@@ -694,6 +696,8 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
     _node->color.b = node_relative->composition_color.b * local_b;
 
     _node->opacity = node_relative->composition_opacity * local_opacity;
+
+    _node->transparent = ae_equal_f_z( _node->opacity );
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _node, ae_uint32_t _revision, const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, ae_uint32_t _frameId, ae_bool_t _interpolate, ae_float_t _t )
@@ -3014,7 +3018,14 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
         ae_float_t stretch_time = current_time * node->stretchInv;
         ae_float_t frame_time = stretch_time * frameDurationInv;
 
-        ae_uint32_t frameId = (ae_uint32_t)frame_time;
+        ae_uint32_t frameId2 = (ae_uint32_t)frame_time;
+        ae_uint32_t frameId = (ae_uint32_t)(frame_time + AE_MOVIE_FRAME_EPSILON);
+
+        ae_float_t frame_time_for_fractional = frame_time;
+        if( frameId != frameId2 )
+        {
+            frame_time_for_fractional = 0.f;
+        }
 
         if( node_layer->type == AE_MOVIE_LAYER_TYPE_EVENT )
         {
@@ -3121,7 +3132,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             if( node_interpolate == AE_TRUE )
             {
-                node->current_frame_t = ae_fractional_f( frame_time );
+                node->current_frame_t = ae_fractional_f( frame_time_for_fractional );
             }
 
             __update_node( _composition, _compositionData, _animation, _subcomposition, node, enumerator, _revision, animation_time, node->current_frame, node->current_frame_t, node_loop, node_interpolate, AE_TRUE );
@@ -3149,7 +3160,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             if( node_interpolate == AE_TRUE )
             {
-                node->current_frame_t = ae_fractional_f( frame_time );
+                node->current_frame_t = ae_fractional_f( frame_time_for_fractional );
             }
 
             ae_bool_t begin = (_end == AE_TRUE) ? AE_FALSE : AE_TRUE;
@@ -3890,6 +3901,11 @@ ae_bool_t ae_compute_movie_mesh( const aeMovieComposition * _composition, ae_uin
         }
 
         if( node->enable == AE_FALSE )
+        {
+            continue;
+        }
+
+        if( node->transparent == AE_TRUE )
         {
             continue;
         }
