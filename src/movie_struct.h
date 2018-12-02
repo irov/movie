@@ -447,9 +447,6 @@ struct aeMovieLayerExtensionShader
     ae_string_t name;
     ae_uint32_t version;
 
-    ae_string_t shader_vertex;
-    ae_string_t shader_fragment;
-
     ae_uint32_t parameter_count;
     const struct aeMovieLayerShaderParameter ** parameters;
 

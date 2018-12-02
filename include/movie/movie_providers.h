@@ -246,9 +246,6 @@ typedef struct aeMovieShaderProviderCallbackData
     ae_string_t name;
     ae_uint32_t version;
 
-    ae_string_t shader_vertex;
-    ae_string_t shader_fragment;
-
     ae_uint32_t parameter_count;
     ae_string_t parameter_names[32];
     ae_string_t parameter_uniforms[32];

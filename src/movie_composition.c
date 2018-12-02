@@ -1699,8 +1699,6 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
         aeMovieShaderProviderCallbackData callbackData;
         callbackData.name = shader->name;
         callbackData.version = shader->version;
-        callbackData.shader_vertex = shader->shader_vertex;
-        callbackData.shader_fragment = shader->shader_fragment;
         callbackData.parameter_count = shader->parameter_count;
 
         const struct aeMovieLayerShaderParameter ** it_parameter = shader->parameters;

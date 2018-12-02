@@ -366,8 +366,6 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
                     const aeMovieLayerExtensionShader * shader = extensions->shader;
 
                     AE_DELETE_STRING( instance, shader->name );
-                    AE_DELETE_STRING( instance, shader->shader_vertex );
-                    AE_DELETE_STRING( instance, shader->shader_fragment );
 
                     const struct aeMovieLayerShaderParameter ** it_parameter = shader->parameters;
                     const struct aeMovieLayerShaderParameter ** it_parameter_end = shader->parameters + shader->parameter_count;
@@ -900,9 +898,6 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
 
                 AE_READ_STRING( _stream, layer_shader->name );
                 AE_READ( _stream, layer_shader->version );
-
-                AE_READ_STRING( _stream, layer_shader->shader_vertex );
-                AE_READ_STRING( _stream, layer_shader->shader_fragment );
 
                 layer_shader->parameter_count = AE_READZ( _stream );
 
