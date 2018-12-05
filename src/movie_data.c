@@ -377,6 +377,7 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
                         const struct aeMovieLayerShaderParameter * parameter = *it_parameter;
 
                         AE_DELETE_STRING( instance, parameter->name );
+                        AE_DELETE_STRING( instance, parameter->uniform );
 
                         aeMovieShaderParameterTypeEnum parameter_type = parameter->type;
 
@@ -398,7 +399,12 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
 
                                 AE_DELETE( instance, parameter_color->property_color );
                             }break;
+                        case AE_MOVIE_EXTENSION_SHADER_PARAMETER_TIME:
+                            {
+                            }break;
                         }
+
+                        AE_DELETE( instance, parameter );
                     }
 
                     AE_DELETEN( instance, shader->parameters );
@@ -898,6 +904,7 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
 
                 AE_READ_STRING( _stream, layer_shader->name );
                 AE_READ( _stream, layer_shader->version );
+                AE_READ( _stream, layer_shader->flags );
 
                 layer_shader->parameter_count = AE_READZ( _stream );
 
@@ -956,6 +963,20 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
                             parameter_color->property_color = property_color;
 
                             *it_parameter = (struct aeMovieLayerShaderParameter *)parameter_color;
+                        }break;
+                    case AE_MOVIE_EXTENSION_SHADER_PARAMETER_TIME:
+                        {
+                            struct aeMovieLayerShaderParameterTime * parameter_time = AE_NEW( _stream->instance, struct aeMovieLayerShaderParameterTime );
+
+                            AE_RESULT_PANIC_MEMORY( parameter_time );
+
+                            parameter_time->type = paramater_type;
+                            AE_READ_STRING( _stream, parameter_time->name );
+                            AE_READ_STRING( _stream, parameter_time->uniform );
+
+                            AE_READ( _stream, parameter_time->scale );
+
+                            *it_parameter = (struct aeMovieLayerShaderParameter *)parameter_time;
                         }break;
                     }
                 }

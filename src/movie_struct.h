@@ -428,13 +428,6 @@ struct aeMovieLayerShaderParameter
 
 };
 //////////////////////////////////////////////////////////////////////////
-struct aeMovieLayerShaderParameterColor
-{
-    AE_MOVIE_SHADER_PARAMETER_BASE();
-
-    const struct aeMoviePropertyColor * property_color;
-};
-//////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerShaderParameterSlider
 {
     AE_MOVIE_SHADER_PARAMETER_BASE();
@@ -442,10 +435,25 @@ struct aeMovieLayerShaderParameterSlider
     const struct aeMoviePropertyValue * property_value;
 };
 //////////////////////////////////////////////////////////////////////////
+struct aeMovieLayerShaderParameterColor
+{
+    AE_MOVIE_SHADER_PARAMETER_BASE();
+
+    const struct aeMoviePropertyColor * property_color;
+};
+//////////////////////////////////////////////////////////////////////////
+struct aeMovieLayerShaderParameterTime
+{
+    AE_MOVIE_SHADER_PARAMETER_BASE();
+
+    ae_float_t scale;
+};
+//////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerExtensionShader
 {
     ae_string_t name;
     ae_uint32_t version;
+    ae_uint32_t flags;
 
     ae_uint32_t parameter_count;
     const struct aeMovieLayerShaderParameter ** parameters;

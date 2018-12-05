@@ -759,10 +759,11 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
                 callbackData.name = parameter_slider->name;
                 callbackData.uniform = parameter_slider->uniform;
                 callbackData.type = parameter_slider->type;
-                callbackData.color.r = 0.f;
-                callbackData.color.g = 0.f;
-                callbackData.color.b = 0.f;
+                callbackData.color.r = 1.f;
+                callbackData.color.g = 1.f;
+                callbackData.color.b = 1.f;
                 callbackData.value = value;
+                callbackData.scale = 1.f;
 
                 (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
             }break;
@@ -786,6 +787,25 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
                 callbackData.color.g = color_g;
                 callbackData.color.b = color_b;
                 callbackData.value = 0.f;
+                callbackData.scale = 1.f;
+
+                (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
+            }break;
+        case AE_MOVIE_EXTENSION_SHADER_PARAMETER_TIME:
+            {
+                const struct aeMovieLayerShaderParameterTime * parameter_time = (const struct aeMovieLayerShaderParameterTime *)parameter;
+
+                aeMovieShaderPropertyUpdateCallbackData callbackData;
+                callbackData.index = index;
+                callbackData.element_userdata = _node->shader_userdata;
+                callbackData.name = parameter_time->name;
+                callbackData.uniform = parameter_time->uniform;
+                callbackData.type = parameter_time->type;
+                callbackData.color.r = 1.f;
+                callbackData.color.g = 1.f;
+                callbackData.color.b = 1.f;
+                callbackData.value = 0.f;
+                callbackData.scale = parameter_time->scale;
 
                 (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
             }break;
@@ -1699,6 +1719,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
         aeMovieShaderProviderCallbackData callbackData;
         callbackData.name = shader->name;
         callbackData.version = shader->version;
+        callbackData.flags = shader->flags;
         callbackData.parameter_count = shader->parameter_count;
 
         const struct aeMovieLayerShaderParameter ** it_parameter = shader->parameters;
@@ -1715,7 +1736,62 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
             callbackData.parameter_names[paremeter_index] = parameter->name;
             callbackData.parameter_uniforms[paremeter_index] = parameter->uniform;
             callbackData.parameter_types[paremeter_index] = parameter->type;
-            paremeter_index++;
+
+            switch( parameter->type )
+            {
+            case AE_MOVIE_EXTENSION_SHADER_PARAMETER_SLIDER:
+                {
+                    const struct aeMovieLayerShaderParameterSlider * parameter_slider = (const struct aeMovieLayerShaderParameterSlider *)parameter;
+
+                    ae_float_t value = __compute_movie_property_value( parameter_slider->property_value, 0, AE_FALSE, 0.f );
+
+                    callbackData.parameter_values[paremeter_index] = value;
+
+                    ae_color_t color_white;
+                    color_white.r = 1.f;
+                    color_white.g = 1.f;
+                    color_white.b = 1.f;
+                    callbackData.parameter_colors[paremeter_index] = color_white;
+
+                    callbackData.parameter_scales[paremeter_index] = 1.f;
+                }break;
+            case AE_MOVIE_EXTENSION_SHADER_PARAMETER_COLOR:
+                {
+                    const struct aeMovieLayerShaderParameterColor * parameter_color = (const struct aeMovieLayerShaderParameterColor *)parameter;
+
+                    const struct aeMoviePropertyColor * property_color = parameter_color->property_color;
+
+                    ae_color_channel_t color_r = __compute_movie_property_color_channel( property_color->color_channel_r, 0, AE_FALSE, 0.f );
+                    ae_color_channel_t color_g = __compute_movie_property_color_channel( property_color->color_channel_g, 0, AE_FALSE, 0.f );
+                    ae_color_channel_t color_b = __compute_movie_property_color_channel( property_color->color_channel_b, 0, AE_FALSE, 0.f );
+
+                    callbackData.parameter_values[paremeter_index] = 0.f;
+
+                    ae_color_t color_value;
+                    color_value.r = color_r;
+                    color_value.g = color_g;
+                    color_value.b = color_b;
+                    callbackData.parameter_colors[paremeter_index] = color_value;
+
+                    callbackData.parameter_scales[paremeter_index] = 1.f;
+                }break;
+            case AE_MOVIE_EXTENSION_SHADER_PARAMETER_TIME:
+                {
+                    const struct aeMovieLayerShaderParameterTime * parameter_time = (const struct aeMovieLayerShaderParameterTime *)parameter;
+
+                    callbackData.parameter_values[paremeter_index] = 0.f;
+
+                    ae_color_t color_white;
+                    color_white.r = 1.f;
+                    color_white.g = 1.f;
+                    color_white.b = 1.f;
+                    callbackData.parameter_colors[paremeter_index] = color_white;
+
+                    callbackData.parameter_scales[paremeter_index] = parameter_time->scale;
+                }break;
+            }
+
+            ++paremeter_index;
         }
 
         ae_userdata_t shader_userdata = AE_USERDATA_NULL;

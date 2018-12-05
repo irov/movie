@@ -245,11 +245,16 @@ typedef struct aeMovieShaderProviderCallbackData
 {
     ae_string_t name;
     ae_uint32_t version;
+    ae_uint32_t flags;
 
     ae_uint32_t parameter_count;
     ae_string_t parameter_names[32];
     ae_string_t parameter_uniforms[32];
     ae_uint8_t parameter_types[32];
+    ae_float_t parameter_values[32];
+    ae_color_t parameter_colors[32];
+    ae_float_t parameter_scales[32];
+
 } aeMovieShaderProviderCallbackData;
 
 typedef struct aeMovieShaderPropertyUpdateCallbackData
@@ -263,8 +268,9 @@ typedef struct aeMovieShaderPropertyUpdateCallbackData
     aeMovieShaderParameterTypeEnum type;
 
     ae_color_t color;
-
     ae_float_t value;
+    ae_float_t scale;
+
 } aeMovieShaderPropertyUpdateCallbackData;
 
 typedef struct aeMovieShaderDeleterCallbackData
