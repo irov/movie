@@ -366,6 +366,7 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
                     const aeMovieLayerExtensionShader * shader = extensions->shader;
 
                     AE_DELETE_STRING( instance, shader->name );
+                    AE_DELETE_STRING( instance, shader->description );
 
                     const struct aeMovieLayerShaderParameter ** it_parameter = shader->parameters;
                     const struct aeMovieLayerShaderParameter ** it_parameter_end = shader->parameters + shader->parameter_count;
@@ -390,6 +391,14 @@ ae_void_t ae_delete_movie_data( const aeMovieData * _movieData )
                                 __delete_property_value( instance, parameter_slider->property_value );
 
                                 AE_DELETE( instance, parameter_slider->property_value );
+                            }break;
+                        case AE_MOVIE_EXTENSION_SHADER_PARAMETER_ANGLE:
+                            {
+                                const struct aeMovieLayerShaderParameterAngle * parameter_angle = (const struct aeMovieLayerShaderParameterAngle *)parameter;
+
+                                __delete_property_value( instance, parameter_angle->property_value );
+
+                                AE_DELETE( instance, parameter_angle->property_value );
                             }break;
                         case AE_MOVIE_EXTENSION_SHADER_PARAMETER_COLOR:
                             {
@@ -903,6 +912,7 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
                 AE_RESULT_PANIC_MEMORY( layer_shader );
 
                 AE_READ_STRING( _stream, layer_shader->name );
+                AE_READ_STRING( _stream, layer_shader->description );
                 AE_READ( _stream, layer_shader->version );
                 AE_READ( _stream, layer_shader->flags );
 
@@ -943,6 +953,26 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
                             parameter_slider->property_value = property_value;
 
                             *it_parameter = (struct aeMovieLayerShaderParameter *)parameter_slider;
+                        }break;
+                    case AE_MOVIE_EXTENSION_SHADER_PARAMETER_ANGLE:
+                        {
+                            struct aeMovieLayerShaderParameterAngle * parameter_angle = AE_NEW( _stream->instance, struct aeMovieLayerShaderParameterAngle );
+
+                            AE_RESULT_PANIC_MEMORY( parameter_angle );
+
+                            parameter_angle->type = paramater_type;
+                            AE_READ_STRING( _stream, parameter_angle->name );
+                            AE_READ_STRING( _stream, parameter_angle->uniform );
+
+                            struct aeMoviePropertyValue * property_value = AE_NEW( _stream->instance, struct aeMoviePropertyValue );
+
+                            AE_RESULT_PANIC_MEMORY( property_value );
+
+                            AE_RESULT( __load_movie_property_value, (_stream, _layer, property_value) );
+
+                            parameter_angle->property_value = property_value;
+
+                            *it_parameter = (struct aeMovieLayerShaderParameter *)parameter_angle;
                         }break;
                     case AE_MOVIE_EXTENSION_SHADER_PARAMETER_COLOR:
                         {

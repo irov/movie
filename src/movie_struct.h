@@ -435,6 +435,13 @@ struct aeMovieLayerShaderParameterSlider
     const struct aeMoviePropertyValue * property_value;
 };
 //////////////////////////////////////////////////////////////////////////
+struct aeMovieLayerShaderParameterAngle
+{
+    AE_MOVIE_SHADER_PARAMETER_BASE();
+
+    const struct aeMoviePropertyValue * property_value;
+};
+//////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerShaderParameterColor
 {
     AE_MOVIE_SHADER_PARAMETER_BASE();
@@ -452,6 +459,7 @@ struct aeMovieLayerShaderParameterTime
 struct aeMovieLayerExtensionShader
 {
     ae_string_t name;
+    ae_string_t description;
     ae_uint32_t version;
     ae_uint32_t flags;
 

@@ -767,6 +767,26 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _nod
 
                 (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
             }break;
+        case AE_MOVIE_EXTENSION_SHADER_PARAMETER_ANGLE:
+            {
+                const struct aeMovieLayerShaderParameterAngle * parameter_angle = (const struct aeMovieLayerShaderParameterAngle *)parameter;
+
+                ae_float_t value = __compute_movie_property_value( parameter_angle->property_value, _frameId, _interpolate, _t );
+
+                aeMovieShaderPropertyUpdateCallbackData callbackData;
+                callbackData.index = index;
+                callbackData.element_userdata = _node->shader_userdata;
+                callbackData.name = parameter_angle->name;
+                callbackData.uniform = parameter_angle->uniform;
+                callbackData.type = parameter_angle->type;
+                callbackData.color.r = 1.f;
+                callbackData.color.g = 1.f;
+                callbackData.color.b = 1.f;
+                callbackData.value = value;
+                callbackData.scale = 1.f;
+
+                (*_composition->providers.shader_property_update)(&callbackData, _composition->provider_userdata);
+            }break;
         case AE_MOVIE_EXTENSION_SHADER_PARAMETER_COLOR:
             {
                 const struct aeMovieLayerShaderParameterColor * parameter_color = (const struct aeMovieLayerShaderParameterColor *)parameter;
@@ -1718,6 +1738,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
 
         aeMovieShaderProviderCallbackData callbackData;
         callbackData.name = shader->name;
+        callbackData.description = shader->description;
         callbackData.version = shader->version;
         callbackData.flags = shader->flags;
         callbackData.parameter_count = shader->parameter_count;
@@ -1744,6 +1765,22 @@ AE_INTERNAL ae_bool_t __setup_movie_node_shader( aeMovieComposition * _compositi
                     const struct aeMovieLayerShaderParameterSlider * parameter_slider = (const struct aeMovieLayerShaderParameterSlider *)parameter;
 
                     ae_float_t value = __compute_movie_property_value( parameter_slider->property_value, 0, AE_FALSE, 0.f );
+
+                    callbackData.parameter_values[paremeter_index] = value;
+
+                    ae_color_t color_white;
+                    color_white.r = 1.f;
+                    color_white.g = 1.f;
+                    color_white.b = 1.f;
+                    callbackData.parameter_colors[paremeter_index] = color_white;
+
+                    callbackData.parameter_scales[paremeter_index] = 1.f;
+                }break;
+            case AE_MOVIE_EXTENSION_SHADER_PARAMETER_ANGLE:
+                {
+                    const struct aeMovieLayerShaderParameterAngle * parameter_angle = (const struct aeMovieLayerShaderParameterAngle *)parameter;
+
+                    ae_float_t value = __compute_movie_property_value( parameter_angle->property_value, 0, AE_FALSE, 0.f );
 
                     callbackData.parameter_values[paremeter_index] = value;
 
