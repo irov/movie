@@ -40,7 +40,6 @@ typedef struct aeMovieResourceSolid
     ae_float_t height;
 
     ae_color_t color;
-
 } aeMovieResourceSolid;
 
 typedef enum
@@ -69,7 +68,6 @@ typedef struct aeMovieResourceVideo
     ae_time_t duration; //No TIMESCALE
 
     const struct aeMovieResourceVideoCache * cache;
-
 } aeMovieResourceVideo;
 
 typedef struct aeMovieResourceSound
@@ -80,7 +78,6 @@ typedef struct aeMovieResourceSound
     ae_uint32_t codec;
 
     ae_time_t duration; //No TIMESCALE
-
 } aeMovieResourceSound;
 
 typedef enum
@@ -114,7 +111,6 @@ typedef struct aeMovieResourceImage
     ae_bool_t atlas_rotate;
 
     const struct aeMovieResourceImageCache * cache;
-
 } aeMovieResourceImage;
 
 typedef struct aeMovieResourceSequence
@@ -125,7 +121,6 @@ typedef struct aeMovieResourceSequence
 
     ae_uint32_t image_count;
     const aeMovieResourceImage * const * images;
-
 } aeMovieResourceSequence;
 
 typedef struct aeMovieResourceParticle
@@ -137,7 +132,6 @@ typedef struct aeMovieResourceParticle
 
     ae_uint32_t image_count;
     const aeMovieResourceImage * const * images;
-
 } aeMovieResourceParticle;
 
 typedef struct aeMovieResourceSlot
@@ -146,7 +140,6 @@ typedef struct aeMovieResourceSlot
 
     ae_float_t width;
     ae_float_t height;
-
 } aeMovieResourceSlot;
 
 #endif

@@ -78,7 +78,6 @@ typedef struct aeMovieCompositionRenderInfo
     ae_uint32_t max_render_node;
     ae_uint32_t max_vertex_count;
     ae_uint32_t max_index_count;
-
 } aeMovieCompositionRenderInfo;
 
 /**

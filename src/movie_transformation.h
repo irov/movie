@@ -78,7 +78,6 @@ typedef enum aeMoviePropertyImmutableEnum
     AE_MOVIE_PROPERTY_COLOR_SUPER_ALL = AE_MOVIE_PROPERTY_NONE
     | AE_MOVIE_PROPERTY_COLOR_R | AE_MOVIE_PROPERTY_COLOR_G | AE_MOVIE_PROPERTY_COLOR_B
     | AE_MOVIE_PROPERTY_OPACITY,
-
 } aeMoviePropertyImmutableEnum;
 
 typedef struct aeMovieLayerTransformation2DImuttable
@@ -94,7 +93,6 @@ typedef struct aeMovieLayerTransformation2DImuttable
     ae_float_t skew;
     ae_float_t skew_quaternion_z;
     ae_float_t skew_quaternion_w;
-
 }aeMovieLayerTransformation2DImuttable;
 
 typedef struct aeMovieLayerTransformation3DImuttable
@@ -115,7 +113,6 @@ typedef struct aeMovieLayerTransformation3DImuttable
     ae_float_t skew;
     ae_float_t skew_quaternion_z;
     ae_float_t skew_quaternion_w;
-
 }aeMovieLayerTransformation3DImuttable;
 
 typedef struct aeMovieLayerTransformation2DTimeline
@@ -131,7 +128,6 @@ typedef struct aeMovieLayerTransformation2DTimeline
     ae_constvoidptr_t skew;
     ae_constvoidptr_t skew_quaternion_z;
     ae_constvoidptr_t skew_quaternion_w;
-
 }aeMovieLayerTransformation2DTimeline;
 
 typedef struct aeMovieLayerTransformation3DTimeline
@@ -152,7 +148,6 @@ typedef struct aeMovieLayerTransformation3DTimeline
     ae_constvoidptr_t skew;
     ae_constvoidptr_t skew_quaternion_z;
     ae_constvoidptr_t skew_quaternion_w;
-
 }aeMovieLayerTransformation3DTimeline;
 
 typedef struct aeMovieLayerColorImuttable
@@ -160,7 +155,6 @@ typedef struct aeMovieLayerColorImuttable
     ae_color_channel_t color_r;
     ae_color_channel_t color_g;
     ae_color_channel_t color_b;
-
 }aeMovieLayerColorImuttable;
 
 typedef struct aeMovieLayerColorTimeline
@@ -168,7 +162,6 @@ typedef struct aeMovieLayerColorTimeline
     ae_constvoidptr_t color_r;
     ae_constvoidptr_t color_g;
     ae_constvoidptr_t color_b;
-
 }aeMovieLayerColorTimeline;
 
 struct aeMovieLayerTransformation;
@@ -190,7 +183,6 @@ typedef ae_void_t( *ae_movie_make_layer_transformation_fixed_t )(ae_matrix34_t _
 typedef struct aeMovieLayerTransformation
 {
     AE_MOVIE_LAYER_TRANSFORMATION_BASE();
-
 } aeMovieLayerTransformation;
 
 typedef struct aeMovieLayerTransformation2D
@@ -199,7 +191,6 @@ typedef struct aeMovieLayerTransformation2D
 
     aeMovieLayerTransformation2DImuttable immutable;
     aeMovieLayerTransformation2DTimeline * timeline;
-
 } aeMovieLayerTransformation2D;
 
 typedef struct aeMovieLayerTransformation3D
@@ -208,7 +199,6 @@ typedef struct aeMovieLayerTransformation3D
 
     aeMovieLayerTransformation3DImuttable immutable;
     aeMovieLayerTransformation3DTimeline * timeline;
-
 } aeMovieLayerTransformation3D;
 
 ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovieLayerTransformation * _transformation, ae_bool_t _threeD );

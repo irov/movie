@@ -40,7 +40,6 @@ typedef struct aeMovieSkeleton
     aeMovieComposition * base;
 
     aeMovieComposition * animations[8];
-
 } aeMovieSkeleton;
 
 aeMovieSkeleton * ae_movie_create_skeleton( aeMovieComposition * _base );

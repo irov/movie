@@ -76,7 +76,6 @@ typedef struct aeMovieCameraProviderCallbackData
     ae_vector3_t target;
     ae_vector3_t position;
     ae_quaternion_t quaternion;
-
 } aeMovieCameraProviderCallbackData;
 
 typedef struct aeMovieCameraDeleterCallbackData
@@ -238,7 +237,6 @@ typedef struct aeMovieTrackMatteDeleterCallbackData
     const aeMovieLayerData * layer;
 
     ae_userdata_t track_matte_userdata;
-
 } aeMovieTrackMatteDeleterCallbackData;
 
 typedef struct aeMovieShaderProviderCallbackData
@@ -255,7 +253,6 @@ typedef struct aeMovieShaderProviderCallbackData
     ae_float_t parameter_values[32];
     ae_color_t parameter_colors[32];
     ae_float_t parameter_scales[32];
-
 } aeMovieShaderProviderCallbackData;
 
 typedef struct aeMovieShaderPropertyUpdateCallbackData
@@ -271,7 +268,6 @@ typedef struct aeMovieShaderPropertyUpdateCallbackData
     ae_color_t color;
     ae_float_t value;
     ae_float_t scale;
-
 } aeMovieShaderPropertyUpdateCallbackData;
 
 typedef struct aeMovieShaderDeleterCallbackData
@@ -282,7 +278,6 @@ typedef struct aeMovieShaderDeleterCallbackData
 
     ae_string_t name;
     ae_uint32_t version;
-
 } aeMovieShaderDeleterCallbackData;
 
 typedef struct aeMovieCompositionEventCallbackData
@@ -325,13 +320,11 @@ typedef struct aeMovieCompositionStateCallbackData
 {
     /// @brief New composition state.
     aeMovieCompositionStateEnum state;
-
 } aeMovieCompositionStateCallbackData;
 
 typedef struct aeMovieCompositionExtraInterruptCallbackData
 {
     ae_uint32_t dummy;
-
 } aeMovieCompositionExtraInterruptCallbackData;
 
 typedef struct aeMovieCompositionSceneEffectProviderCallbackData
@@ -349,7 +342,6 @@ typedef struct aeMovieCompositionSceneEffectProviderCallbackData
 
     ae_color_t color;
     ae_color_channel_t opacity;
-
 } aeMovieCompositionSceneEffectProviderCallbackData;
 
 typedef struct aeMovieCompositionSceneEffectDeleterCallbackData
@@ -357,7 +349,6 @@ typedef struct aeMovieCompositionSceneEffectDeleterCallbackData
     ae_userdata_t element_userdata;
 
     ae_userdata_t scene_effect_userdata;
-
 } aeMovieCompositionSceneEffectDeleterCallbackData;
 
 typedef struct aeMovieCompositionSceneEffectUpdateCallbackData
@@ -375,7 +366,6 @@ typedef struct aeMovieCompositionSceneEffectUpdateCallbackData
     ae_color_channel_t opacity;
 
     ae_userdata_t scene_effect_userdata;
-
 } aeMovieCompositionSceneEffectUpdateCallbackData;
 
 typedef struct aeMovieSubCompositionProviderCallbackData
@@ -383,13 +373,11 @@ typedef struct aeMovieSubCompositionProviderCallbackData
     const aeMovieLayerData * layer;
     const aeMovieCompositionData * composition_data;
     const struct aeMovieCompositionAnimation * animation;
-
 } aeMovieSubCompositionProviderCallbackData;
 
 typedef struct aeMovieSubCompositionDeleterCallbackData
 {
     ae_userdata_t subcomposition_userdata;
-
 } aeMovieSubCompositionDeleterCallbackData;
 
 typedef struct aeMovieSubCompositionStateCallbackData
@@ -398,7 +386,6 @@ typedef struct aeMovieSubCompositionStateCallbackData
     aeMovieCompositionStateEnum state;
 
     ae_userdata_t subcomposition_userdata;
-
 } aeMovieSubCompositionStateCallbackData;
 
 typedef ae_bool_t( *ae_movie_composition_callback_node_provider_t )(const aeMovieNodeProviderCallbackData * _callbackData, ae_userdataptr_t _nd, ae_userdata_t _ud);
@@ -458,7 +445,6 @@ typedef struct aeMovieCompositionProviders
     ae_movie_composition_callback_subcomposition_provider_t subcomposition_provider;
     ae_movie_composition_callback_subcomposition_deleter_t subcomposition_deleter;
     ae_movie_composition_callback_subcomposition_state_t subcomposition_state;
-
 } aeMovieCompositionProviders;
 
 ae_void_t ae_clear_movie_composition_providers( aeMovieCompositionProviders * _providers );
