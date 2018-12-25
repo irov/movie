@@ -83,14 +83,12 @@ typedef struct
     ae_color_channel_t r;
     ae_color_channel_t g;
     ae_color_channel_t b;
-
 } ae_color_t;
 
 typedef struct
 {
     ae_uint32_t point_count;
     const ae_vector2_t * points;
-
 } ae_polygon_t;
 
 typedef struct
@@ -99,7 +97,6 @@ typedef struct
     ae_float_t begin_y;
     ae_float_t end_x;
     ae_float_t end_y;
-
 } ae_viewport_t;
 
 typedef struct
@@ -109,7 +106,6 @@ typedef struct
     const ae_vector2_t * positions;
     const ae_vector2_t * uvs;
     const ae_uint16_t * indices;
-
 } ae_mesh_t;
 
 typedef struct aeMovieStream aeMovieStream;
@@ -154,7 +150,6 @@ typedef enum
 typedef struct aeMovieResource
 {
     AE_MOVIE_RESOURCE_BASE();
-
 } aeMovieResource;
 
 typedef enum

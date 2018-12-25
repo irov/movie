@@ -40,7 +40,6 @@ typedef struct aeMovieBezierWarp
 {
     ae_vector2_t corners[4];
     ae_vector2_t beziers[8];
-
 } aeMovieBezierWarp;
 //////////////////////////////////////////////////////////////////////////
 typedef enum aeMovieLayerExtensionEnum
@@ -72,7 +71,6 @@ typedef struct aeMovieLayerExtensions
     const aeMovieLayerExtensionShader * shader;
     const aeMovieLayerExtensionViewport * viewport;
     const aeMovieLayerExtensionVolume * volume;
-
 } aeMovieLayerExtensions;
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __clear_layer_extensions( aeMovieLayerExtensions * _extensions )
@@ -369,7 +367,6 @@ struct aeMovieLayerData
 struct aeMovieLayerExtensionTimeremap
 {
     const ae_float_t * times;
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerExtensionMesh
@@ -378,7 +375,6 @@ struct aeMovieLayerExtensionMesh
     ae_mesh_t immutable_mesh;
 
     const ae_mesh_t * meshes;
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerExtensionBezierWarp
@@ -389,7 +385,6 @@ struct aeMovieLayerExtensionBezierWarp
     const aeMovieBezierWarp * bezier_warps;
 
     ae_uint32_t quality;
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMoviePropertyValue
@@ -425,7 +420,6 @@ struct aeMoviePropertyColor
 struct aeMovieLayerShaderParameter
 {
     AE_MOVIE_SHADER_PARAMETER_BASE();
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerShaderParameterSlider
@@ -465,13 +459,11 @@ struct aeMovieLayerExtensionShader
 
     ae_uint32_t parameter_count;
     const struct aeMovieLayerShaderParameter ** parameters;
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerExtensionViewport
 {
     ae_viewport_t viewport;
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerExtensionVolume
@@ -485,7 +477,6 @@ struct aeMovieLayerExtensionPolygon
     ae_polygon_t immutable_polygon;
 
     const ae_polygon_t * polygons;
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieResourceImageCache
@@ -493,14 +484,12 @@ struct aeMovieResourceImageCache
     ae_userdata_t uv_cache_userdata;
     ae_userdata_t mesh_uv_cache_userdata;
     ae_userdata_t bezier_warp_uv_cache_userdata[AE_MOVIE_BEZIER_MAX_QUALITY];
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieResourceVideoCache
 {
     ae_userdata_t uv_cache_userdata;
     ae_userdata_t bezier_warp_uv_cache_userdata[AE_MOVIE_BEZIER_MAX_QUALITY];
-
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerCache

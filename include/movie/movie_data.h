@@ -98,7 +98,6 @@ typedef enum aeMovieCompositionFlag
 typedef struct aeMovieDataCacheUVAvailableCallbackData
 {
 	ae_uint32_t dummy;
-
 } aeMovieDataCacheUVAvailableCallbackData;
 
 typedef struct aeMovieDataCacheUVProviderCallbackData
@@ -107,13 +106,11 @@ typedef struct aeMovieDataCacheUVProviderCallbackData
 
     ae_uint32_t vertex_count;
     const ae_vector2_t * uvs;
-
 } aeMovieDataCacheUVProviderCallbackData;
 
 typedef struct aeMovieDataCacheUVDeleterCallbackData
 {
     ae_userdata_t uv_cache_userdata;
-
 } aeMovieDataCacheUVDeleterCallbackData;
 
 /**
@@ -137,7 +134,6 @@ typedef struct aeMovieDataProviders
 	ae_movie_data_callback_cache_uv_available_t cache_uv_available;
     ae_movie_data_callback_cache_uv_provider_t cache_uv_provider;
     ae_movie_data_callback_cache_uv_deleter_t cache_uv_deleter;
-
 } aeMovieDataProviders;
 
 ae_void_t ae_clear_movie_data_providers( aeMovieDataProviders * _providers );
