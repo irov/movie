@@ -1160,11 +1160,11 @@ void Composition::FlushDraw()
             {
                 if( mPremultipliedAlpha )
                 {
-                    glBlendFunc( GL_SRC_ALPHA, GL_ONE );
+                    glBlendFunc( GL_ONE, GL_ONE );
                 }
                 else
                 {
-                    glBlendFunc( GL_ONE, GL_ONE );
+                    glBlendFunc( GL_SRC_ALPHA, GL_ONE );                    
                 }
             } break;
         }
