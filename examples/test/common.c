@@ -410,6 +410,9 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
                 break;
             }
         }break;
+    case AE_MOVIE_STATE_UPDATE_SEEK:
+        {
+        }break;
     case AE_MOVIE_STATE_UPDATE_SKIP:
         {
         }break;
@@ -480,6 +483,12 @@ ae_void_t ex_callback_track_matte_update( const aeMovieTrackMatteUpdateCallbackD
     case AE_MOVIE_STATE_UPDATE_END:
         {
             EX_LOG( " AE_MOVIE_STATE_UPDATE_END\n" );
+
+            // Do nothing.
+        }break;
+    case AE_MOVIE_STATE_UPDATE_SEEK:
+        {
+            EX_LOG( " AE_MOVIE_STATE_UPDATE_SEEK\n" );
 
             // Do nothing.
         }break;
