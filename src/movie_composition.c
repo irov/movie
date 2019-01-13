@@ -2791,6 +2791,27 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
     callbackData.opacity = _node->opacity;
     callbackData.volume = _node->volume;
 
+    if( _animation->play == AE_FALSE )
+    {
+        callbackData.state = AE_MOVIE_STATE_UPDATE_SEEK;
+
+        ae_float_t offset = layer->start_time + _time - _node->in_time;
+
+        if( offset < 0.f )
+        {
+            offset = 0.f;
+        }
+        else if( offset > layer->composition_data->duration )
+        {
+            offset = layer->composition_data->duration;
+        }
+
+        callbackData.offset = AE_TIME_OUTSCALE( offset );
+
+        (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
+
+        return;
+    }
 
     if( _begin == AE_TRUE )
     {

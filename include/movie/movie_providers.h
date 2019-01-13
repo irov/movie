@@ -56,7 +56,8 @@ typedef enum
     AE_MOVIE_STATE_UPDATE_RESUME,
     AE_MOVIE_STATE_UPDATE_STOP,
     AE_MOVIE_STATE_UPDATE_END,
-    AE_MOVIE_STATE_UPDATE_SKIP
+    AE_MOVIE_STATE_UPDATE_SEEK,
+    AE_MOVIE_STATE_UPDATE_SKIP,
 } aeMovieStateUpdateEnum;
 
 typedef struct aeMovieCameraProviderCallbackData
