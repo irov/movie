@@ -875,7 +875,9 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte( aeMovieNode * _nodes, ae_u
 
         aeMovieNode * node = _nodes + ((*_iterator)++);
 
-        aeMovieLayerTypeEnum layer_type = node->layer->type;
+        const aeMovieLayerData * node_layer = node->layer;
+
+        aeMovieLayerTypeEnum layer_type = node_layer->type;
 
         if( _trackMatte == AE_NULLPTR )
         {
@@ -886,7 +888,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte( aeMovieNode * _nodes, ae_u
                 case AE_MOVIE_LAYER_TYPE_MOVIE:
                 case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
                     {
-                        ae_uint32_t sub_composition_node_count = __get_movie_composition_data_node_count( node->layer->subcomposition_data );
+                        ae_uint32_t sub_composition_node_count = __get_movie_composition_data_node_count( node_layer->subcomposition_data );
 
                         aeMovieNode * track_matte_node = _nodes + (*_iterator) + sub_composition_node_count;
 

@@ -1193,12 +1193,15 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
         ae_uint32_t option_value;
         AE_READ( _stream, option_value );
 
-        if( option_value == AE_OPTION( 'l', 'o', 'o', 'p' ) )
+        if( option_value == 0U )
+        {
+            break;
+        }
+        else if( option_value == AE_OPTION( 'l', 'o', 'o', 'p' ) )
         {
             _layer->incessantly = AE_TRUE;
         }
-
-        if( option_value != 0U )
+        else
         {
             if( _layer->options_count == AE_MOVIE_LAYER_MAX_OPTIONS )
             {
@@ -1207,10 +1210,6 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
 
             _layer->options[_layer->options_count] = option_value;
             _layer->options_count++;            
-        }
-        else
-        {
-            break;
         }
     }    
 
