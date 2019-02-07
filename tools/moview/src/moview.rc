@@ -45,7 +45,7 @@ BEGIN
             VALUE "CompanyName", "libMOVIE"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "libmovie view"
-            VALUE "LegalCopyright", "Copyright (c) 2016-2018, Yuriy Levchenko <irov13@mail.ru>"
+            VALUE "LegalCopyright", "Copyright (c) 2016-2019, Yuriy Levchenko <irov13@mail.ru>"
             VALUE "ProductName", "moview"
             VALUE "ProductVersion", "1, 0, 0, 1"
         END
