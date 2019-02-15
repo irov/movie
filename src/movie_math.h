@@ -27,8 +27,8 @@
 * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************/
 
-#ifndef MOVIE_MATRIX_H_
-#define MOVIE_MATRIX_H_
+#ifndef MOVIE_MATH_H_
+#define MOVIE_MATH_H_
 
 #include "movie/movie_type.h"
 
@@ -65,6 +65,16 @@ AE_INTERNAL ae_void_t ae_copy_v2( ae_vector2_t _out, const ae_vector2_t _in )
 {
     _out[0] = _in[0];
     _out[1] = _in[1];
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_uint32_t ae_min_u_u( ae_uint32_t _a, ae_uint32_t _b )
+{
+    return (_a > _b) ? _b : _a;
+}
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_uint32_t ae_max_u_u( ae_uint32_t _a, ae_uint32_t _b )
+{
+    return (_a > _b) ? _a : _b;
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_mul_v3_xy_m34( ae_vector3_t _out, ae_float_t _x, ae_float_t _y, const ae_matrix34_t _b );

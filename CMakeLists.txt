@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-PROJECT(movie)
+PROJECT(movie C)
 
 OPTION(LIBMOVIE_EXTERNAL_BUILD  "LIBMOVIE_EXTERNAL_BUILD" OFF)
 OPTION(LIBMOVIE_EXAMPLES_BUILD  "LIBMOVIE_EXAMPLES_BUILD" ON)
@@ -10,15 +10,15 @@ OPTION(LIBMOVIE_TEST  "LIBMOVIE_TEST" OFF)
 OPTION(LIBMOVIE_MEMORY_DEBUG "LIBMOVIE_MEMORY_DEBUG" OFF)
 
 IF( NOT LIBMOVIE_EXTERNAL_BUILD )
-    if(${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
+    if(${CMAKE_C_COMPILER_ID} STREQUAL Clang)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
+    elseif(${CMAKE_C_COMPILER_ID} STREQUAL AppleClang)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+    elseif(${CMAKE_C_COMPILER_ID} STREQUAL GNU)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL Intel)
+    elseif(${CMAKE_C_COMPILER_ID} STREQUAL Intel)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    elseif(${CMAKE_C_COMPILER_ID} STREQUAL MSVC)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Wall /WX")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4710")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4738")
@@ -62,6 +62,7 @@ public
 
 ADD_FILTER(
 source
+    ${SOURCE_DIR}/movie_detail.h
     ${SOURCE_DIR}/movie_bezier.c
     ${SOURCE_DIR}/movie_bezier.h
 	${SOURCE_DIR}/movie_data.c

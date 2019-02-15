@@ -37,7 +37,7 @@
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_bool_t __test_movie_skeleton_base( aeMovieComposition * _base )
 {
-    ae_float_t duration = _base->composition_data->duration;
+    ae_float_t duration = _base->composition_data->duration_time;
 
     const aeMovieNode * it = _base->nodes;
     const aeMovieNode * it_end = _base->nodes + _base->node_count;

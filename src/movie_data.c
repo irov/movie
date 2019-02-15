@@ -1486,18 +1486,18 @@ AE_INTERNAL ae_result_t __load_movie_data_composition( const aeMovieData * _movi
     AE_READF( _stream, _compositionData->width );
     AE_READF( _stream, _compositionData->height );
 
-    AE_READF( _stream, _compositionData->duration );
+    AE_READF( _stream, _compositionData->duration_time );
     AE_READF( _stream, _compositionData->frameDuration );
     AE_READF( _stream, _compositionData->frameDurationInv );
 
     _compositionData->camera = AE_NULLPTR;
 
-    _compositionData->frameCount = (ae_uint32_t)(_compositionData->duration * _compositionData->frameDurationInv + 0.5f);
+    _compositionData->frameCount = (ae_uint32_t)(_compositionData->duration_time * _compositionData->frameDurationInv + 0.5f);
 
     _compositionData->flags = 0;
 
     _compositionData->loop_segment[0] = 0.f;
-    _compositionData->loop_segment[1] = _compositionData->duration;
+    _compositionData->loop_segment[1] = _compositionData->duration_time;
 
     _compositionData->anchor_point[0] = 0.f;
     _compositionData->anchor_point[1] = 0.f;
@@ -2723,7 +2723,7 @@ ae_float_t ae_get_movie_composition_data_height( const aeMovieCompositionData * 
 //////////////////////////////////////////////////////////////////////////
 ae_time_t ae_get_movie_composition_data_duration( const aeMovieCompositionData * _compositionData )
 {
-    return AE_TIME_OUTSCALE( _compositionData->duration );
+    return AE_TIME_OUTSCALE( _compositionData->duration_time );
 }
 //////////////////////////////////////////////////////////////////////////
 ae_time_t ae_get_movie_composition_data_frame_duration( const aeMovieCompositionData * _compositionData )

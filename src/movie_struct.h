@@ -129,11 +129,17 @@ struct aeMovieCompositionAnimation
 
     ae_time_t time;
 
-    ae_time_t loop_segment_begin;
-    ae_time_t loop_segment_end;
+    ae_time_t loop_segment_time_begin;
+    ae_time_t loop_segment_time_end;
 
-    ae_time_t work_area_begin;
-    ae_time_t work_area_end;
+    ae_uint32_t loop_segment_frame_begin;
+    ae_uint32_t loop_segment_frame_end;
+
+    ae_time_t work_area_time_begin;
+    ae_time_t work_area_time_end;
+
+    ae_uint32_t work_area_frame_begin;
+    ae_uint32_t work_area_frame_end;
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieSubComposition
@@ -161,6 +167,10 @@ struct aeMovieNode
     ae_float_t start_time;
     ae_float_t in_time;
     ae_float_t out_time;
+
+    ae_uint32_t start_frame;
+    ae_uint32_t in_frame;
+    ae_uint32_t out_frame;
 
     ae_float_t stretchInv;
     ae_float_t current_time;
@@ -274,7 +284,8 @@ struct aeMovieCompositionData
     ae_float_t width;
     ae_float_t height;
 
-    ae_time_t duration;
+    ae_time_t duration_time;
+    ae_frame_t duration_frame;
 
     ae_time_t frameDuration;
     ae_time_t frameDurationInv;

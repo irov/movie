@@ -34,12 +34,13 @@
 #include "movie_transformation.h"
 #include "movie_memory.h"
 #include "movie_math.h"
+#include "movie_detail.h"
 #include "movie_debug.h"
 
 #include "movie_struct.h"
 
 #ifndef AE_MOVIE_FRAME_EPSILON
-#define AE_MOVIE_FRAME_EPSILON 0.01f
+#define AE_MOVIE_FRAME_EPSILON 0.001f
 #endif
 
 //////////////////////////////////////////////////////////////////////////
@@ -92,10 +93,10 @@ AE_INTERNAL ae_void_t __make_mesh_vertices( const ae_mesh_t * _mesh, const ae_ma
         {
             ae_float_t u = _mesh->uvs[vertex_index][0];
             ae_float_t v = _mesh->uvs[vertex_index][1];
-            
+
             _render->uv[vertex_index][0] = bx + ux * u + vx * v;
             _render->uv[vertex_index][1] = by + uy * u + vy * v;
-        } 
+        }
     }
 
     _render->indices = _mesh->indices;
@@ -644,7 +645,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
         _node->color.b = local_b;
 
         _node->opacity = local_opacity;
-        
+
         _node->transparent = ae_equal_f_z( _node->opacity );
 
         return;
@@ -1121,11 +1122,11 @@ AE_INTERNAL ae_bool_t __setup_movie_subcomposition2( aeMovieComposition * _compo
 
                 const aeMovieCompositionData * sub_composition_data = layer->subcomposition_data;
 
-                animation->loop_segment_begin = sub_composition_data->loop_segment[0];
-                animation->loop_segment_end = sub_composition_data->loop_segment[1];
+                animation->loop_segment_time_begin = __correct_timeline_frame_time( sub_composition_data->loop_segment[0], _compositionData, &animation->loop_segment_frame_begin );
+                animation->loop_segment_time_end = __correct_timeline_frame_time( sub_composition_data->loop_segment[1], _compositionData, &animation->loop_segment_frame_end );
 
-                animation->work_area_begin = 0.f;
-                animation->work_area_end = sub_composition_data->duration;
+                animation->work_area_time_begin = __correct_timeline_frame_time( 0.f, _compositionData, &animation->work_area_frame_begin );
+                animation->work_area_time_end = __correct_timeline_frame_time( sub_composition_data->duration_time, _compositionData, &animation->work_area_frame_end );
 
                 subcomposition->animation = animation;
 
@@ -1289,7 +1290,7 @@ AE_INTERNAL ae_bool_t __is_node_super_immutable_transform( const aeMovieNode * _
     if( relative_node == AE_NULLPTR )
     {
         return AE_TRUE;
-    }    
+    }
 
     ae_bool_t parent_super_immutable = __is_node_super_immutable_transform( relative_node );
 
@@ -1304,7 +1305,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_transform_immutable( aeMovieComposition
     {
         aeMovieNode * node = it_node;
 
-        ae_bool_t immutable_transform =  __is_node_super_immutable_transform( node );
+        ae_bool_t immutable_transform = __is_node_super_immutable_transform( node );
 
         node->immutable_matrix = immutable_transform;
     }
@@ -1366,9 +1367,9 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
 
         if( _parent == AE_NULLPTR )
         {
-            node->start_time = 0.f;
-            node->in_time = layer->in_time;
-            node->out_time = layer->out_time;
+            node->start_time = __correct_timeline_frame_time( 0.f, _compositionData, &node->start_frame );
+            node->in_time = __correct_timeline_frame_time( layer->in_time, _compositionData, &node->in_frame );
+            node->out_time = __correct_timeline_frame_time( layer->out_time, _compositionData, &node->out_frame );
         }
         else
         {
@@ -1377,13 +1378,13 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
 
             if( parent_in > layer_in )
             {
-                node->start_time = parent_in - layer_in;
-                node->in_time = parent_in;
+                node->start_time = __correct_timeline_frame_time( parent_in - layer_in, _compositionData, &node->start_frame );
+                node->in_time = __correct_timeline_frame_time( parent_in, _compositionData, &node->in_frame );
             }
             else
             {
-                node->start_time = 0.f;
-                node->in_time = layer_in;
+                node->start_time = __correct_timeline_frame_time( 0.f, _compositionData, &node->start_frame );
+                node->in_time = __correct_timeline_frame_time( layer_in, _compositionData, &node->in_frame );
             }
 
             ae_float_t layer_out = layer->out_time * _stretch - _startTime;
@@ -1391,17 +1392,19 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
 
             if( node->subcomposition == _parent->subcomposition )
             {
-                node->out_time = ae_min_f_f( layer_out, parent_out );
+                ae_float_t time = ae_min_f_f( layer_out, parent_out );
+
+                node->out_time = __correct_timeline_frame_time( time, _compositionData, &node->out_frame );
             }
             else
             {
-                node->out_time = layer->out_time;
+                node->out_time = __correct_timeline_frame_time( layer->out_time, _compositionData, &node->out_frame );
             }
 
             if( node->out_time <= 0.f || node->out_time < node->in_time )
             {
-                node->in_time = 0.f;
-                node->out_time = 0.f;
+                node->in_time = __correct_timeline_frame_time( 0.f, _compositionData, &node->in_frame );
+                node->out_time = __correct_timeline_frame_time( 0.f, _compositionData, &node->out_frame );
                 node->ignore = AE_TRUE;
             }
         }
@@ -1430,7 +1433,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_time( aeMovieNode * _nodes, ae_uint32_t
 AE_INTERNAL ae_void_t __setup_movie_node_incessantly( aeMovieComposition * _composition )
 {
     const aeMovieCompositionData * composition_data = _composition->composition_data;
-    ae_time_t duration = composition_data->duration;
+    ae_time_t duration = composition_data->duration_time;
 
     aeMovieNode *it_node = _composition->nodes;
     aeMovieNode *it_node_end = _composition->nodes + _composition->node_count;
@@ -1455,8 +1458,8 @@ AE_INTERNAL ae_void_t __setup_movie_node_incessantly( aeMovieComposition * _comp
         }
 
         if( layer->trimmed_time == AE_FALSE &&
-            ae_equal_f_z( node->start_time ) == AE_TRUE &&
-            ae_equal_f_z( node->in_time ) == AE_TRUE &&
+            node->start_frame == 0 &&
+            node->in_time == 0 &&
             ae_equal_f_f( node->out_time, duration ) == AE_TRUE )
         {
             node->incessantly = AE_TRUE;
@@ -1690,7 +1693,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_matrix2( const aeMovieComposition * _co
         ae_bool_t node_interpolate = (frameId + 1 == node_layer->frame_count) ? AE_FALSE : _composition->interpolate;
 
         if( (node_layer->transformation->identity_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL )
-        { 
+        {
             ae_ident_m34( node->matrix );
         }
 
@@ -1920,10 +1923,10 @@ const aeMovieComposition * ae_create_movie_composition( const aeMovieData * _mov
     animation->loop = AE_FALSE;
 
     animation->time = 0.f;
-    animation->loop_segment_begin = _compositionData->loop_segment[0];
-    animation->loop_segment_end = _compositionData->loop_segment[1];
-    animation->work_area_begin = 0.f;
-    animation->work_area_end = _compositionData->duration;
+    animation->loop_segment_time_begin = __correct_timeline_frame_time( _compositionData->loop_segment[0], _compositionData, &animation->loop_segment_frame_begin );
+    animation->loop_segment_time_end = __correct_timeline_frame_time( _compositionData->loop_segment[1], _compositionData, &animation->loop_segment_frame_end );
+    animation->work_area_time_begin = __correct_timeline_frame_time( 0, _compositionData, &animation->work_area_frame_begin );
+    animation->work_area_time_end = __correct_timeline_frame_time( _compositionData->duration_time, _compositionData, &animation->work_area_frame_end );
 
     composition->animation = animation;
 
@@ -2112,7 +2115,7 @@ ae_void_t ae_delete_movie_composition( const aeMovieComposition * _composition )
         aeMovieSubCompositionDeleterCallbackData callbackData;
         callbackData.subcomposition_userdata = subcomposition->subcomposition_userdata;
 
-        (*_composition->providers.subcomposition_deleter)(&callbackData, _composition->provider_userdata);  
+        (*_composition->providers.subcomposition_deleter)(&callbackData, _composition->provider_userdata);
 
         AE_DELETE( instance, subcomposition->animation );
     }
@@ -2622,7 +2625,7 @@ ae_void_t ae_pause_movie_composition( const aeMovieComposition * _composition )
     animation->pause = AE_TRUE;
 
     __notify_pause_nodies2( _composition );
-	
+
     aeMovieCompositionStateCallbackData callbackData;
     callbackData.state = AE_MOVIE_COMPOSITION_PAUSE;
 
@@ -2735,39 +2738,49 @@ ae_void_t ae_resume_movie_composition( const aeMovieComposition * _composition )
     (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
 }
 //////////////////////////////////////////////////////////////////////////
-AE_INTERNAL ae_float_t __get_animation_loop_work_begin( const aeMovieCompositionAnimation * _animation )
+AE_INTERNAL ae_float_t __get_animation_loop_work_begin( const aeMovieCompositionAnimation * _animation, ae_uint32_t * _frame )
 {
     ae_bool_t loop = _animation->loop;
 
     if( loop == AE_TRUE )
     {
-        ae_float_t work_begin = ae_max_f_f( _animation->loop_segment_begin, _animation->work_area_begin );
+        ae_float_t work_time_begin = ae_max_f_f( _animation->loop_segment_time_begin, _animation->work_area_time_begin );
+        ae_uint32_t work_frame_begin = ae_max_u_u( _animation->loop_segment_frame_begin, _animation->work_area_frame_begin );
 
-        return work_begin;
+        *_frame = work_frame_begin;
+
+        return work_time_begin;
     }
     else
     {
-        ae_float_t work_begin = _animation->work_area_begin;
+        ae_float_t work_time_begin = _animation->work_area_time_begin;
 
-        return work_begin;
+        *_frame = _animation->work_area_frame_begin;
+
+        return work_time_begin;
     }
 }
 //////////////////////////////////////////////////////////////////////////
-AE_INTERNAL ae_float_t __get_animation_loop_work_end( const aeMovieCompositionAnimation * _animation )
+AE_INTERNAL ae_float_t __get_animation_loop_work_end( const aeMovieCompositionAnimation * _animation, ae_uint32_t * _frame )
 {
     ae_bool_t loop = _animation->loop;
 
     if( loop == AE_TRUE )
     {
-        ae_float_t work_end = ae_min_f_f( _animation->loop_segment_end, _animation->work_area_end );
+        ae_float_t work_time_end = ae_min_f_f( _animation->loop_segment_time_end, _animation->work_area_time_end );
+        ae_uint32_t work_frame_end = ae_min_u_u( _animation->loop_segment_frame_end, _animation->work_area_frame_end );
 
-        return work_end;
+        *_frame = work_frame_end;
+
+        return work_time_end;
     }
     else
     {
-        ae_float_t work_end = _animation->work_area_end;
+        ae_float_t work_time_end = _animation->work_area_time_end;
 
-        return work_end;
+        *_frame = _animation->work_area_frame_end;
+
+        return work_time_end;
     }
 }
 //////////////////////////////////////////////////////////////////////////
@@ -2803,9 +2816,9 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
         {
             offset = 0.f;
         }
-        else if( offset > layer->composition_data->duration )
+        else if( offset > layer->composition_data->duration_time )
         {
-            offset = layer->composition_data->duration;
+            offset = layer->composition_data->duration_time;
         }
 
         callbackData.offset = AE_TIME_OUTSCALE( offset );
@@ -2829,9 +2842,9 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
             {
                 offset = 0.f;
             }
-            else if( offset > layer->composition_data->duration )
+            else if( offset > layer->composition_data->duration_time )
             {
-                offset = layer->composition_data->duration;
+                offset = layer->composition_data->duration_time;
             }
 
             callbackData.offset = AE_TIME_OUTSCALE( offset );
@@ -2904,9 +2917,9 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
     {
         offset = 0.f;
     }
-    else if( offset > layer->composition_data->duration )
+    else if( offset > layer->composition_data->duration_time )
     {
-        offset = layer->composition_data->duration;
+        offset = layer->composition_data->duration_time;
     }
 
     callbackData.offset = AE_TIME_OUTSCALE( offset );
@@ -2933,7 +2946,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
             _node->animate = AE_MOVIE_NODE_ANIMATE_PROCESS;
 
             callbackData.state = AE_MOVIE_STATE_UPDATE_PROCESS;
-			
+
             (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
         }
     }
@@ -2944,7 +2957,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_track_matte_state( const a
             _node->animate = AE_MOVIE_NODE_ANIMATE_END;
 
             callbackData.state = AE_MOVIE_STATE_UPDATE_END;
-            
+
             (*_composition->providers.track_matte_update)(&callbackData, _composition->provider_userdata);
         }
         else
@@ -3104,8 +3117,10 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
     ae_bool_t animation_interrupt = _animation->interrupt;
     ae_bool_t animation_loop = _animation->loop;
 
-    ae_float_t loopBegin = __get_animation_loop_work_begin( _animation );
-    ae_float_t loopEnd = __get_animation_loop_work_end( _animation );
+    ae_uint32_t loop_begin_frame;
+    ae_uint32_t loop_end_frame;
+    ae_float_t loop_begin_time = __get_animation_loop_work_begin( _animation, &loop_begin_frame );
+    ae_float_t loop_end_time = __get_animation_loop_work_end( _animation, &loop_end_frame );
 
     ae_uint32_t enumerator = 0U;
 
@@ -3129,14 +3144,17 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
         ae_float_t frameDurationInv = node_layer->composition_data->frameDurationInv;
 
-        ae_bool_t test_time = (_beginTime >= loopBegin
-            && animation_time < loopEnd
+        ae_bool_t test_time = (_beginTime >= loop_begin_time
+            && animation_time < loop_end_time
             && animation_interrupt == AE_FALSE
             && animation_loop == AE_TRUE
             && node_layer->type != AE_MOVIE_LAYER_TYPE_EVENT);
 
-        ae_float_t in_time = (test_time == AE_TRUE && node->in_time <= loopBegin) ? loopBegin : node->in_time;
-        ae_float_t out_time = (test_time == AE_TRUE && node->out_time >= loopEnd) ? loopEnd : node->out_time;
+        ae_float_t in_time = (test_time == AE_TRUE && node->in_time <= loop_begin_time) ? loop_begin_time : node->in_time;
+        ae_float_t out_time = (test_time == AE_TRUE && node->out_time >= loop_end_time) ? loop_end_time : node->out_time;
+
+        ae_frame_t in_frame = (test_time == AE_TRUE && node->in_frame <= loop_begin_frame) ? loop_begin_frame : node->in_frame;
+        ae_frame_t out_frame = (test_time == AE_TRUE && node->out_frame >= loop_end_frame) ? loop_end_frame : node->out_frame;
 
         ae_float_t beginFrameF = _beginTime;
         ae_float_t endFrameF = animation_time;
@@ -3145,10 +3163,16 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
         ae_uint32_t beginFrame = (ae_uint32_t)(beginFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
         ae_uint32_t endFrame = (ae_uint32_t)(endFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
-        ae_uint32_t indexIn = (ae_uint32_t)(indexInF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
-        ae_uint32_t indexOut = (ae_uint32_t)(indexOutF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t indexIn = in_frame;
+        ae_uint32_t indexOut = out_frame;
 
         ae_float_t current_time = (endFrameF >= indexOutF) ? out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
+
+        if( current_time < 0.f )
+        {
+            current_time = 0.f;
+        }
+
         ae_float_t stretch_time = current_time * node->stretchInv;
         ae_float_t frame_time = stretch_time * frameDurationInv;
 
@@ -3256,7 +3280,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
         node->current_time = stretch_time;
         node->current_frame = frameId;
 
-        ae_bool_t node_loop = ((animation_loop == AE_TRUE && animation_interrupt == AE_FALSE && loopBegin >= node->in_time && node->out_time >= loopEnd) || node_layer->incessantly == AE_TRUE);
+        ae_bool_t node_loop = ((animation_loop == AE_TRUE && animation_interrupt == AE_FALSE && loop_begin_time >= node->in_time && node->out_time >= loop_end_time) || node_layer->incessantly == AE_TRUE);
 
         if( beginFrame < indexIn && endFrame >= indexIn && endFrame < indexOut )
         {
@@ -3441,7 +3465,7 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
     if( _animation->play == AE_TRUE )
     {
         ae_float_t current_time = _animation->time;
-        ae_float_t duration = _animation->work_area_end - _animation->work_area_begin;
+        ae_float_t duration = _animation->work_area_time_end - _animation->work_area_time_begin;
 
         ae_float_t frameDuration = _composition->composition_data->frameDuration;
 
@@ -3483,20 +3507,20 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
         }
         else
         {
-            ae_float_t loopBegin = ae_max_f_f( _animation->loop_segment_begin, _animation->work_area_begin );
-            ae_float_t loopEnd = ae_min_f_f( _animation->loop_segment_end, _animation->work_area_end );
+            ae_float_t loop_begin_time = ae_max_f_f( _animation->loop_segment_time_begin, _animation->work_area_time_begin );
+            ae_float_t loop_end_time = ae_min_f_f( _animation->loop_segment_time_end, _animation->work_area_time_end );
 
-            ae_float_t last_time = loopEnd - frameDuration;
+            ae_float_t last_time = loop_end_time - frameDuration;
 
             if( current_time + _timing >= last_time )
             {
-                ae_float_t new_composition_time = current_time + _timing - last_time + loopBegin;
+                ae_float_t new_composition_time = current_time + _timing - last_time + loop_begin_time;
 
                 ae_uint32_t loop_count = 1;
                 while( new_composition_time >= last_time )
                 {
                     new_composition_time -= last_time;
-                    new_composition_time += loopBegin;
+                    new_composition_time += loop_begin_time;
 
                     ++loop_count;
                 }
@@ -3507,7 +3531,7 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
 
                 update_revision = __inc_composition_update_revision( _composition );
 
-                ae_float_t new_begin_time = loopBegin;
+                ae_float_t new_begin_time = loop_begin_time;
 
                 _animation->time = new_composition_time;
 
@@ -3531,7 +3555,7 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
                         callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
                         callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
-                        (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);                
+                        (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
                     }
                 }
 
@@ -3613,7 +3637,7 @@ ae_bool_t ae_update_movie_composition( const aeMovieComposition * _composition, 
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __set_movie_composition_time( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, aeMovieCompositionAnimation * _animation, ae_float_t _time, const aeMovieSubComposition * _subcomposition )
 {
-    ae_float_t duration = _compositionData->duration;
+    ae_float_t duration = _compositionData->duration_time;
 
     if( _time < 0.f )
     {
@@ -3642,7 +3666,7 @@ AE_INTERNAL ae_void_t __set_movie_composition_time( const aeMovieComposition * _
 
     if( current_animation_time > _time )
     {
-        __skip_movie_composition_node( _composition, _compositionData, _animation, _subcomposition, update_revision, current_animation_time, _composition->composition_data->duration );
+        __skip_movie_composition_node( _composition, _compositionData, _animation, _subcomposition, update_revision, current_animation_time, _composition->composition_data->duration_time );
 
         update_revision = __inc_composition_update_revision( _composition );
 
@@ -3664,7 +3688,7 @@ ae_bool_t ae_set_movie_composition_work_area( const aeMovieComposition * _compos
     ae_time_t timescale_end = AE_TIME_INSCALE( _end );
 
     const aeMovieCompositionData * composition_data = _composition->composition_data;
-    ae_time_t duration = composition_data->duration;
+    ae_time_t duration = composition_data->duration_time;
 
     if( timescale_begin < 0.f || timescale_end < 0.f || timescale_begin > duration || timescale_end > duration || timescale_begin > timescale_end )
     {
@@ -3673,8 +3697,8 @@ ae_bool_t ae_set_movie_composition_work_area( const aeMovieComposition * _compos
 
     aeMovieCompositionAnimation * animation = _composition->animation;
 
-    animation->work_area_begin = timescale_begin;
-    animation->work_area_end = timescale_end;
+    animation->work_area_time_begin = __correct_timeline_frame_time( timescale_begin, composition_data, &animation->work_area_frame_begin );
+    animation->work_area_time_end = __correct_timeline_frame_time( timescale_end, composition_data, &animation->work_area_frame_end );
 
     if( animation->time < timescale_begin || animation->time >= timescale_end )
     {
@@ -3689,8 +3713,8 @@ ae_void_t ae_remove_movie_composition_work_area( const  aeMovieComposition * _co
     const aeMovieCompositionData * composition_data = _composition->composition_data;
     aeMovieCompositionAnimation * animation = _composition->animation;
 
-    animation->work_area_begin = 0.f;
-    animation->work_area_end = composition_data->duration;
+    animation->work_area_time_begin = __correct_timeline_frame_time( 0.f, composition_data, &animation->work_area_frame_begin );
+    animation->work_area_time_end = __correct_timeline_frame_time( composition_data->duration_time, composition_data, &animation->work_area_frame_end );
 
     __set_movie_composition_time( _composition, composition_data, animation, 0.f, AE_NULLPTR );
 }
@@ -3710,7 +3734,7 @@ ae_void_t ae_play_movie_composition( const aeMovieComposition * _composition, ae
 
     if( timescale_time >= 0.f )
     {
-        ae_time_t work_time = ae_minimax_f_f( timescale_time, animation->work_area_begin, animation->work_area_end );
+        ae_time_t work_time = ae_minimax_f_f( timescale_time, animation->work_area_time_begin, animation->work_area_time_end );
 
         const aeMovieCompositionData * composition_data = _composition->composition_data;
 
@@ -3740,7 +3764,7 @@ ae_void_t ae_stop_movie_composition( const aeMovieComposition * _composition )
 
     const aeMovieCompositionData * composition_data = _composition->composition_data;
 
-    __set_movie_composition_time( _composition, composition_data, animation, animation->work_area_begin, AE_NULLPTR );
+    __set_movie_composition_time( _composition, composition_data, animation, animation->work_area_time_begin, AE_NULLPTR );
 
     animation->play = AE_FALSE;
     animation->pause = AE_FALSE;
@@ -3777,13 +3801,14 @@ ae_void_t ae_interrupt_movie_composition( const aeMovieComposition * _compositio
 
     if( _skip == AE_TRUE )
     {
-        ae_float_t loop_work_end = __get_animation_loop_work_end( animation );
+        ae_uint32_t loop_work_frame_end;
+        ae_float_t loop_work_time_end = __get_animation_loop_work_end( animation, &loop_work_frame_end );
 
-        if( animation->time < loop_work_end )
+        if( animation->time < loop_work_time_end )
         {
             const aeMovieCompositionData * composition_data = _composition->composition_data;
 
-            __set_movie_composition_time( _composition, composition_data, animation, loop_work_end, AE_NULLPTR );
+            __set_movie_composition_time( _composition, composition_data, animation, loop_work_time_end, AE_NULLPTR );
         }
     }
 
@@ -3837,7 +3862,7 @@ ae_time_t ae_get_movie_composition_duration( const aeMovieComposition * _composi
 {
     const aeMovieCompositionData * composition_data = _composition->composition_data;
 
-    ae_time_t duration = composition_data->duration;
+    ae_time_t duration = composition_data->duration_time;
 
     return AE_TIME_OUTSCALE( duration );
 }
@@ -3845,8 +3870,9 @@ ae_time_t ae_get_movie_composition_duration( const aeMovieComposition * _composi
 ae_void_t ae_get_movie_composition_in_out_loop( const aeMovieComposition * _composition, ae_time_t * _in, ae_time_t * _out )
 {
     aeMovieCompositionAnimation * animation = _composition->animation;
-    ae_float_t work_begin = ae_max_f_f( animation->loop_segment_begin, animation->work_area_begin );
-    ae_float_t work_end = ae_min_f_f( animation->loop_segment_end, animation->work_area_end );
+
+    ae_float_t work_begin = ae_max_f_f( animation->loop_segment_time_begin, animation->work_area_time_begin );
+    ae_float_t work_end = ae_min_f_f( animation->loop_segment_time_end, animation->work_area_time_end );
 
     *_in = AE_TIME_OUTSCALE( work_begin );
     *_out = AE_TIME_OUTSCALE( work_end );
@@ -4451,8 +4477,8 @@ ae_void_t ae_get_movie_sub_composition_in_out_loop( const aeMovieSubComposition 
 {
     aeMovieCompositionAnimation * animation = _subcomposition->animation;
 
-    ae_float_t work_begin = ae_max_f_f( animation->loop_segment_begin, animation->work_area_begin );
-    ae_float_t work_end = ae_min_f_f( animation->loop_segment_end, animation->work_area_end );
+    ae_float_t work_begin = ae_max_f_f( animation->loop_segment_time_begin, animation->work_area_time_begin );
+    ae_float_t work_end = ae_min_f_f( animation->loop_segment_time_end, animation->work_area_time_end );
 
     *_in = AE_TIME_OUTSCALE( work_begin );
     *_out = AE_TIME_OUTSCALE( work_end );
@@ -4474,7 +4500,7 @@ ae_bool_t ae_play_movie_sub_composition( const aeMovieComposition * _composition
 
     if( timescale_time >= 0.f )
     {
-        ae_float_t work_time = ae_minimax_f_f( timescale_time, animation->work_area_begin, animation->work_area_end );
+        ae_float_t work_time = ae_minimax_f_f( timescale_time, animation->work_area_time_begin, animation->work_area_time_end );
 
         __set_movie_composition_time( _composition, composition_data, animation, work_time, _subcomposition );
     }
@@ -4499,7 +4525,7 @@ ae_bool_t ae_stop_movie_sub_composition( const aeMovieComposition * _composition
 
     const aeMovieCompositionData * composition_data = _subcomposition->composition_data;
 
-    __set_movie_composition_time( _composition, composition_data, animation, animation->work_area_begin, _subcomposition );
+    __set_movie_composition_time( _composition, composition_data, animation, animation->work_area_time_begin, _subcomposition );
 
     animation->play = AE_FALSE;
     animation->pause = AE_FALSE;
@@ -4595,11 +4621,12 @@ ae_void_t ae_interrupt_movie_sub_composition( const aeMovieComposition * _compos
 
     if( _skip == AE_TRUE )
     {
-        ae_float_t loop_work_end = __get_animation_loop_work_end( animation );
+        ae_uint32_t loop_work_frame_end;
+        ae_float_t loop_work_time_end = __get_animation_loop_work_end( animation, &loop_work_frame_end );
 
-        if( animation->time < loop_work_end )
+        if( animation->time < loop_work_time_end )
         {
-            __set_movie_composition_time( _composition, composition_data, animation, loop_work_end, _subcomposition );
+            __set_movie_composition_time( _composition, composition_data, animation, loop_work_time_end, _subcomposition );
         }
     }
 
@@ -4694,7 +4721,7 @@ ae_bool_t ae_set_movie_sub_composition_work_area( const aeMovieComposition * _co
     ae_time_t timescale_begin = AE_TIME_INSCALE( _begin );
     ae_time_t timescale_end = AE_TIME_INSCALE( _end );
 
-    ae_float_t duration = _composition->composition_data->duration;
+    ae_float_t duration = _composition->composition_data->duration_time;
 
     if( timescale_begin < 0.f || timescale_end < 0.f || timescale_begin > duration || timescale_end > duration || timescale_begin > timescale_end )
     {
@@ -4704,8 +4731,8 @@ ae_bool_t ae_set_movie_sub_composition_work_area( const aeMovieComposition * _co
     const aeMovieCompositionData * composition_data = _subcomposition->composition_data;
     aeMovieCompositionAnimation * animation = _subcomposition->animation;
 
-    animation->work_area_begin = timescale_begin;
-    animation->work_area_end = timescale_end;
+    animation->work_area_time_begin = __correct_timeline_frame_time( timescale_begin, composition_data, &animation->work_area_frame_begin );
+    animation->work_area_time_end = __correct_timeline_frame_time( timescale_end, composition_data, &animation->work_area_frame_end );
 
     if( animation->time < timescale_begin || animation->time >= timescale_end )
     {
@@ -4720,8 +4747,8 @@ ae_void_t ae_remove_movie_sub_composition_work_area( const aeMovieComposition * 
     const aeMovieCompositionData * composition_data = _subcomposition->composition_data;
     aeMovieCompositionAnimation * animation = _subcomposition->animation;
 
-    animation->work_area_begin = 0.f;
-    animation->work_area_end = _composition->composition_data->duration;
+    animation->work_area_time_begin = 0.f;
+    animation->work_area_time_end = _composition->composition_data->duration_time;
 
     __set_movie_composition_time( _composition, composition_data, animation, 0.f, _subcomposition );
 }
