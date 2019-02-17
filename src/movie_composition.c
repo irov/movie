@@ -1443,14 +1443,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_incessantly( aeMovieComposition * _comp
 
         const aeMovieLayerData * layer = node->layer;
 
-        if( layer->type == AE_MOVIE_LAYER_TYPE_SUB_MOVIE )
-        {
-            node->incessantly = AE_TRUE;
-
-            continue;
-        }
-
-        if( ae_has_movie_layer_data_option( layer, AE_OPTION( 'l', 'o', 'o', 'p' ) ) == AE_TRUE )
+        if( layer->incessantly == AE_TRUE )
         {
             node->incessantly = AE_TRUE;
 

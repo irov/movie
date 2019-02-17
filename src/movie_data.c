@@ -1186,6 +1186,11 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
 
     _layer->incessantly = AE_FALSE;
 
+    if( _layer->type == AE_MOVIE_LAYER_TYPE_SUB_MOVIE )
+    {
+        _layer->incessantly = AE_TRUE;
+    }
+
     _layer->options_count = 0U;
     
     for( ;;)
