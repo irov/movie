@@ -86,6 +86,7 @@ AE_INTERNAL ae_void_t __clear_layer_extensions( aeMovieLayerExtensions * _extens
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieInstance
 {
+    ae_bool_t use_hash;
     ae_uint32_t hashmask[5];
 
     ae_movie_alloc_t memory_alloc;
@@ -202,7 +203,7 @@ struct aeMovieNode
     ae_blend_mode_t blend_mode;
 
     ae_userdata_t element_userdata;
-    ae_userdata_t camera_userdata;    
+    ae_userdata_t camera_userdata;
     ae_userdata_t shader_userdata;
     ae_userdata_t track_matte_userdata;
 };
