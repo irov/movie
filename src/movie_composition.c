@@ -572,6 +572,8 @@ AE_INTERNAL ae_uint32_t __get_movie_frame_time( const struct aeMovieCompositionA
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _node, const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, const aeMovieCompositionAnimation * _animation, ae_uint32_t _frameId, ae_bool_t _interpolate, ae_float_t _t )
 {
+    AE_UNUSED( _compositionData );
+
     ae_uint32_t update_revision = __get_composition_update_revision( _animation );
 
     if( _node->update_revision == update_revision )
