@@ -1186,11 +1186,6 @@ AE_INTERNAL ae_result_t __load_movie_data_layer( const aeMovieData * _movieData,
 
     _layer->incessantly = AE_FALSE;
 
-    if( _layer->type == AE_MOVIE_LAYER_TYPE_SUB_MOVIE )
-    {
-        _layer->incessantly = AE_TRUE;
-    }
-
     _layer->options_count = 0U;
     
     for( ;;)
@@ -1495,10 +1490,10 @@ AE_INTERNAL ae_result_t __load_movie_data_composition( const aeMovieData * _movi
     AE_READF( _stream, _compositionData->frameDuration );
     AE_READF( _stream, _compositionData->frameDurationInv );
 
+    _compositionData->duration_frame = (ae_uint32_t)(_compositionData->duration_time * _compositionData->frameDurationInv + 0.5f);
+
     _compositionData->camera = AE_NULLPTR;
-
-    _compositionData->frameCount = (ae_uint32_t)(_compositionData->duration_time * _compositionData->frameDurationInv + 0.5f);
-
+        
     _compositionData->flags = 0;
 
     _compositionData->loop_segment[0] = 0.f;
@@ -2738,7 +2733,7 @@ ae_time_t ae_get_movie_composition_data_frame_duration( const aeMovieComposition
 //////////////////////////////////////////////////////////////////////////
 ae_uint32_t ae_get_movie_composition_data_frame_count( const aeMovieCompositionData * _compositionData )
 {
-    return _compositionData->frameCount;
+    return _compositionData->duration_frame;
 }
 //////////////////////////////////////////////////////////////////////////
 ae_void_t ae_get_movie_composition_data_loop_segment( const aeMovieCompositionData * _compositionData, ae_time_t * _in, ae_time_t * _out )

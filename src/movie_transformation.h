@@ -174,8 +174,10 @@ typedef ae_void_t( *ae_movie_make_layer_transformation_fixed_t )(ae_matrix34_t _
     ae_uint32_t identity_property_mask;\
     aeMovieLayerColorImuttable immutable_color;\
     aeMovieLayerColorTimeline timeline_color;\
+    aeMovieLayerColorImuttable initial_color;\
     ae_color_channel_t immutable_opacity;\
     ae_constvoidptr_t timeline_opacity;\
+    ae_color_channel_t initial_opacity;\
     ae_movie_make_layer_transformation_intepolate_t transforamtion_interpolate_matrix;\
     ae_movie_make_layer_transformation_fixed_t transforamtion_fixed_matrix;\
     ae_matrix34_t * immutable_matrix

@@ -128,6 +128,8 @@ struct aeMovieCompositionAnimation
     ae_bool_t interrupt;
     ae_bool_t loop;
 
+    ae_uint32_t * update_revision;
+
     ae_time_t time;
 
     ae_time_t loop_segment_time_begin;
@@ -169,13 +171,13 @@ struct aeMovieNode
     ae_float_t in_time;
     ae_float_t out_time;
 
-    ae_uint32_t start_frame;
-    ae_uint32_t in_frame;
-    ae_uint32_t out_frame;
+    ae_frame_t start_frame;
+    ae_frame_t in_frame;
+    ae_frame_t out_frame;
 
     ae_float_t stretchInv;
     ae_float_t current_time;
-    ae_uint32_t current_frame;
+    ae_frame_t current_frame;
     ae_float_t current_frame_t;
 
     ae_bool_t active;
@@ -216,8 +218,6 @@ struct aeMovieComposition
     struct aeMovieCompositionAnimation * animation;
 
     ae_userdata_t camera_userdata;
-
-    ae_uint32_t * update_revision;
 
     ae_bool_t interpolate;
 
@@ -290,8 +290,6 @@ struct aeMovieCompositionData
 
     ae_time_t frameDuration;
     ae_time_t frameDurationInv;
-
-    ae_uint32_t frameCount;
 
     ae_uint32_t flags;
 

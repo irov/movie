@@ -216,6 +216,59 @@ AE_INTERNAL ae_float_t __get_movie_layer_transformation_property_fixed( ae_const
     return 0.f;
 }
 //////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_float_t __get_movie_layer_transformation_property_initial( ae_constvoidptr_t _property )
+{
+    const ae_uint32_t * property_ae_uint32_t = (const ae_uint32_t *)_property;
+
+    ae_uint32_t zp_block_type_count_data = *(property_ae_uint32_t++);
+
+    ae_uint32_t zp_block_type = zp_block_type_count_data >> 24U;
+
+    const ae_float_t * property_ae_float_t = (const ae_float_t *)(ae_constvoidptr_t)(property_ae_uint32_t);
+
+    switch( zp_block_type )
+    {
+    case 0:
+        {
+            ae_float_t block_value = property_ae_float_t[0];
+
+            return block_value;
+        }break;
+    case 1:
+        {
+            ae_float_t block_begin = property_ae_float_t[1];
+                        
+            ae_float_t block_value = block_begin;
+
+            return block_value;
+        }break;
+    case 2:
+        {
+            ae_float_t block_begin = property_ae_float_t[0];
+
+            ae_float_t block_value = block_begin;
+
+            return block_value;
+        }break;
+    case 3:
+        {
+            ae_float_t block_value = property_ae_float_t[0];
+
+            return block_value;
+        }break;
+    default:
+        {
+            //Error
+        }break;
+    }
+
+#ifdef AE_MOVIE_DEBUG
+    __movie_break_point();
+#endif
+
+    return 0.f;
+}
+//////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_float_t __get_movie_layer_transformation_property_interpolate( ae_constvoidptr_t _property, ae_uint32_t _index, ae_float_t _t )
 {
     ae_float_t data_0 = __get_movie_layer_transformation_property_fixed( _property, _index + 0 );
@@ -1190,6 +1243,7 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     else
     {
         _transformation->timeline_color.color_r = __load_movie_layer_transformation_timeline( _stream, "immutable_color_r" );
+        _transformation->initial_color.color_r = __get_movie_layer_transformation_property_initial( _transformation->timeline_color.color_r );
     }
 
     if( identity_property_mask & AE_MOVIE_PROPERTY_COLOR_G )
@@ -1205,6 +1259,7 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     else
     {
         _transformation->timeline_color.color_g = __load_movie_layer_transformation_timeline( _stream, "immutable_color_g" );
+        _transformation->initial_color.color_g = __get_movie_layer_transformation_property_initial( _transformation->timeline_color.color_g );
     }
 
     if( identity_property_mask & AE_MOVIE_PROPERTY_COLOR_B )
@@ -1220,6 +1275,7 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     else
     {
         _transformation->timeline_color.color_b = __load_movie_layer_transformation_timeline( _stream, "immutable_color_b" );
+        _transformation->initial_color.color_b = __get_movie_layer_transformation_property_initial( _transformation->timeline_color.color_b );
     }
 
     if( identity_property_mask & AE_MOVIE_PROPERTY_OPACITY )
@@ -1235,6 +1291,7 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
     else
     {
         _transformation->timeline_opacity = __load_movie_layer_transformation_timeline( _stream, "immutable_opacity" );
+        _transformation->initial_opacity = __get_movie_layer_transformation_property_initial( _transformation->timeline_opacity );
     }
 
     return AE_RESULT_SUCCESSFUL;
@@ -1430,7 +1487,14 @@ ae_color_channel_t ae_movie_make_layer_color_r( const aeMovieLayerTransformation
     }
     else
     {
-        value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_r, _index );
+        if( _index == 0 )
+        {
+            value = _transformation->initial_color.color_r;
+        }
+        else
+        {
+            value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_r, _index );
+        }
     }
 
     return value;
@@ -1451,7 +1515,14 @@ ae_color_channel_t ae_movie_make_layer_color_g( const aeMovieLayerTransformation
     }
     else
     {
-        value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_g, _index );
+        if( _index == 0 )
+        {
+            value = _transformation->initial_color.color_g;
+        }
+        else
+        {
+            value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_g, _index );
+        }
     }
 
     return value;
@@ -1472,7 +1543,14 @@ ae_color_channel_t ae_movie_make_layer_color_b( const aeMovieLayerTransformation
     }
     else
     {
-        value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_b, _index );
+        if( _index == 0 )
+        {
+            value = _transformation->initial_color.color_b;
+        }
+        else
+        {
+            value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_color.color_b, _index );
+        }
     }
 
     return value;
@@ -1493,7 +1571,14 @@ ae_color_channel_t ae_movie_make_layer_opacity( const aeMovieLayerTransformation
     }
     else
     {
-        value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_opacity, _index );
+        if( _index == 0 )
+        {
+            value = _transformation->initial_opacity;
+        }
+        else
+        {
+            value = __get_movie_layer_transformation_property_fixed( _transformation->timeline_opacity, _index );
+        }
     }
 
     return value;
