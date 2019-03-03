@@ -265,7 +265,7 @@ int main( int argc, char *argv[] )
     for( ; index_memory_record != mi->memory_records_count; ++index_memory_record )
     {
         memory_header_t * header = mi->memory_records + index_memory_record;
-        printf( "file '%s[%d]' leak '%d'\n"
+        printf( "file '%s[%d]' leak '%d' bytes\n"
             , header->file
             , header->line
             , header->size );

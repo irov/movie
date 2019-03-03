@@ -2092,6 +2092,7 @@ ae_void_t ae_delete_movie_composition( const aeMovieComposition * _composition )
 
         (*_composition->providers.subcomposition_deleter)(&callbackData, _composition->provider_userdata);
 
+        AE_DELETE( instance, subcomposition->animation->update_revision );
         AE_DELETE( instance, subcomposition->animation );
     }
 
