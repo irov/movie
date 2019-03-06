@@ -3036,6 +3036,8 @@ AE_INTERNAL ae_void_t __update_movie_scene_effect( const aeMovieComposition * _c
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __refresh_movie_composition_matrix( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, const aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition )
 {
+    __inc_composition_update_revision( _animation );
+
     ae_bool_t composition_interpolate = _composition->interpolate;
 
     aeMovieNode *it_node = _composition->nodes;
@@ -3613,9 +3615,9 @@ AE_INTERNAL ae_void_t __set_movie_composition_time( const aeMovieComposition * _
 
     ae_bool_t animation_end = AE_FALSE;
 
-    if( _time + f_neps >= lastFrame )
+    if( _time + f_eps >= lastFrame )
     {
-        _time = lastFrame + f_neps;
+        _time = lastFrame;
 
         animation_end = AE_TRUE;
     }
