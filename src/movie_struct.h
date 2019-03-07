@@ -128,8 +128,6 @@ struct aeMovieCompositionAnimation
     ae_bool_t interrupt;
     ae_bool_t loop;
 
-    ae_uint32_t * update_revision;
-
     ae_time_t time;
 
     ae_time_t loop_segment_time_begin;
@@ -189,7 +187,6 @@ struct aeMovieNode
 
     ae_uint32_t animate;
 
-    ae_uint32_t update_revision;
     ae_matrix34_t matrix;
 
     ae_color_t composition_color;
@@ -223,6 +220,7 @@ struct aeMovieComposition
 
     ae_uint32_t node_count;
     aeMovieNode * nodes;
+	aeMovieNode ** update_nodes;
 
     aeMovieNode * scene_effect_node;
     ae_userdata_t scene_effect_userdata;

@@ -301,7 +301,7 @@ ae_bool_t ae_compute_movie_mesh( const aeMovieComposition * _composition, ae_uin
 @param [in] _composition Composition.
 @return Number of meshes at the current playback time.
 */
-uint32_t ae_get_movie_render_mesh_count( const aeMovieComposition * _composition );
+ae_uint32_t ae_get_movie_render_mesh_count( const aeMovieComposition * _composition );
 
 
 /**

@@ -51,7 +51,7 @@ ae_void_t EX_LOG( const char * _format, ... )
 //
 ae_float_t ex_get_time( ae_void_t ) {
     clock_t c = clock();
-    return (float)c / (float)CLOCKS_PER_SEC;
+    return (ae_float_t)c / (ae_float_t)CLOCKS_PER_SEC;
 }
 
 AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_voidptr_t _data, ae_size_t _size ) {
