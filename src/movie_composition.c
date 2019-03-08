@@ -634,17 +634,6 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
         return;
     }
 
-    if( node_relative->subcomposition != AE_NULLPTR )
-    {
-        const aeMovieSubComposition * subcomposition = node_relative->subcomposition;
-
-        __update_movie_composition_node_matrix( node_relative, _composition, subcomposition->composition_data, node_relative->current_frame, _interpolate, node_relative->current_frame_t );
-    }
-    else
-    {
-        __update_movie_composition_node_matrix( node_relative, _composition, _composition->composition_data, node_relative->current_frame, _interpolate, node_relative->current_frame_t );
-    }
-
     if( (layer_transformation->identity_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL )
     {
         ae_copy_m34( _node->matrix, node_relative->matrix );
@@ -1677,11 +1666,11 @@ AE_INTERNAL ae_void_t __setup_movie_node_viewport( aeMovieComposition * _composi
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __setup_movie_node_matrix2( const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, const aeMovieCompositionAnimation * _animation, const aeMovieSubComposition * _subcomposition )
 {
-    aeMovieNode *it_node = _composition->nodes;
-    aeMovieNode *it_node_end = _composition->nodes + _composition->node_count;
+    aeMovieNode **it_node = _composition->update_nodes;
+    aeMovieNode **it_node_end = _composition->update_nodes + _composition->node_count;
     for( ; it_node != it_node_end; ++it_node )
     {
-        aeMovieNode * node = it_node;
+        aeMovieNode * node = *it_node;
 
         if( node->subcomposition != _subcomposition )
         {
