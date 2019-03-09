@@ -752,7 +752,7 @@ void Viewer::DoUI()
                 ImVec4( 0.f, 0.f, 0.f, 1.f ),       // Info
             };
 
-            ImGui::TextColored( messageColors[static_cast<size_t>(mPopupType)], ("\n" + mPopupNessage + "\n").c_str() );
+            ImGui::TextColored( messageColors[static_cast<size_t>(mPopupType)], "%s", ("\n" + mPopupNessage + "\n").c_str() );
 
             ImGui::Separator();
 
