@@ -805,6 +805,8 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extension_bezier_warp( aeMovieLa
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_result_t __load_movie_data_layer_extension_polygon( aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance, aeMovieLayerExtensions * _extensions )
 {
+    AE_UNUSED( _layer );
+
     aeMovieLayerExtensionPolygon * layer_polygon = AE_NEW( _instance, aeMovieLayerExtensionPolygon );
 
     AE_RESULT_PANIC_MEMORY( layer_polygon );
@@ -999,6 +1001,8 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extension_shader( aeMovieLayerDa
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_result_t __load_movie_data_layer_extension_viewport( aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance, aeMovieLayerExtensions * _extensions )
 {
+    AE_UNUSED( _layer );
+
     aeMovieLayerExtensionViewport * layer_viewport = AE_NEW( _instance, aeMovieLayerExtensionViewport );
 
     AE_RESULT_PANIC_MEMORY( layer_viewport );
