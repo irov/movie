@@ -552,6 +552,9 @@ ae_void_t ex_callback_composition_state( const aeMovieCompositionStateCallbackDa
     case AE_MOVIE_COMPOSITION_LOOP_END:
         EX_LOG( " COMPOSITION_LOOP_END\n" );
         break;
+    case AE_MOVIE_COMPOSITION_LOOP_CONTINUOUS:
+        EX_LOG( " COMPOSITION_LOOP_END\n" );
+        break;
     }
 }
 
