@@ -151,6 +151,13 @@ aeMovieData * ae_create_movie_data( const aeMovieInstance * _instance, const aeM
 */
 ae_void_t ae_delete_movie_data( const aeMovieData * _movieData );
 
+
+/**
+@brief get instance.
+@param [in] _movieData Data.
+*/
+const aeMovieInstance * ae_get_movie_data_instance( const aeMovieData * _movieData );
+
 /**
 @brief Create a stream to load the data from the given data pointer.
 @param [in] _instance Instance.
@@ -419,18 +426,27 @@ const ae_char_t * ae_get_movie_composition_data_event_name( const aeMovieComposi
 /// @}
 
 /**
-@brief Has composition bounds.
-@param [in] _composition Composition.
+@brief Has composition data bounds.
+@param [in] _compositionData Composition.
 @return TRUE if has
 */
 ae_bool_t ae_has_movie_composition_data_bounds( const aeMovieCompositionData * _compositionData );
 
 /**
-@brief Get composition bounds.
-@param [in] _composition Composition.
+@brief Get composition data bounds.
+@param [in] _compositionData Composition.
 @param [out] _bounds viewport.
 @return TRUE if successful
 */
 ae_bool_t ae_get_movie_composition_data_bounds( const aeMovieCompositionData * _compositionData, ae_viewport_t * _bounds );
+
+/**
+@brief Has composition data layer.
+@param [in] _instance Instance.
+@param [in] _compositionData Composition.
+@param [in] _name layer name.
+@return TRUE if has layer
+*/
+ae_bool_t ae_has_movie_composition_data_layer( const aeMovieInstance * _instance, const aeMovieCompositionData * _compositionData, const ae_char_t * _layerName );
 
 #endif

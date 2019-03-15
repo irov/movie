@@ -1639,6 +1639,13 @@ AE_INTERNAL ae_result_t __load_movie_data_composition( const aeMovieData * _movi
     return AE_RESULT_SUCCESSFUL;
 }
 //////////////////////////////////////////////////////////////////////////
+const aeMovieInstance * ae_get_movie_data_instance( const aeMovieData * _movieData )
+{
+    const aeMovieInstance * instance = _movieData->instance;
+
+    return instance;
+}
+//////////////////////////////////////////////////////////////////////////
 aeMovieStream * ae_create_movie_stream( const aeMovieInstance * _instance, ae_movie_stream_memory_read_t _read, ae_movie_stream_memory_copy_t _copy, ae_userdata_t _userdata )
 {
 #ifdef AE_MOVIE_DEBUG
@@ -2890,6 +2897,36 @@ ae_bool_t ae_get_movie_composition_data_bounds( const aeMovieCompositionData * _
         *_bounds = _compositionData->bounds;
 
         return AE_TRUE;
+    }
+
+    return AE_FALSE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_has_movie_composition_data_layer( const aeMovieInstance * _instance, const aeMovieCompositionData * _compositionData, const ae_char_t * _layerName )
+{
+    const aeMovieLayerData * it_layer = _compositionData->layers;
+    const aeMovieLayerData * it_layer_end = _compositionData->layers + _compositionData->layer_count;
+    for( ; it_layer != it_layer_end; ++it_layer )
+    {
+        aeMovieLayerTypeEnum type = it_layer->type;
+
+        if( AE_STRNCMP( _instance, it_layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) == 0 )
+        {
+            return AE_TRUE;
+        }
+
+        switch( type )
+        {
+        case AE_MOVIE_LAYER_TYPE_MOVIE:
+            {
+                if( ae_has_movie_composition_data_layer( _instance, it_layer->subcomposition_data, _layerName ) == AE_TRUE )
+                {
+                    return AE_TRUE;
+                }
+            }break;
+        default:
+            break;
+        }
     }
 
     return AE_FALSE;
