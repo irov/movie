@@ -315,6 +315,7 @@ typedef enum
     AE_MOVIE_COMPOSITION_INTERRUPT,
     AE_MOVIE_COMPOSITION_END,
     AE_MOVIE_COMPOSITION_LOOP_END,
+    AE_MOVIE_COMPOSITION_LOOP_CONTINUOUS,
 } aeMovieCompositionStateEnum;
 
 typedef struct aeMovieCompositionStateCallbackData

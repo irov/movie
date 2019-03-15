@@ -3488,41 +3488,62 @@ AE_INTERNAL ae_bool_t __update_movie_subcomposition( const aeMovieComposition * 
 
             if( current_time + _timing >= last_time )
             {
-                ae_float_t new_composition_time = current_time + _timing - last_time + loop_begin_time;
-
-                ae_uint32_t loop_count = 1;
-                while( new_composition_time >= last_time )
+                if( ae_equal_f_z( last_time ) == AE_FALSE )
                 {
-                    new_composition_time -= last_time;
-                    new_composition_time += loop_begin_time;
+                    ae_float_t new_composition_time = current_time + _timing - last_time + loop_begin_time;
 
-                    ++loop_count;
+                    ae_uint32_t loop_count = 1;
+                    while( new_composition_time >= last_time )
+                    {
+                        new_composition_time -= last_time;
+                        new_composition_time += loop_begin_time;
+
+                        ++loop_count;
+                    }
+
+                    _animation->time = last_time;
+
+                    __update_movie_composition_node( _composition, _compositionData, _animation, _subcomposition, begin_time, _interpolate, AE_TRUE );
+
+                    ae_float_t new_begin_time = loop_begin_time;
+
+                    _animation->time = new_composition_time;
+
+                    __update_movie_composition_node( _composition, _compositionData, _animation, _subcomposition, new_begin_time, _interpolate, AE_FALSE );
+
+                    ae_uint32_t loop_iterator = 0U;
+                    for( ; loop_iterator != loop_count; ++loop_iterator )
+                    {
+                        if( _subcomposition == AE_NULLPTR )
+                        {
+                            aeMovieCompositionStateCallbackData callbackData;
+                            callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
+
+                            (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
+                        }
+                        else
+                        {
+                            aeMovieSubCompositionStateCallbackData callbackData;
+                            callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
+                            callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
+
+                            (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
+                        }
+                    }
                 }
-
-                _animation->time = last_time;
-
-                __update_movie_composition_node( _composition, _compositionData, _animation, _subcomposition, begin_time, _interpolate, AE_TRUE );
-
-                ae_float_t new_begin_time = loop_begin_time;
-
-                _animation->time = new_composition_time;
-
-                __update_movie_composition_node( _composition, _compositionData, _animation, _subcomposition, new_begin_time, _interpolate, AE_FALSE );
-
-                ae_uint32_t loop_iterator = 0U;
-                for( ; loop_iterator != loop_count; ++loop_iterator )
+                else
                 {
                     if( _subcomposition == AE_NULLPTR )
                     {
                         aeMovieCompositionStateCallbackData callbackData;
-                        callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
+                        callbackData.state = AE_MOVIE_COMPOSITION_LOOP_CONTINUOUS;
 
                         (*_composition->providers.composition_state)(&callbackData, _composition->provider_userdata);
                     }
                     else
                     {
                         aeMovieSubCompositionStateCallbackData callbackData;
-                        callbackData.state = AE_MOVIE_COMPOSITION_LOOP_END;
+                        callbackData.state = AE_MOVIE_COMPOSITION_LOOP_CONTINUOUS;
                         callbackData.subcomposition_userdata = _subcomposition->subcomposition_userdata;
 
                         (*_composition->providers.subcomposition_state)(&callbackData, _composition->provider_userdata);
