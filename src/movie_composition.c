@@ -3138,17 +3138,14 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
         ae_frame_t in_frame = (test_time == AE_TRUE && node->in_frame <= loop_begin_frame) ? loop_begin_frame : node->in_frame;
         ae_frame_t out_frame = (test_time == AE_TRUE && node->out_frame >= loop_end_frame) ? loop_end_frame : node->out_frame;
 
-        ae_float_t beginFrameF = _beginTime;
-        ae_float_t endFrameF = animation_time;
-        ae_float_t indexInF = in_time;
-        ae_float_t indexOutF = out_time;
+        AE_UNUSED( in_time );
 
-        ae_uint32_t beginFrame = (ae_uint32_t)(beginFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
-        ae_uint32_t endFrame = (ae_uint32_t)(endFrameF * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t beginFrame = (ae_uint32_t)(_beginTime * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t endFrame = (ae_uint32_t)(animation_time * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
         ae_uint32_t indexIn = in_frame;
         ae_uint32_t indexOut = out_frame;
 
-        ae_float_t current_time = (endFrameF >= indexOutF) ? out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
+        ae_float_t current_time = (animation_time >= out_time) ? out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
 
         if( current_time < 0.f )
         {
@@ -3173,7 +3170,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             node->current_frame = frameId;
             node->current_frame_t = 0.f;
 
-            if( beginFrameF < indexInF && endFrameF > indexInF )
+            if( beginFrame < indexIn && endFrame > indexIn )
             {
                 __update_movie_composition_node_matrix( node, _composition, _compositionData, frameId, AE_FALSE, 0.f );
 
@@ -3191,7 +3188,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 (*_composition->providers.composition_event)(&callbackData, _composition->provider_userdata);
             }
 
-            if( beginFrameF < indexOutF && endFrameF > indexOutF )
+            if( beginFrame < indexOut && endFrame > indexOut )
             {
                 __update_movie_composition_node_matrix( node, _composition, _compositionData, frameId, AE_FALSE, 0.f );
 
@@ -3212,7 +3209,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             continue;
         }
 
-        if( indexInF > endFrameF || indexOutF < beginFrameF )
+        if( indexIn > endFrame || indexOut < beginFrame )
         {
             if( node->incessantly == AE_TRUE )
             {
@@ -3233,7 +3230,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             continue;
         }
-        else if( indexInF > beginFrameF && indexOutF < endFrameF )
+        else if( indexIn > beginFrame && indexOut < endFrame )
         {
             if( node->incessantly == AE_TRUE )
             {
