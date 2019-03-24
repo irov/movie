@@ -35,7 +35,7 @@
 AE_INTERNAL ae_void_t __movie_break_point( ae_void_t )
 {
     //Breakpoint
-    ae_uint32_t breakpoint_this;
+    ae_uint32_t breakpoint_this = 0;
     (ae_void_t)breakpoint_this;
 }
 

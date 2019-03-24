@@ -38,7 +38,7 @@ AE_INTERNAL ae_void_t __unhash_movie_layer_transformation_timeline( const aeMovi
     const ae_uint32_t * hashmask = _instance->hashmask;
 
     ae_uint32_t * it_timeline = (ae_uint32_t *)_timeline;
-    ae_uint32_t * it_timeline_end = (ae_uint32_t *)_timeline + _size / 4U;
+    ae_uint32_t * it_timeline_end = (ae_uint32_t *)_timeline + (_size >> 2);
     for( ; it_timeline != it_timeline_end; ++it_timeline )
     {
         ae_uint32_t hashmask_index = (_iterator++) % 5U;
@@ -1094,55 +1094,43 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
 
             if( (identity_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_SKEW) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_SKEW )
             {
-                fixed_transformation += 0x00000001;
+                fixed_transformation |= 1;
             }
 
             if( (identity_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION )
             {
-                fixed_transformation += 0x00000002;
+                fixed_transformation |= 2;
             }
             else if( (immutable_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION )
             {
-                fixed_transformation += 0x00000004;
+                fixed_transformation |= 4;
             }
 
-            switch( fixed_transformation )
+            ae_movie_make_layer_transformation_intepolate_t transforamtion_interpolate_matrix[6] = {
+                &__make_layer_transformation2d_interpolate
+                , &__make_layer_transformation2d_interpolate_wsk
+                , &__make_layer_transformation2d_interpolate_wq
+                , &__make_layer_transformation2d_interpolate_wskq
+                , &__make_layer_transformation2d_interpolate_fq
+                , &__make_layer_transformation2d_interpolate_wskfq
+            };
+
+            ae_movie_make_layer_transformation_fixed_t transforamtion_fixed_matrix[6] = {
+                &__make_layer_transformation2d_fixed
+                , &__make_layer_transformation2d_fixed_wsk
+                , &__make_layer_transformation2d_fixed_wq
+                , &__make_layer_transformation2d_fixed_wskq
+                , &__make_layer_transformation2d_fixed
+                , &__make_layer_transformation2d_fixed_wsk
+            };
+
+            if( fixed_transformation > 5 )
             {
-            case 0:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation2d_interpolate;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation2d_fixed;
-                }break;
-            case 1:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation2d_interpolate_wsk;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation2d_fixed_wsk;
-                }break;
-            case 2:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation2d_interpolate_wq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation2d_fixed_wq;
-                }break;
-            case 3:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation2d_interpolate_wskq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation2d_fixed_wskq;
-                }break;
-            case 4:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation2d_interpolate_fq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation2d_fixed;
-                }break;
-            case 5:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation2d_interpolate_wskfq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation2d_fixed_wsk;
-                }break;
-            default:
-                {
-                    return AE_RESULT_INTERNAL_ERROR;
-                }break;
+                return AE_RESULT_INTERNAL_ERROR;
             }
+
+            _transformation->transforamtion_interpolate_matrix = transforamtion_interpolate_matrix[fixed_transformation];
+            _transformation->transforamtion_fixed_matrix = transforamtion_fixed_matrix[fixed_transformation];
         }
     }
     else
@@ -1178,55 +1166,43 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
 
             if( (identity_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_SKEW) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_SKEW )
             {
-                fixed_transformation += 0x00000001;
+                fixed_transformation |= 1;
             }
 
             if( (identity_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION )
             {
-                fixed_transformation += 0x00000002;
+                fixed_transformation |= 2;
             }
             else if( (immutable_property_mask & AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION) == AE_MOVIE_PROPERTY_TRANSFORM_SUPER_ALL_QUATERNION )
             {
-                fixed_transformation += 0x00000004;
+                fixed_transformation |= 4;
             }
 
-            switch( fixed_transformation )
-            {
-            case 0:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation3d_interpolate;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation3d_fixed;
-                }break;
-            case 1:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation3d_interpolate_wsk;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation3d_fixed_wsk;
-                }break;
-            case 2:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation3d_interpolate_wq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation3d_fixed_wq;
-                }break;
-            case 3:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation3d_interpolate_wskq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation3d_fixed_wskq;
-                }break;
-            case 4:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation3d_interpolate_fq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation3d_fixed;
-                }break;
-            case 5:
-                {
-                    _transformation->transforamtion_interpolate_matrix = &__make_layer_transformation3d_interpolate_wskfq;
-                    _transformation->transforamtion_fixed_matrix = &__make_layer_transformation3d_fixed_wsk;
-                }break;
-            default:
-                {
-                    return AE_RESULT_INTERNAL_ERROR;
-                }break;
+            ae_movie_make_layer_transformation_intepolate_t transforamtion_interpolate_matrix[6] = { 
+                &__make_layer_transformation3d_interpolate
+                , &__make_layer_transformation3d_interpolate_wsk
+                , &__make_layer_transformation3d_interpolate_wq
+                , &__make_layer_transformation3d_interpolate_wskq
+                , &__make_layer_transformation3d_interpolate_fq
+                , &__make_layer_transformation3d_interpolate_wskfq 
             };
+            
+            ae_movie_make_layer_transformation_fixed_t transforamtion_fixed_matrix[6] = {
+                &__make_layer_transformation3d_fixed
+                , &__make_layer_transformation3d_fixed_wsk
+                , &__make_layer_transformation3d_fixed_wq
+                , &__make_layer_transformation3d_fixed_wskq
+                , &__make_layer_transformation3d_fixed
+                , &__make_layer_transformation3d_fixed_wsk
+            };
+
+            if( fixed_transformation > 5 )
+            {
+                return AE_RESULT_INTERNAL_ERROR;
+            }
+
+            _transformation->transforamtion_interpolate_matrix = transforamtion_interpolate_matrix[fixed_transformation];
+            _transformation->transforamtion_fixed_matrix = transforamtion_fixed_matrix[fixed_transformation];
         }
     }
 
@@ -1626,8 +1602,6 @@ ae_void_t ae_movie_make_layer_transformation2d_fixed( ae_vector2_t _anchor_point
 
     AE_FIXED_PROPERTY( _transformation2d, skew, 0, _skew[0] );
     AE_FIXED_PROPERTY( _transformation2d, skew_quaternion_z, 0, _skew[1] );
-    AE_FIXED_PROPERTY( _transformation2d, skew_quaternion_w, 0, _skew[2] );
-
     AE_FIXED_PROPERTY( _transformation2d, skew_quaternion_w, 0, _skew[2] );
 }
 //////////////////////////////////////////////////////////////////////////

@@ -1544,8 +1544,6 @@ AE_INTERNAL ae_result_t __load_movie_data_composition( const aeMovieData * _movi
 
     _compositionData->duration_frame = (ae_uint32_t)(_compositionData->duration_time * _compositionData->frameDurationInv + 0.5f);
 
-    _compositionData->camera = AE_NULLPTR;
-
     _compositionData->flags = 0;
 
     _compositionData->loop_segment[0] = 0.f;
@@ -1727,7 +1725,7 @@ ae_void_t ae_delete_movie_stream( const aeMovieStream * _stream )
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_result_t __check_movie_data( aeMovieStream * _stream, ae_uint32_t * _major, ae_uint32_t * _minor )
 {
-    ae_uint8_t magic[4] = {0};
+    ae_uint8_t magic[4];
     AE_READN( _stream, magic, 4 );
 
     if( magic[0] != 'A' ||
@@ -2695,7 +2693,7 @@ ae_bool_t ae_test_movie_layer_data_opacity_transparent( const aeMovieLayerData *
         return AE_FALSE;
     }
 
-    if( _layer->transformation->immutable_opacity != 0.f )
+    if( _layer->transformation->immutable_opacity > 0.00390625f )
     {
         return AE_FALSE;
     }

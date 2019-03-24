@@ -147,21 +147,11 @@ const aeMovieInstance * ae_create_movie_instance( const ae_char_t * _hashkey, ae
         instance->use_hash = AE_TRUE;
 
         ae_uint32_t i = 0;
-        for( ; i != 41; ++i )
+        for( ; i != 40; ++i )
         {
-            if( _hashkey[i] == '\0' && i != 40 )
+            if( _hashkey[i] == '\0' )
             {
                 return AE_NULLPTR;
-            }
-
-            if( _hashkey[i] != '\0' && i == 40 )
-            {
-                return AE_NULLPTR;
-            }
-
-            if( _hashkey[i] == '\0' && i == 40 )
-            {
-                break;
             }
 
             ae_uint32_t j = i / 8;
@@ -171,7 +161,7 @@ const aeMovieInstance * ae_create_movie_instance( const ae_char_t * _hashkey, ae
 
             ae_uint32_t v = (hash_char > '9') ? hash_char - 'a' + 10 : (hash_char - '0');
 
-            instance->hashmask[j] += v << (k * 4);
+            instance->hashmask[j] += v << (k << 2);
         }
     }
 

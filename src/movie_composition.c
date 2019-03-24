@@ -503,7 +503,7 @@ AE_INTERNAL ae_bool_t __test_error_composition_layer_frame( const aeMovieInstanc
     {
         _instance->logger( _instance->instance_userdata
             , AE_ERROR_INTERNAL
-            , "composition '%s' layer '%s' - %s\n"
+            , "composition '%s' layer '%s' - '%s'\n"
             , _compositionData->name
             , _layerData->name
             , _msg
@@ -2969,7 +2969,7 @@ AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, co
 {
     const aeMovieLayerData * node_layer = _node->layer;
 
-#ifdef AE_MOVIE_DEBUG	
+#ifdef AE_MOVIE_DEBUG
     if( __test_error_composition_layer_frame( _composition->movie_data->instance
         , _compositionData
         , node_layer
@@ -2986,7 +2986,7 @@ AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, co
     {
         return;
     }
-#endif    
+#endif
 
     ae_bool_t node_interpolate = (_frameId + 1 == node_layer->frame_count) ? AE_FALSE : _interpolate;
 
@@ -2997,7 +2997,7 @@ AE_INTERNAL ae_void_t __update_node( const aeMovieComposition * _composition, co
         __update_movie_composition_node_shader( _node, _composition, _compositionData, _frameId, node_interpolate, _t );
     }
 
-    __update_movie_composition_node_state( _composition, _animation, _node, _index, _loop, _begin, _time, node_interpolate );    
+    __update_movie_composition_node_state( _composition, _animation, _node, _index, _loop, _begin, _time, node_interpolate );
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_movie_scene_effect( const aeMovieComposition * _composition, const aeMovieCompositionAnimation * _animation )
@@ -3124,55 +3124,57 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
         const aeMovieLayerData * node_layer = node->layer;
 
+        aeMovieLayerTypeEnum node_layer_type = node_layer->type;
+
         ae_float_t frameDurationInv = node_layer->composition_data->frameDurationInv;
 
         ae_bool_t test_time = (_beginTime >= loop_begin_time
             && animation_time < loop_end_time
             && animation_interrupt == AE_FALSE
             && animation_loop == AE_TRUE
-            && node_layer->type != AE_MOVIE_LAYER_TYPE_EVENT);
+            && node_layer_type != AE_MOVIE_LAYER_TYPE_EVENT);
 
-        ae_float_t in_time = (test_time == AE_TRUE && node->in_time <= loop_begin_time) ? loop_begin_time : node->in_time;
-        ae_float_t out_time = (test_time == AE_TRUE && node->out_time >= loop_end_time) ? loop_end_time : node->out_time;
+        ae_float_t node_in_time = (test_time == AE_TRUE && node->in_time <= loop_begin_time) ? loop_begin_time : node->in_time;
+        ae_float_t node_out_time = (test_time == AE_TRUE && node->out_time >= loop_end_time) ? loop_end_time : node->out_time;
 
-        ae_frame_t in_frame = (test_time == AE_TRUE && node->in_frame <= loop_begin_frame) ? loop_begin_frame : node->in_frame;
-        ae_frame_t out_frame = (test_time == AE_TRUE && node->out_frame >= loop_end_frame) ? loop_end_frame : node->out_frame;
+        ae_frame_t node_in_frame = (test_time == AE_TRUE && node->in_frame <= loop_begin_frame) ? loop_begin_frame : node->in_frame;
+        ae_frame_t node_out_frame = (test_time == AE_TRUE && node->out_frame >= loop_end_frame) ? loop_end_frame : node->out_frame;
 
-        AE_UNUSED( in_time );
+        AE_UNUSED( node_in_time );
 
         ae_uint32_t beginFrame = (ae_uint32_t)(_beginTime * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
         ae_uint32_t endFrame = (ae_uint32_t)(animation_time * frameDurationInv + AE_MOVIE_FRAME_EPSILON);
-        ae_uint32_t indexIn = in_frame;
-        ae_uint32_t indexOut = out_frame;
+        ae_uint32_t nodeInFrame = node_in_frame;
+        ae_uint32_t nodeOutFrame = node_out_frame;
 
-        ae_float_t current_time = (animation_time >= out_time) ? out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
+        ae_float_t node_current_time = (animation_time >= node_out_time) ? node_out_time - node->in_time + node->start_time : animation_time - node->in_time + node->start_time;
 
-        if( current_time < 0.f )
+        if( node_current_time < 0.f )
         {
-            current_time = 0.f;
+            node_current_time = 0.f;
         }
 
-        ae_float_t stretch_time = current_time * node->stretchInv;
-        ae_float_t frame_time = stretch_time * frameDurationInv;
+        ae_float_t node_stretch_time = node_current_time * node->stretchInv;
+        ae_float_t node_frame_time = node_stretch_time * frameDurationInv;
 
-        ae_uint32_t frameId2 = (ae_uint32_t)frame_time;
-        ae_uint32_t frameId = (ae_uint32_t)(frame_time + AE_MOVIE_FRAME_EPSILON);
+        ae_uint32_t nodeFrameId2 = (ae_uint32_t)node_frame_time;
+        ae_uint32_t nodeFrameId = (ae_uint32_t)(node_frame_time + AE_MOVIE_FRAME_EPSILON);
 
-        ae_float_t frame_time_for_fractional = frame_time;
-        if( frameId != frameId2 )
+        ae_float_t node_frame_time_for_fractional = node_frame_time;
+        if( nodeFrameId != nodeFrameId2 )
         {
-            frame_time_for_fractional = 0.f;
+            node_frame_time_for_fractional = 0.f;
         }
 
-        if( node_layer->type == AE_MOVIE_LAYER_TYPE_EVENT )
+        if( node_layer_type == AE_MOVIE_LAYER_TYPE_EVENT )
         {
-            node->current_time = stretch_time;
-            node->current_frame = frameId;
+            node->current_time = node_stretch_time;
+            node->current_frame = nodeFrameId;
             node->current_frame_t = 0.f;
 
-            if( beginFrame < indexIn && endFrame > indexIn )
+            if( beginFrame < nodeInFrame && endFrame > nodeInFrame )
             {
-                __update_movie_composition_node_matrix( node, _composition, _compositionData, frameId, AE_FALSE, 0.f );
+                __update_movie_composition_node_matrix( node, _composition, _compositionData, nodeFrameId, AE_FALSE, 0.f );
 
                 aeMovieCompositionEventCallbackData callbackData;
                 callbackData.index = enumerator;
@@ -3188,9 +3190,9 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 (*_composition->providers.composition_event)(&callbackData, _composition->provider_userdata);
             }
 
-            if( beginFrame < indexOut && endFrame > indexOut )
+            if( beginFrame < nodeOutFrame && endFrame > nodeOutFrame )
             {
-                __update_movie_composition_node_matrix( node, _composition, _compositionData, frameId, AE_FALSE, 0.f );
+                __update_movie_composition_node_matrix( node, _composition, _compositionData, nodeFrameId, AE_FALSE, 0.f );
 
                 aeMovieCompositionEventCallbackData callbackData;
                 callbackData.index = enumerator;
@@ -3209,12 +3211,12 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             continue;
         }
 
-        if( indexIn > endFrame || indexOut < beginFrame )
+        if( nodeInFrame > endFrame || nodeOutFrame < beginFrame )
         {
-            if( node->incessantly == AE_TRUE )
+            if( node->incessantly == AE_TRUE || node_layer_type == AE_MOVIE_LAYER_TYPE_SUB_MOVIE )
             {
-                node->current_time = 0.f;
-                node->current_frame = 0U;
+                node->current_time = node_stretch_time;
+                node->current_frame = nodeFrameId;
                 node->current_frame_t = 0.f;
 
                 __update_movie_composition_node_matrix( node, _composition, _compositionData, 0, AE_FALSE, 0.f );
@@ -3230,17 +3232,17 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             continue;
         }
-        else if( indexIn > beginFrame && indexOut < endFrame )
+        else if( nodeInFrame > beginFrame && nodeOutFrame < endFrame )
         {
-            if( node->incessantly == AE_TRUE )
+            if( node->incessantly == AE_TRUE || node_layer_type == AE_MOVIE_LAYER_TYPE_SUB_MOVIE )
             {
-                node->current_time = stretch_time;
-                node->current_frame = frameId;
+                node->current_time = 0.f;
+                node->current_frame = 0U;
                 node->current_frame_t = 0.f;
 
-                __update_movie_composition_node_matrix( node, _composition, _compositionData, frameId, AE_FALSE, 0.f );
+                __update_movie_composition_node_matrix( node, _composition, _compositionData, nodeFrameId, AE_FALSE, 0.f );
 
-                __update_movie_composition_node_state( _composition, _animation, node, enumerator, AE_TRUE, AE_TRUE, stretch_time, composition_interpolate );
+                __update_movie_composition_node_state( _composition, _animation, node, enumerator, AE_TRUE, AE_TRUE, node_stretch_time, composition_interpolate );
 
                 node->active = AE_TRUE;
             }
@@ -3252,31 +3254,31 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
             continue;
         }
 
-        node->current_time = stretch_time;
-        node->current_frame = frameId;
+        node->current_time = node_stretch_time;
+        node->current_frame = nodeFrameId;
 
         ae_bool_t node_loop = ((animation_loop == AE_TRUE && animation_interrupt == AE_FALSE && loop_begin_time >= node->in_time && node->out_time >= loop_end_time) || node_layer->incessantly == AE_TRUE);
 
-        if( beginFrame < indexIn && endFrame >= indexIn && endFrame < indexOut )
+        if( beginFrame < nodeInFrame && endFrame >= nodeInFrame && endFrame < nodeOutFrame )
         {
             node->active = AE_TRUE;
 
-            ae_bool_t node_interpolate = composition_interpolate ? ((endFrame + 1) < indexOut) : AE_FALSE;
+            ae_bool_t node_interpolate = composition_interpolate ? ((endFrame + 1) < nodeOutFrame) : AE_FALSE;
 
             if( node_interpolate == AE_TRUE )
             {
-                node->current_frame_t = ae_fractional_f( frame_time_for_fractional );
+                node->current_frame_t = ae_fractional_f( node_frame_time_for_fractional );
             }
 
             __update_node( _composition, _compositionData, _animation, node, enumerator, animation_time, node->current_frame, node->current_frame_t, node_loop, node_interpolate, AE_TRUE );
         }
-        else if( endFrame >= indexOut && beginFrame >= indexIn && beginFrame < indexOut )
+        else if( endFrame >= nodeOutFrame && beginFrame >= nodeInFrame && beginFrame < nodeOutFrame )
         {
             ae_bool_t node_active = (node_loop == AE_TRUE || node->incessantly == AE_TRUE) ? AE_TRUE : AE_FALSE;
 
             node->active = node_active;
 
-            ae_uint32_t frameEnd = indexOut - indexIn;
+            ae_uint32_t frameEnd = nodeOutFrame - nodeInFrame;
 
             node->current_frame = frameEnd;
             node->current_frame_t = 0.f;
@@ -3285,15 +3287,15 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
 
             __update_node( _composition, _compositionData, _animation, node, enumerator, animation_time, node->current_frame, node->current_frame_t, node_loop, AE_FALSE, begin );
         }
-        else if( beginFrame >= indexIn && endFrame >= indexIn && endFrame < indexOut )
+        else if( beginFrame >= nodeInFrame && endFrame >= nodeInFrame && endFrame < nodeOutFrame )
         {
             node->active = AE_TRUE;
 
-            ae_bool_t node_interpolate = (composition_interpolate == AE_TRUE) ? (endFrame + 1) < indexOut : AE_FALSE;
+            ae_bool_t node_interpolate = (composition_interpolate == AE_TRUE) ? (endFrame + 1) < nodeOutFrame : AE_FALSE;
 
             if( node_interpolate == AE_TRUE )
             {
-                node->current_frame_t = ae_fractional_f( frame_time_for_fractional );
+                node->current_frame_t = ae_fractional_f( node_frame_time_for_fractional );
             }
 
             ae_bool_t begin = (_end == AE_TRUE) ? AE_FALSE : AE_TRUE;
