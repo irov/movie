@@ -33,6 +33,7 @@
 
 #include "movie_transformation.h"
 #include "movie_bezier.h"
+#include "movie_utils.h"
 #include "movie_memory.h"
 #include "movie_stream.h"
 

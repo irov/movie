@@ -70,6 +70,7 @@ source
     ${SOURCE_DIR}/movie_instance.c
     ${SOURCE_DIR}/movie_math.c
     ${SOURCE_DIR}/movie_math.h
+    ${SOURCE_DIR}/movie_utils.h
     ${SOURCE_DIR}/movie_memory.h
     ${SOURCE_DIR}/movie_composition.c
     ${SOURCE_DIR}/movie_providers.c

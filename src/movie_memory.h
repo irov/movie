@@ -99,7 +99,5 @@ AE_INTERNAL ae_void_t __magic_memory_free_n( const aeMovieInstance * _instance, 
 #	define AE_DELETE_STRING(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
 //////////////////////////////////////////////////////////////////////////
 #endif
-//////////////////////////////////////////////////////////////////////////
-#define AE_STRNCMP(instance, src, dst, count) (instance->strncmp(instance->instance_userdata, src, dst, count))
 
 #endif

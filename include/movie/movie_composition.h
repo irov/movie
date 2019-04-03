@@ -27,8 +27,8 @@
 * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *****************************************************************************/
 
-#ifndef MOVIE_NODE_H_
-#define MOVIE_NODE_H_
+#ifndef MOVIE_COMPOSITION_H_
+#define MOVIE_COMPOSITION_H_
 
 #include "movie_type.h"
 #include "movie_typedef.h"
@@ -403,6 +403,13 @@ ae_bool_t ae_get_movie_composition_node_enable_any( const aeMovieComposition * _
 @{
 */
 
+/**
+@brief has composition sub-composition by name.
+@param [in] _composition Composition.
+@param [in] _name Name of a sub-composition to test for.
+@return True if exist sub-composition.
+*/
+
 ae_bool_t ae_has_movie_sub_composition( const aeMovieComposition * _composition, const ae_char_t * _name );
 
 /**
@@ -416,6 +423,13 @@ const aeMovieSubComposition * ae_get_movie_sub_composition( const aeMovieComposi
 
 typedef ae_bool_t( *ae_movie_sub_composition_visitor_t )(const aeMovieComposition * _compositionData, ae_uint32_t _index, const ae_char_t * _name, const aeMovieSubComposition * _subcomposition, ae_userdata_t _ud);
 
+/**
+@brief visit all sub-composition
+@param [in] _composition Composition.
+@param [in] _visitor function.
+@param [in] _ud user data.
+@return False if break visit sub-composition.
+*/
 ae_bool_t ae_visit_movie_sub_composition( const aeMovieComposition * _composition, ae_movie_sub_composition_visitor_t _visitor, ae_userdata_t _ud );
 
 /**
