@@ -1,4 +1,4 @@
-[![Beerpay](https://beerpay.io/irov/Mengine/badge.svg?style=flat)](https://beerpay.io/irov/Mengine)
+[![Beerpay](https://beerpay.io/irov/libmovie/badge.svg?style=flat)](https://beerpay.io/irov/libmovie)
 
 Framework for render After Effects composition
 
