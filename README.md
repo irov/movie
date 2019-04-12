@@ -1,3 +1,4 @@
+[![Beerpay](https://beerpay.io/irov/Mengine/badge.svg?style=flat)](https://beerpay.io/irov/Mengine)
 
 Framework for render After Effects composition
 
@@ -17,7 +18,3 @@ Code Review by CodeFactor!
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/23c7dab2df584d4b82ed35a44838c0a2)](https://app.codacy.com/app/irov13/libmovie?utm_source=github.com&utm_medium=referral&utm_content=irov/libmovie&utm_campaign=Badge_Grade_Dashboard)
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/irov/libmovie?branch=master)](https://bettercodehub.com/)
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/irov/libmovie/badge.svg?style=beer-square)](https://beerpay.io/irov/libmovie)  [![Beerpay](https://beerpay.io/irov/libmovie/make-wish.svg?style=flat-square)](https://beerpay.io/irov/libmovie?focus=wish)
