@@ -33,7 +33,7 @@
 #include "movie_memory.h"
 
 //////////////////////////////////////////////////////////////////////////
-AE_CALLBACK ae_int32_t __movie_strncmp( ae_voidptr_t _data, const ae_char_t * _src, const ae_char_t * _dst, ae_size_t _count )
+AE_CALLBACK ae_int32_t __movie_strncmp( ae_userdata_t _data, const ae_char_t * _src, const ae_char_t * _dst, ae_size_t _count )
 {
     AE_UNUSED( _data );
 
@@ -59,7 +59,7 @@ AE_CALLBACK ae_int32_t __movie_strncmp( ae_voidptr_t _data, const ae_char_t * _s
     return 0;
 }
 //////////////////////////////////////////////////////////////////////////
-AE_CALLBACK ae_void_t __movie_logerror( ae_voidptr_t _data, aeMovieErrorCode _code, const ae_char_t * _message, ... )
+AE_CALLBACK ae_void_t __movie_logerror( ae_userdata_t _data, aeMovieErrorCode _code, const ae_char_t * _message, ... )
 {
     AE_UNUSED( _data );
     AE_UNUSED( _code );

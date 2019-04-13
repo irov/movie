@@ -15,12 +15,12 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _userdata, ae_size_
     return malloc( total );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free( ae_voidptr_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_voidptr_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }

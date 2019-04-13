@@ -189,24 +189,11 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
     aeMovieLayerTypeEnum layer_type = layer->type;
 
     _render->layer_type = layer_type;
-
     _render->blend_mode = _node->blend_mode;
-
-    if( resource != AE_NULLPTR )
-    {
-        _render->resource_type = resource->type;
-        _render->resource_userdata = resource->userdata;
-    }
-    else
-    {
-        _render->resource_type = AE_MOVIE_RESOURCE_NONE;
-        _render->resource_userdata = AE_NULLPTR;
-    }
-
+    _render->resource = resource;
     _render->camera_userdata = _node->camera_userdata;
     _render->element_userdata = _node->element_userdata;
     _render->shader_userdata = _node->shader_userdata;
-
     _render->viewport = _node->viewport;
 
     if( _node->track_matte_node != AE_NULLPTR && _node->track_matte_node->active == AE_TRUE )
@@ -287,8 +274,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
 
             const aeMovieResourceImage * resource_image = resource_sequence->images[frame_sequence];
 
-            _render->resource_type = resource_image->type;
-            _render->resource_userdata = resource_image->userdata;
+            _render->resource = (const aeMovieResource *)resource_image;
 
             if( layer->extensions->mesh != AE_NULLPTR )
             {
@@ -3864,7 +3850,7 @@ ae_void_t ae_get_movie_composition_in_out_loop( const aeMovieComposition * _comp
     *_out = AE_TIME_OUTSCALE( work_end );
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_set_movie_composition_slot_userdata( const aeMovieComposition * _composition, const ae_char_t * _name, ae_voidptr_t _userdata )
+ae_bool_t ae_set_movie_composition_slot_userdata( const aeMovieComposition * _composition, const ae_char_t * _name, ae_userdata_t _userdata )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
 

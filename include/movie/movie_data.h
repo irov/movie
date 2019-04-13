@@ -293,6 +293,10 @@ ae_uint32_t ae_get_movie_layer_data_option( const aeMovieLayerData * _layer, ae_
 */
 const aeMovieResource * ae_get_movie_layer_data_resource( const aeMovieLayerData * _layer );
 
+aeMovieResourceTypeEnum ae_get_movie_resource_type( const aeMovieResource * _resource );
+const ae_char_t * ae_get_movie_resource_name( const aeMovieResource * _resource );
+ae_userdata_t ae_get_movie_resource_userdata( const aeMovieResource * _resource );
+
 /**
 @param [in] _layer Layer.
 @return Pointer to the data referenced by the resource linked to the layer.

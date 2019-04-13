@@ -18,18 +18,18 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _userdata, ae_size_
     return malloc( total );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free( ae_voidptr_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_voidptr_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
 //////////////////////////////////////////////////////////////////////////
-AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size )
+AE_CALLBACK ae_size_t __read_file( ae_userdata_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size )
 {
     AE_UNUSED( _carriage );
 
@@ -40,7 +40,7 @@ AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _data, ae_voidptr_t _buff, ae_si
     return s;
 }
 
-AE_CALLBACK ae_void_t __memory_copy( ae_voidptr_t _data, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size )
+AE_CALLBACK ae_void_t __memory_copy( ae_userdata_t _data, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size )
 {
     AE_UNUSED( _data );
 

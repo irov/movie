@@ -2680,7 +2680,22 @@ const aeMovieResource * ae_get_movie_layer_data_resource( const aeMovieLayerData
     return _layer->resource;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_voidptr_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData * _layer )
+aeMovieResourceTypeEnum ae_get_movie_resource_type( const aeMovieResource * _resource )
+{
+    return _resource->type;
+}
+//////////////////////////////////////////////////////////////////////////
+const ae_char_t * ae_get_movie_resource_name( const aeMovieResource * _resource )
+{
+    return _resource->name;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_userdata_t ae_get_movie_resource_userdata( const aeMovieResource * _resource )
+{
+    return _resource->userdata;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_userdata_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData * _layer )
 {
     const aeMovieResource * resource = _layer->resource;
 

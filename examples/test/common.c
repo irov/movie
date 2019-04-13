@@ -54,28 +54,28 @@ ae_float_t ex_get_time( ae_void_t ) {
     return (ae_float_t)c / (ae_float_t)CLOCKS_PER_SEC;
 }
 
-AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_voidptr_t _data, ae_size_t _size ) {
+AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _data, ae_size_t _size ) {
     AE_UNUSED( _data );
     return malloc( _size );
 }
 
-AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_voidptr_t _data, ae_size_t _size, ae_size_t _count ) {
+AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _data, ae_size_t _size, ae_size_t _count ) {
     AE_UNUSED( _data );
     ae_size_t total = _size * _count;
     return malloc( total );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free( ae_voidptr_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_voidptr_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_voidptr_t _data, aeMovieErrorCode _code, const ae_char_t * _format, ... ) {
+AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_userdata_t _data, aeMovieErrorCode _code, const ae_char_t * _format, ... ) {
     AE_UNUSED( _data );
     AE_UNUSED( _code );
     va_list argList;
@@ -84,14 +84,14 @@ AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_voidptr_t _data, aeMovieErrorCod
     va_end( argList );
 }
 
-AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size ) {
+AE_CALLBACK ae_size_t __read_file( ae_userdata_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size ) {
     AE_UNUSED( _carriage );
     FILE * f = (FILE *)_data;
     ae_size_t s = fread( _buff, 1, _size, f );
     return s;
 }
 
-AE_CALLBACK ae_void_t __memory_copy( ae_voidptr_t _data, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size ) {
+AE_CALLBACK ae_void_t __memory_copy( ae_userdata_t _data, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size ) {
     AE_UNUSED( _data );
     memcpy( _dst, _src, _size );
 }

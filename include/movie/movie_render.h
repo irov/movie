@@ -62,14 +62,9 @@ typedef struct aeMovieRenderMesh
     ae_blend_mode_t blend_mode;
 
     /**
-    @brief Type of the resource associated with the mesh.
+    @brief resource associated with the mesh.
     */
-    aeMovieResourceTypeEnum resource_type;
-
-    /**
-    @brief Pointer to the resource data.
-    */
-    ae_userdata_t resource_userdata;
+    const aeMovieResource * resource;
 
     /**
     @brief Number of vertices.
