@@ -522,7 +522,9 @@ void Composition::Draw( const DrawMode mode )
                 {
                     if( render_mesh.vertexCount && render_mesh.indexCount )
                     {
-                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(render_mesh.resource_userdata);
+                        ae_userdata_t resource_userdata = ae_get_movie_resource_userdata( render_mesh.resource );
+
+                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(resource_userdata);
                         this->DrawMesh( &render_mesh, imageRes, nullptr, nullptr );
                     }
                 } break;
@@ -544,7 +546,9 @@ void Composition::Draw( const DrawMode mode )
                         const aeMovieRenderMesh& track_matte_mesh = track_matte_desc->mesh;
 
                         ResourceImage* matteImageRes = reinterpret_cast<ResourceImage*>(render_mesh.element_userdata);
-                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(render_mesh.resource_userdata);
+
+                        ae_userdata_t resource_userdata = ae_get_movie_resource_userdata( render_mesh.resource );
+                        ResourceImage* imageRes = reinterpret_cast<ResourceImage*>(resource_userdata);
 
                         for( ae_uint32_t i = 0; i != track_matte_mesh.vertexCount; ++i )
                         {

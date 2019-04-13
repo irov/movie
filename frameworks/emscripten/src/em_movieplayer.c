@@ -1743,7 +1743,7 @@ void em_update_movie_composition( em_player_t * _player, em_movie_composition_t 
     ae_update_movie_composition( ae_movie_composition, _time );
 }
 //////////////////////////////////////////////////////////////////////////
-static ae_bool_t __em_render_set_blend( aeMovieRenderMesh * mesh )
+static ae_bool_t __em_render_set_blend( const aeMovieRenderMesh * mesh )
 {
     ae_bool_t texture_premultiplied = AE_FALSE;
 
@@ -1752,7 +1752,8 @@ static ae_bool_t __em_render_set_blend( aeMovieRenderMesh * mesh )
     case AE_MOVIE_LAYER_TYPE_SEQUENCE:
     case AE_MOVIE_LAYER_TYPE_IMAGE:
         {
-            const em_resource_image_t * resource_image = (const em_resource_image_t *)mesh->resource_userdata;
+            ae_userdata_t resource_userdata = ae_get_movie_resource_userdata( mesh->resource );
+            const em_resource_image_t * resource_image = (const em_resource_image_t *)resource_userdata;
                         
             texture_premultiplied = resource_image->is_premultiplied;
         }
@@ -1791,7 +1792,7 @@ static ae_bool_t __em_render_set_blend( aeMovieRenderMesh * mesh )
     return texture_premultiplied;
 }
 //////////////////////////////////////////////////////////////////////////
-static void __em_render_set_camera( const aeMovieComposition * ae_movie_composition, float player_width, float player_height, aeMovieRenderMesh * mesh, float * m )
+static void __em_render_set_camera( const aeMovieComposition * ae_movie_composition, float player_width, float player_height, const aeMovieRenderMesh * mesh, float * m )
 {
     if( mesh->camera_userdata == AE_NULLPTR )
     {
@@ -1892,7 +1893,8 @@ void em_render_movie_composition( em_player_t * _player, em_movie_composition_t 
             case AE_MOVIE_LAYER_TYPE_SEQUENCE:
             case AE_MOVIE_LAYER_TYPE_IMAGE:
                 {
-                    const em_resource_image_t * resource_image = (const em_resource_image_t *)mesh.resource_userdata;
+                    ae_userdata_t resource_userdata = ae_get_movie_resource_userdata( mesh.resource );
+                    const em_resource_image_t * resource_image = (const em_resource_image_t *)resource_userdata;
 
                     texture_id = resource_image->texture_id;
 
