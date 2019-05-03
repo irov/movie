@@ -45,7 +45,7 @@
 #   define AE_TIME_INSCALE( T ) (T)
 #   define AE_TIME_SECOND(T) (T)
 #   define AE_TIME_MILLISECOND(T) ((T) * 1000.f)
-#elif AE_TIME_MILLISECOND
+#elif AE_TIME_USE_MILLISECOND
 #   define AE_TIME_OUTSCALE( T ) ((T) * 1000.f)
 #   define AE_TIME_INSCALE( T ) ((T) * 0.001f)
 #   define AE_TIME_SECOND(T) ((T) * 0.001f)
