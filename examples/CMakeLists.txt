@@ -42,7 +42,7 @@ set_target_properties (example1 PROPERTIES
         FOLDER examples
     )
 
-TARGET_LINK_LIBRARIES(example1 example_common)
+TARGET_LINK_LIBRARIES(example1 movie example_common)
 
 set(
 example2_SOURCES
@@ -57,7 +57,7 @@ set_target_properties (example2 PROPERTIES
         FOLDER examples
     )
 
-TARGET_LINK_LIBRARIES(example2 example_common)
+TARGET_LINK_LIBRARIES(example2 movie example_common)
 
 set(
 example3_SOURCES
@@ -72,4 +72,4 @@ set_target_properties (example3 PROPERTIES
         FOLDER examples
     )
 
-TARGET_LINK_LIBRARIES(example3 example_common)
+TARGET_LINK_LIBRARIES(example3 movie example_common)
