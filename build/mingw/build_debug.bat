@@ -1,7 +1,7 @@
 @echo off
 
 set "CONFIGURATION=Debug"
-set "SOLUTION_DIR=..\solutions\libmovie_mingw_debug"
+set "SOLUTION_DIR=..\solutions\libmovie_mingw_%CONFIGURATION%"
 
 @pushd ..
 @mkdir %SOLUTION_DIR%

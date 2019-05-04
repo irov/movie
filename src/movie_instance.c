@@ -142,7 +142,7 @@ const aeMovieInstance * ae_create_movie_instance( const ae_char_t * _hashkey, ae
     instance->hashmask[3] = 0;
     instance->hashmask[4] = 0;
 
-    if( _hashkey != AE_NULLPTR )
+    if( _hashkey != AE_HASHKEY_EMPTY && _hashkey[0] != '\0' )
     {
         instance->use_hash = AE_TRUE;
 

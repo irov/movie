@@ -100,59 +100,7 @@ if(LIBMOVIE_INSTALL)
 endif()
 
 if(LIBMOVIE_EXAMPLES_BUILD)
-    SET( EXAMPLES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/examples )
-
-    set(
-    sandbox_SOURCES
-        ${EXAMPLES_DIR}/sandbox/sandbox.c
-    )
-
-    INCLUDE_DIRECTORIES( sandbox ${INCLUDE_DIR} )
-    
-    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
-
-    ADD_EXECUTABLE( sandbox ${sandbox_SOURCES} )
-
-    TARGET_LINK_LIBRARIES( sandbox movie )
-    
-    set(
-    test1_SOURCES
-        ${EXAMPLES_DIR}/test/common.c
-        ${EXAMPLES_DIR}/test/common.h
-        ${EXAMPLES_DIR}/test/test1.c
-    )
-
-    INCLUDE_DIRECTORIES( test1 ${INCLUDE_DIR} )
-
-    ADD_EXECUTABLE( test1 ${test1_SOURCES} )
-
-    TARGET_LINK_LIBRARIES( test1 movie )    
-    
-    set(
-    test2_SOURCES
-        ${EXAMPLES_DIR}/test/common.c
-        ${EXAMPLES_DIR}/test/common.h
-        ${EXAMPLES_DIR}/test/test2.c
-    )
-
-    INCLUDE_DIRECTORIES( test2 ${INCLUDE_DIR} )
-
-    ADD_EXECUTABLE( test2 ${test2_SOURCES} )
-
-    TARGET_LINK_LIBRARIES( test2 movie )
-    
-    set(
-    test3_SOURCES
-        ${EXAMPLES_DIR}/test/common.c
-        ${EXAMPLES_DIR}/test/common.h
-        ${EXAMPLES_DIR}/test/test3.c
-    )
-
-    INCLUDE_DIRECTORIES( test3 ${INCLUDE_DIR} )
-
-    ADD_EXECUTABLE( test3 ${test3_SOURCES} )
-
-    TARGET_LINK_LIBRARIES( test3 movie )    
+    add_subdirectory(examples)
 endif()
 
 if(LIBMOVIE_TEST)

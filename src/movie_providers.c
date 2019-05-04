@@ -182,7 +182,7 @@ AE_INTERNAL ae_void_t __dummy_movie_composition_callback_subcomposition_state(co
     AE_UNUSED(_ud);
 }
 //////////////////////////////////////////////////////////////////////////
-ae_void_t ae_clear_movie_composition_providers( aeMovieCompositionProviders * _providers )
+ae_void_t ae_initialize_movie_composition_providers( aeMovieCompositionProviders * _providers )
 {
     _providers->node_provider = &__dummy_movie_composition_callback_node_provider;
     _providers->node_deleter = &__dummy_movie_composition_callback_node_deleter;

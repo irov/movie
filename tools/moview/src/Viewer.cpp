@@ -23,7 +23,7 @@
 #include <time.h>
 
 //////////////////////////////////////////////////////////////////////////
-static const char * g_default_hash = "52ad6f051099762d0a0787b4eb2d07c8a0ee4491";
+static const char * g_default_hash = "";
 //////////////////////////////////////////////////////////////////////////
 static const float g_ContentScaleMin  = 0.1f;
 static const float g_ContentScaleMax  = 10.f;
@@ -466,6 +466,7 @@ void Viewer::DoUI()
     float nextY = 0.f;
 
     bool openNewMovie = false;
+    bool setNewLicenceHash = false;
 
     ImGui::SetNextWindowPos( ImVec2( 0.f, nextY ) );
     ImGui::SetNextWindowSize( ImVec2( leftPanelWidth, 0.f ) );
@@ -516,6 +517,8 @@ void Viewer::DoUI()
                 {
                     mSettings.licenseHash = g_default_hash;
                 }
+
+                setNewLicenceHash = strlen( licenseHash ) == 40 || strlen( licenseHash ) == 0;
             }
         }
         ImGui::PopItemWidth();
@@ -523,7 +526,7 @@ void Viewer::DoUI()
     nextY += ImGui::GetWindowHeight();
     ImGui::End();
 
-    if( openNewMovie && !mSettings.movieFilePath.empty() && !mSettings.licenseHash.empty() )
+    if( mSettings.movieFilePath.empty() == false && (openNewMovie || setNewLicenceHash) )
     {
         mSettings.compositionName.clear();
         this->ReloadMovie();

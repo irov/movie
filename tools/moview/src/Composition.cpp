@@ -691,7 +691,7 @@ bool Composition::IsLoopedSubComposition( uint32_t idx ) const
 bool Composition::Create( const aeMovieData* moviewData, const aeMovieCompositionData* compData )
 {
     aeMovieCompositionProviders providers;
-    ae_clear_movie_composition_providers( &providers );
+    ae_initialize_movie_composition_providers( &providers );
 
     providers.node_provider = []( const aeMovieNodeProviderCallbackData* _callbackData, ae_voidptrptr_t _nd, ae_voidptr_t _ud ) -> ae_bool_t
     {
