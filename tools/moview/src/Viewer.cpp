@@ -13,8 +13,9 @@
 #ifdef PLATFORM_WINDOWS
 # define INI_STRNICMP _strnicmp
 #endif
-#include "ini.h"
+#include "tinyini/tinyini.hpp"
 
+#include <sstream>
 #include <algorithm>
 #include <thread>
 #include <chrono>
@@ -222,7 +223,7 @@ bool Viewer::Initialize( int argc, char** argv )
 
     ResourcesManager::Instance().Initialize();
 
-    if( !mSettings.movieFilePath.empty() && !mSettings.licenseHash.empty() )
+    if( !mSettings.movieFilePath.empty() && (mSettings.licenseHash.empty() || mSettings.licenseHash.size() == 40) )
     {
         this->ReloadMovie();
     }
@@ -325,37 +326,29 @@ void Viewer::SaveSettings()
     Handle hFile = Platform::FOpen( mSettingsFileName, Platform::FOMode::Write );
     if( hFile )
     {
-        // Create ini object and serialize our properties
-        ini_t * ini = ini_create( nullptr );
-        int section = ini_section_add( ini, "License", 0 );
-        ini_property_add( ini, section, "Hash", 0, mSettings.licenseHash.c_str(), static_cast<int>( mSettings.licenseHash.length() ) );
+        std::stringstream ss;
 
-        section = ini_section_add( ini, "Movie", 0);
-        ini_property_add( ini, section, "Path", 0, mSettings.movieFilePath.c_str(), static_cast<int>( mSettings.movieFilePath.length() ) );
-        ini_property_add( ini, section, "Composition", 0, mSettings.compositionName.c_str(), static_cast<int>( mSettings.compositionName.length() ) );
-        ini_property_add( ini, section, "Loop", 0, mSettings.loopPlay ? "true" : "false", 0 );
+        ss << "[License]" << std::endl;
+        ss << "Hash" << "=" << mSettings.licenseHash << std::endl;
 
-        section = ini_section_add( ini, "Viewer", 0 );
-        std::string colorString = std::to_string( mSettings.backgroundColor[0] ) + "/" + 
-                                  std::to_string( mSettings.backgroundColor[1] ) + "/" + 
-                                  std::to_string( mSettings.backgroundColor[2] );
-        ini_property_add( ini, section, "BackgroundColor", 0, colorString.c_str(), static_cast<int>( colorString.length() ) );
-        ini_property_add( ini, section, "SoundVolume", 0, std::to_string( mSettings.soundVolume ).c_str(), 0 );
-        ini_property_add( ini, section, "SoundMuted", 0, mSettings.soundMuted ? "true" : "false", 0 );
+        ss << "[Movie]" << std::endl;
+        ss << "Path" << "=" << mSettings.movieFilePath << std::endl;
+        ss << "Composition" << "=" << mSettings.compositionName << std::endl;
+        ss << "Loop" << "=" << (mSettings.loopPlay ? "true" : "false") << std::endl;
 
-        // Query the data size
-        const int iniSize = ini_save( ini, nullptr, 0 );
-        std::vector<char> iniData( iniSize );
-        // Serialize ini to memory
-        ini_save( ini, iniData.data(), iniSize );
-        ini_destroy( ini );
+        ss << "[Viewer]" << std::endl;
 
-        // Write serialized ini to file
+        std::string colorString = std::to_string( mSettings.backgroundColor[0] ) + "/" +
+            std::to_string( mSettings.backgroundColor[1] ) + "/" +
+            std::to_string( mSettings.backgroundColor[2] );
 
-        //#NOTE_SK: fo some inknown reason, ini.h lib adds null character to the end of the data
-        const size_t bytesToWrite = (iniData.back() == '\0') ? (iniData.size() - 1) : iniData.size();
+        ss << "BackgroundColor" << "=" << colorString << std::endl;
+        ss << "SoundVolume" << "=" << mSettings.soundVolume << std::endl;
+        ss << "SoundMuted" << "=" << (mSettings.soundMuted ? "true" : "false") << std::endl;
 
-        Platform::FWrite( iniData.data(), bytesToWrite, hFile );
+        std::string ss_str = ss.str();
+
+        Platform::FWrite( ss_str.c_str(), ss_str.size(), hFile );
         Platform::FClose( hFile );
     }
 }
@@ -377,30 +370,35 @@ void Viewer::LoadSettings()
         iniData.back() = '\0';
 
         // Now parse ini and deserialize our settings
-        ini_t * ini = ini_load( iniData.data(), nullptr );
+        tinyini_t ini;
+        tinyini_load( &ini, iniData.data() );
 
-        int section = ini_find_section( ini, "License", 0 );
-        mSettings.licenseHash = ini_property_value( ini, section, ini_find_property( ini, section, "Hash", 0 ) );
+        mSettings.licenseHash = tinyini_get_property_value( &ini, "License", "Hash" );
 
-        section = ini_find_section( ini, "Movie", 0 );
-        mSettings.movieFilePath = ini_property_value( ini, section, ini_find_property( ini, section, "Path", 0 ) );
-        mSettings.compositionName = ini_property_value( ini, section, ini_find_property( ini, section, "Composition", 0 ) );
-        mSettings.loopPlay = std::string( ini_property_value( ini, section, ini_find_property( ini, section, "Loop", 0 ) ) ) == "true";
+        mSettings.movieFilePath = tinyini_get_property_value( &ini, "Movie", "Path" );
+        mSettings.compositionName = tinyini_get_property_value( &ini, "Movie", "Composition" );
+        mSettings.loopPlay = tinyini_equal_property_value( &ini, "Movie", "Loop", "true" ) == TINYINI_RESULT_SUCCESSFUL;
 
-        section = ini_find_section( ini, "Viewer", 0 );
-        const char* colorString = ini_property_value( ini, section, ini_find_property( ini, section, "BackgroundColor", 0 ) );
+        const char* colorString = tinyini_get_property_value( &ini, "Viewer", "BackgroundColor" );
         if( colorString )
         {
-            sscanf( colorString, "%f/%f/%f", &mSettings.backgroundColor[0], &mSettings.backgroundColor[1], &mSettings.backgroundColor[2] );
+            sscanf( colorString, "%f/%f/%f"
+                , &mSettings.backgroundColor[0]
+                , &mSettings.backgroundColor[1]
+                , &mSettings.backgroundColor[2] 
+            );
         }
-        const char* volumeString = ini_property_value( ini, section, ini_find_property( ini, section, "SoundVolume", 0 ) );
+
+
+        const char* volumeString = tinyini_get_property_value( &ini, "Viewer", "SoundVolume" );
         if( volumeString )
         {
-            mSettings.soundVolume = std::stof( volumeString );
+            sscanf( volumeString, "%f"
+                , &mSettings.soundVolume
+            );
         }
-        mSettings.soundMuted = std::string( ini_property_value( ini, section, ini_find_property( ini, section, "SoundMuted", 0 ) ) ) == "true";
 
-        ini_destroy( ini );
+        mSettings.soundMuted = tinyini_equal_property_value( &ini, "Movie", "Loop", "true" ) == TINYINI_RESULT_SUCCESSFUL;
     }
 }
 //////////////////////////////////////////////////////////////////////////

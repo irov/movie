@@ -32,7 +32,7 @@ include(cmake/glfw_download.cmake)
 include(cmake/imgui_download.cmake)
 include(cmake/nativefiledialog_download.cmake)
 include(cmake/stb_libs_download.cmake)
-include(cmake/inih_download.cmake)
+include(cmake/tinyini_download.cmake)
 
 if(NOT APPLE)
     include(cmake/alsoft_download.cmake)
@@ -41,6 +41,7 @@ endif()
 set(LIBMOVIE_EXTERNAL_BUILD ON CACHE BOOL "LIBMOVIE_EXTERNAL_BUILD" FORCE)
 set(LIBMOVIE_EXAMPLES_BUILD OFF CACHE BOOL "LIBMOVIE_EXAMPLES_BUILD" FORCE)
 set(LIBMOVIE_INSTALL ON CACHE BOOL "LIBMOVIE_INSTALL" FORCE)
+
 add_subdirectory(${LIBMOVIE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/movie)
 
 project( moview )
@@ -66,8 +67,8 @@ include_directories(
     ${NATIVEFILEDIALOG_INCLUDE_DIR}
     ${LIBMOVIE_DIR}/include
     ${DEPENDENCIES_DIR}/stb
-    ${DEPENDENCIES_DIR}/inih
     ${ALSOFT_INCLUDE_DIR}
+    ${TINYINI_INCLUDE_DIR}
 )
 
 if(UNIX AND NOT APPLE)
@@ -147,6 +148,7 @@ target_link_libraries(${PROJECT_NAME}
     glfw
     imgui
     nativefiledialog
+    tinyini
 )
 
 if(NOT APPLE)
@@ -160,4 +162,5 @@ add_dependencies(${PROJECT_NAME}
     glfw_download
     imgui_download
     nativefiledialog_download
+    tinyini_download
 )
