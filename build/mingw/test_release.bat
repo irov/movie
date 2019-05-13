@@ -1,0 +1,18 @@
+@echo off
+
+set "CONFIGURATION=Release"
+set "SOLUTION_DIR=..\solutions\libmovie_mingw_%CONFIGURATION%"
+
+@pushd ..
+@mkdir %SOLUTION_DIR%
+@pushd %SOLUTION_DIR%
+
+CMake -G "MinGW Makefiles" "%CD%\..\.." -DCMAKE_CONFIGURATION_TYPES:STRING="%CONFIGURATION%" -DCMAKE_BUILD_TYPE:STRING=%CONFIGURATION% -DLIBMOVIE_EXAMPLES_BUILD:BOOL=FALSE -DLIBMOVIE_TEST:BOOL=TRUE
+CMake --build . --config %CONFIGURATION%
+CTest -C %CONFIGURATION%
+
+@popd
+@popd
+
+@echo on
+@pause

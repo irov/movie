@@ -5,8 +5,6 @@
 #include <string.h>
 
 //////////////////////////////////////////////////////////////////////////
-static const ae_char_t * test_example_license_hash = "52ad6f051099762d0a0787b4eb2d07c8a0ee4491";
-//////////////////////////////////////////////////////////////////////////
 static const ae_char_t * test_example_file_paths[] = {
     "examples/resources/Bridge/Bridge.aem",
     "examples/resources/Knight/Knight.aem",
@@ -184,7 +182,7 @@ int main( int argc, char *argv[] )
     mi->memory_allocate = 0;
     mi->memory_records_count = 0;
 
-    const aeMovieInstance * movieInstance = ae_create_movie_instance( test_example_license_hash
+    const aeMovieInstance * movieInstance = ae_create_movie_instance( AE_HASHKEY_EMPTY
         , &stdlib_movie_alloc
         , &stdlib_movie_alloc_n
         , &stdlib_movie_free
@@ -244,7 +242,7 @@ int main( int argc, char *argv[] )
             const aeMovieCompositionData * composition_data = ae_get_movie_composition_data_by_index( movieData, index_composition_data );
 
             aeMovieCompositionProviders providers;
-            ae_clear_movie_composition_providers( &providers );
+            ae_initialize_movie_composition_providers( &providers );
 
             const aeMovieComposition * composition = ae_create_movie_composition( movieData, composition_data, AE_TRUE, &providers, AE_USERDATA_NULL );
 

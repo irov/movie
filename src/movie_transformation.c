@@ -182,13 +182,14 @@ AE_INTERNAL ae_float_t __get_movie_layer_transformation_property_fixed( ae_const
         }break;
     case 2:
         {
-            const ae_float_t block_inv = one_div_index256[zp_block_count - 1];
             ae_float_t block_begin = property_ae_float_t[0];
             ae_float_t block_end = property_ae_float_t[1];
 
+            const ae_float_t block_inv = one_div_index256[zp_block_count - 1];
+
             ae_uint32_t block_index = _index - property_index;
             const ae_float_t block_index_f = index256_to_float[block_index];
-
+            
             ae_float_t block_t = block_index_f * block_inv;
 
             ae_float_t block_value = block_begin + (block_end - block_begin) * block_t;

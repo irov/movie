@@ -2,8 +2,6 @@
 
 #include <stdlib.h>
 
-static const ae_char_t * test_example_license_hash = "52ad6f051099762d0a0787b4eb2d07c8a0ee4491";
-
 AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _userdata, ae_size_t _size ) {
     AE_UNUSED( _userdata );
     return malloc( _size );
@@ -30,7 +28,7 @@ int main( int argc, char *argv[] )
     AE_UNUSED( argc );
     AE_UNUSED( argv );
 
-    const aeMovieInstance * movieInstance = ae_create_movie_instance( test_example_license_hash
+    const aeMovieInstance * movieInstance = ae_create_movie_instance( AE_HASHKEY_EMPTY
         , &stdlib_movie_alloc
         , &stdlib_movie_alloc_n
         , &stdlib_movie_free

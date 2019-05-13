@@ -87,7 +87,7 @@ int main( int argc, char *argv[] )
     AE_UNUSED( argc );
     AE_UNUSED( argv );
 
-    const aeMovieInstance * instance = ae_create_movie_instance( "52ad6f051099762d0a0787b4eb2d07c8a0ee4491"
+    const aeMovieInstance * instance = ae_create_movie_instance( AE_HASHKEY_EMPTY
         , &stdlib_movie_alloc
         , &stdlib_movie_alloc_n
         , &stdlib_movie_free
@@ -104,11 +104,11 @@ int main( int argc, char *argv[] )
 
     aeMovieData * movie_data = ae_create_movie_data( instance, &data_providers, AE_USERDATA_NULL );
 
-    FILE * f = fopen( "../../examples/resources/Knight/Knight.aem", "rb" );
+    FILE * f = fopen( "../../../examples/resources/Knight/Knight.aem", "rb" );
 
     if( f == NULL )
     {
-        return 0;
+        return EXIT_FAILURE;
     }
 
     aeMovieStream * movie_stream = ae_create_movie_stream( instance, &__read_file, &__memory_copy, f );
@@ -127,7 +127,7 @@ int main( int argc, char *argv[] )
         ae_delete_movie_stream( movie_stream );
         fclose( f );
 
-        return 0;
+        return EXIT_FAILURE;
 	}
 
     ae_delete_movie_stream( movie_stream );
@@ -138,11 +138,11 @@ int main( int argc, char *argv[] )
 
     if( compositionData == AE_NULLPTR )
     {
-        return 0;
+        return EXIT_FAILURE;
     }
 
     aeMovieCompositionProviders providers;
-    memset( &providers, 0, sizeof( providers ) );
+    ae_initialize_movie_composition_providers( &providers );
 
     const aeMovieComposition * composition = ae_create_movie_composition( movie_data, compositionData, AE_TRUE, &providers, AE_NULLPTR );
 
@@ -174,5 +174,5 @@ int main( int argc, char *argv[] )
 
     ae_delete_movie_instance( instance );
 
-    return 0;
+    return EXIT_SUCCESS;
 }

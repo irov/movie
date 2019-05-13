@@ -71,6 +71,7 @@ typedef void( *ae_function_t )(void);
 static const ae_bool_t AE_TRUE = 1;
 static const ae_bool_t AE_FALSE = 0;
 static const ae_voidptr_t AE_NULLPTR = 0;
+static const ae_string_t AE_HASHKEY_EMPTY = 0;
 static const ae_userdata_t AE_USERDATA_NULL = 0;
 static const ae_function_t AE_FUNCTION_NULL = 0;
 

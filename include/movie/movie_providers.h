@@ -449,7 +449,7 @@ typedef struct aeMovieCompositionProviders
     ae_movie_composition_callback_subcomposition_state_t subcomposition_state;
 } aeMovieCompositionProviders;
 
-ae_void_t ae_clear_movie_composition_providers( aeMovieCompositionProviders * _providers );
+ae_void_t ae_initialize_movie_composition_providers( aeMovieCompositionProviders * _providers );
 
 // providers
 /// @}
