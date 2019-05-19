@@ -146,7 +146,7 @@ AE_INTERNAL ae_uint32_t __movie_skeleton_find_free_animation_place( aeMovieSkele
 
     return (ae_uint32_t)-1;
 }
-
+//////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_movie_skeleton_add_animation( aeMovieSkeleton * _skeleton, aeMovieComposition * _animation )
 {
     if( __test_movie_skeleton_base( _animation ) == AE_FALSE )
@@ -172,7 +172,7 @@ ae_bool_t ae_movie_skeleton_add_animation( aeMovieSkeleton * _skeleton, aeMovieC
 
     return AE_TRUE;
 }
-
+//////////////////////////////////////////////////////////////////////////
 ae_void_t ae_movie_destroy_skeleton( const aeMovieSkeleton * _skeleton )
 {
     AE_DELETE( _skeleton->base->movie_data->instance, _skeleton );

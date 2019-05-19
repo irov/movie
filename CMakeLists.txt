@@ -96,6 +96,7 @@ if(LIBMOVIE_INSTALL)
             FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h")
 
     install(TARGETS ${PROJECT_NAME}
+            LIBRARY DESTINATION lib
             ARCHIVE DESTINATION lib)
 endif()
 
