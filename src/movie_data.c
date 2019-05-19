@@ -1080,6 +1080,8 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extension_volume( aeMovieLayerDa
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_result_t __load_movie_data_layer_extension_dimension( aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance, aeMovieLayerExtensions * _extensions )
 {
+    AE_UNUSED( _layer );
+
     aeMovieLayerExtensionDimension * layer_dimension = AE_NEW( _instance, aeMovieLayerExtensionDimension );
 
     AE_RESULT_PANIC_MEMORY( layer_dimension );
