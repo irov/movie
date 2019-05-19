@@ -47,11 +47,11 @@ typedef enum aeMovieLayerExtensionEnum
     AE_LAYER_EXTENSION_TIMEREMAP = 1,
     AE_LAYER_EXTENSION_MESH = 2,
     AE_LAYER_EXTENSION_BEZIERWARP = 3,
-    AE_LAYER_EXTENSION_COLORVERTEX = 4,
     AE_LAYER_EXTENSION_POLYGON = 5,
     AE_LAYER_EXTENSION_SHADER = 6,
     AE_LAYER_EXTENSION_VIEWPORT = 7,
     AE_LAYER_EXTENSION_VOLUME = 8,
+    AE_LAYER_EXTENSION_DIMENSION = 9,
 } aeMovieLayerExtensionEnum;
 //////////////////////////////////////////////////////////////////////////
 typedef enum aeMovieNodeAnimationStateEnum
@@ -71,6 +71,7 @@ typedef struct aeMovieLayerExtensions
     const aeMovieLayerExtensionShader * shader;
     const aeMovieLayerExtensionViewport * viewport;
     const aeMovieLayerExtensionVolume * volume;
+    const aeMovieLayerExtensionDimension * dimension;
 } aeMovieLayerExtensions;
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __clear_layer_extensions( aeMovieLayerExtensions * _extensions )
@@ -477,6 +478,11 @@ struct aeMovieLayerExtensionViewport
 struct aeMovieLayerExtensionVolume
 {
     const struct aeMoviePropertyValue * property_volume;
+};
+//////////////////////////////////////////////////////////////////////////
+struct aeMovieLayerExtensionDimension
+{
+    ae_aabb_t aabb;
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieLayerExtensionPolygon

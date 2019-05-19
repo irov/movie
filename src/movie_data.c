@@ -1078,61 +1078,23 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extension_volume( aeMovieLayerDa
     return AE_RESULT_SUCCESSFUL;
 }
 //////////////////////////////////////////////////////////////////////////
-AE_INTERNAL ae_result_t __load_movie_data_layer_extensions( aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance )
+AE_INTERNAL ae_result_t __load_movie_data_layer_extension_dimension( aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance, aeMovieLayerExtensions * _extensions )
 {
-    aeMovieLayerExtensions * layer_extensions = AE_NULLPTR;
+    aeMovieLayerExtensionDimension * layer_dimension = AE_NEW( _instance, aeMovieLayerExtensionDimension );
+
+    AE_RESULT_PANIC_MEMORY( layer_dimension );
+
+    ae_magic_read_aabb( _stream, &layer_dimension->aabb );
 
     for( ;; )
     {
-        ae_uint8_t extension;
-        AE_READ( _stream, extension );
+        ae_uint8_t params;
+        AE_READ( _stream, params );
 
-        switch( extension )
+        switch( params )
         {
         case 0:
             {
-            }break;
-        case AE_LAYER_EXTENSION_TIMEREMAP:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_timeremap, (_layer, _stream, _instance, layer_extensions) );
-            }break;
-        case AE_LAYER_EXTENSION_MESH:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_mesh, (_layer, _stream, _instance, layer_extensions) );
-            }break;
-        case AE_LAYER_EXTENSION_BEZIERWARP:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_bezier_warp, (_layer, _stream, _instance, layer_extensions) );
-            }break;
-        case AE_LAYER_EXTENSION_POLYGON:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_polygon, (_layer, _stream, _instance, layer_extensions) );
-            }break;
-        case AE_LAYER_EXTENSION_SHADER:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_shader, (_layer, _stream, _instance, layer_extensions) );
-            }break;
-        case AE_LAYER_EXTENSION_VIEWPORT:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_viewport, (_layer, _stream, _instance, layer_extensions) );
-            }break;
-        case AE_LAYER_EXTENSION_VOLUME:
-            {
-                AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
-
-                AE_RESULT( __load_movie_data_layer_extension_volume, (_layer, _stream, _instance, layer_extensions) );
             }break;
         default:
             {
@@ -1140,10 +1102,55 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extensions( aeMovieLayerData * _
             }break;
         }
 
+        if( params == 0 )
+        {
+            break;
+        }
+    }
+
+    _extensions->dimension = layer_dimension;
+
+    return AE_RESULT_SUCCESSFUL;
+}
+//////////////////////////////////////////////////////////////////////////
+typedef ae_result_t( *func_load_movie_data_layer_extension_load_t )(aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance, aeMovieLayerExtensions * _extensions);
+//////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_result_t __load_movie_data_layer_extensions( aeMovieLayerData * _layer, aeMovieStream * _stream, const aeMovieInstance * _instance )
+{
+    aeMovieLayerExtensions * layer_extensions = AE_NULLPTR;
+
+    const func_load_movie_data_layer_extension_load_t extensions[] = {
+        (func_load_movie_data_layer_extension_load_t)AE_FUNCTION_NULL,
+        &__load_movie_data_layer_extension_timeremap,
+        &__load_movie_data_layer_extension_mesh,
+        &__load_movie_data_layer_extension_bezier_warp,
+        (func_load_movie_data_layer_extension_load_t)AE_FUNCTION_NULL,
+        &__load_movie_data_layer_extension_polygon,
+        &__load_movie_data_layer_extension_shader,
+        &__load_movie_data_layer_extension_viewport,
+        &__load_movie_data_layer_extension_volume,
+        &__load_movie_data_layer_extension_dimension,
+    };
+
+    for( ;; )
+    {
+        ae_uint8_t extension;
+        AE_READ( _stream, extension );
+
         if( extension == 0 )
         {
             break;
         }
+
+        AE_MOVIE_ASSERTION( extension < sizeof( extensions ) / sizeof( extensions[0] ), AE_RESULT_INVALID_STREAM );
+
+        func_load_movie_data_layer_extension_load_t extension_load = extensions[extension];
+
+        AE_MOVIE_ASSERTION( extension_load, AE_RESULT_INVALID_STREAM );
+
+        AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
+
+        AE_RESULT( *extension_load, (_layer, _stream, _instance, layer_extensions) );        
     }
 
     if( layer_extensions == AE_NULLPTR )
@@ -2640,6 +2647,18 @@ ae_bool_t ae_is_movie_layer_data_track_mate( const aeMovieLayerData * _layer )
 ae_bool_t ae_is_movie_layer_data_threeD( const aeMovieLayerData * _layer )
 {
     return _layer->threeD;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_get_movie_layer_data_dimension( const aeMovieLayerData * _layer, ae_aabb_t * _dimensional )
+{
+    if( _layer->extensions != AE_NULLPTR && _layer->extensions->dimension != AE_NULLPTR )
+    {
+        *_dimensional = _layer->extensions->dimension->aabb;
+
+        return AE_TRUE;
+    }
+
+    return AE_FALSE;
 }
 //////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_is_movie_layer_data_incessantly( const aeMovieLayerData * _layer )

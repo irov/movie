@@ -273,6 +273,12 @@ ae_bool_t ae_is_movie_layer_data_threeD( const aeMovieLayerData * _layer );
 
 /**
 @param [in] _layer Layer.
+@return TRUE if the layer data have dimension.
+*/
+ae_bool_t ae_get_movie_layer_data_dimension( const aeMovieLayerData * _layer, ae_aabb_t * _dimensional );
+
+/**
+@param [in] _layer Layer.
 @return TRUE if the layer data is incessantly.
 */
 ae_bool_t ae_is_movie_layer_data_incessantly( const aeMovieLayerData * _layer );

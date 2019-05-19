@@ -95,6 +95,14 @@ typedef struct
 
 typedef struct
 {
+    ae_float_t minimal_x;
+    ae_float_t minimal_y;
+    ae_float_t maximal_x;
+    ae_float_t maximal_y;
+} ae_aabb_t;
+
+typedef struct
+{
     ae_float_t begin_x;
     ae_float_t begin_y;
     ae_float_t end_x;

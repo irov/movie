@@ -154,3 +154,11 @@ ae_void_t ae_magic_read_viewport( aeMovieStream * _stream, ae_viewport_t * _view
     AE_READF( _stream, _viewport->end_x );
     AE_READF( _stream, _viewport->end_y );
 }
+//////////////////////////////////////////////////////////////////////////
+ae_void_t ae_magic_read_aabb( aeMovieStream * _stream, ae_aabb_t * _aabb )
+{
+    AE_READF( _stream, _aabb->minimal_x );
+    AE_READF( _stream, _aabb->minimal_y );
+    AE_READF( _stream, _aabb->maximal_x );
+    AE_READF( _stream, _aabb->maximal_y );
+}

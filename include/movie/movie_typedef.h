@@ -47,5 +47,6 @@ typedef struct aeMovieLayerExtensionShader aeMovieLayerExtensionShader;
 typedef struct aeMovieLayerExtensionViewport aeMovieLayerExtensionViewport;
 typedef struct aeMovieLayerExtensionPolygon aeMovieLayerExtensionPolygon;
 typedef struct aeMovieLayerExtensionVolume aeMovieLayerExtensionVolume;
+typedef struct aeMovieLayerExtensionDimension aeMovieLayerExtensionDimension;
 
 #endif

@@ -95,6 +95,7 @@ ae_result_t ae_magic_read_string( aeMovieStream * _stream, ae_string_t * _str );
 ae_result_t ae_magic_read_polygon( aeMovieStream * _stream, ae_polygon_t * _polygon );
 ae_void_t ae_magic_read_color( aeMovieStream * _stream, ae_color_t * _color );
 ae_void_t ae_magic_read_viewport( aeMovieStream * _stream, ae_viewport_t * _viewport );
+ae_void_t ae_magic_read_aabb( aeMovieStream * _stream, ae_aabb_t * _aabb );
 ae_result_t ae_magic_read_mesh( aeMovieStream * _stream, ae_mesh_t * _mesh );
 //////////////////////////////////////////////////////////////////////////
 #endif

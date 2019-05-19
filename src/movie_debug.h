@@ -46,6 +46,12 @@ AE_INTERNAL ae_void_t __movie_break_point( ae_void_t )
 #endif
 
 #ifdef AE_MOVIE_DEBUG
+#	define AE_MOVIE_ASSERTION(Condition, Result) {if(!(Condition)) {__movie_break_point(); return Result;}}
+#else
+#   define AE_MOVIE_ASSERTION(Condition, Result)
+#endif
+
+#ifdef AE_MOVIE_DEBUG
 #	define AE_MOVIE_PANIC_MEMORY(Memory, Result) {if(Memory == AE_NULLPTR) {__movie_break_point(); return Result;}}
 #else
 #   define AE_MOVIE_PANIC_MEMORY(Memory, Result)
