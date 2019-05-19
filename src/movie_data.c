@@ -1144,11 +1144,11 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extensions( aeMovieLayerData * _
             break;
         }
 
-        AE_MOVIE_ASSERTION( extension < sizeof( extensions ) / sizeof( extensions[0] ), AE_RESULT_INVALID_STREAM );
+        AE_MOVIE_ASSERTION_RESULT( extension < sizeof( extensions ) / sizeof( extensions[0] ), AE_RESULT_INVALID_STREAM );
 
         func_load_movie_data_layer_extension_load_t extension_load = extensions[extension];
 
-        AE_MOVIE_ASSERTION( extension_load, AE_RESULT_INVALID_STREAM );
+        AE_MOVIE_ASSERTION_RESULT( extension_load, AE_RESULT_INVALID_STREAM );
 
         AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
 
@@ -1656,22 +1656,9 @@ const aeMovieInstance * ae_get_movie_data_instance( const aeMovieData * _movieDa
 //////////////////////////////////////////////////////////////////////////
 aeMovieStream * ae_create_movie_stream( const aeMovieInstance * _instance, ae_movie_stream_memory_read_t _read, ae_movie_stream_memory_copy_t _copy, ae_userdata_t _userdata )
 {
-#ifdef AE_MOVIE_DEBUG
-    if( _instance == AE_NULLPTR )
-    {
-        return AE_NULLPTR;
-    }
-
-    if( _read == AE_NULLPTR )
-    {
-        return AE_NULLPTR;
-    }
-
-    if( _copy == AE_NULLPTR )
-    {
-        return AE_NULLPTR;
-    }
-#endif
+    AE_MOVIE_ASSERTION_RESULT( _instance, AE_NULLPTR );
+    AE_MOVIE_ASSERTION_RESULT( _read, AE_NULLPTR );
+    AE_MOVIE_ASSERTION_RESULT( _copy, AE_NULLPTR );
 
     aeMovieStream * stream = AE_NEW( _instance, aeMovieStream );
 
@@ -1689,28 +1676,19 @@ aeMovieStream * ae_create_movie_stream( const aeMovieInstance * _instance, ae_mo
     return stream;
 }
 //////////////////////////////////////////////////////////////////////////
-AE_INTERNAL ae_size_t __movie_read_buffer( ae_userdata_t _userdata, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size )
+AE_INTERNAL ae_size_t __movie_read_buffer( ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size, ae_userdata_t _userdata )
 {
     aeMovieStream * stream = (aeMovieStream *)_userdata;
 
-    stream->memory_copy( stream->copy_userdata, (ae_constbyteptr_t)stream->buffer + _carriage, _buff, _size );
+    stream->memory_copy( (ae_constbyteptr_t)stream->buffer + _carriage, _buff, _size, stream->copy_userdata );
 
     return _size;
 }
 //////////////////////////////////////////////////////////////////////////
 aeMovieStream * ae_create_movie_stream_memory( const aeMovieInstance * _instance, ae_constvoidptr_t _buffer, ae_movie_stream_memory_copy_t _copy, ae_userdata_t _userdata )
 {
-#ifdef AE_MOVIE_DEBUG
-    if( _instance == AE_NULLPTR )
-    {
-        return AE_NULLPTR;
-    }
-
-    if( _copy == AE_NULLPTR )
-    {
-        return AE_NULLPTR;
-    }
-#endif
+    AE_MOVIE_ASSERTION_RESULT( _instance, AE_NULLPTR );
+    AE_MOVIE_ASSERTION_RESULT( _copy, AE_NULLPTR );
 
     aeMovieStream * stream = AE_NEW( _instance, aeMovieStream );
 
@@ -2343,24 +2321,14 @@ AE_INTERNAL ae_result_t __load_movie_resource( aeMovieData * _movieData, aeMovie
         &__load_movie_resource_slot, //AE_MOVIE_RESOURCE_SLOT 
     };
 
-#ifdef AE_MOVIE_DEBUG
-    if( type >= sizeof( resource_loaders ) / sizeof( resource_loaders[0] ) )
-    {
-        AE_RETURN_ERROR_RESULT( AE_RESULT_INVALID_STREAM );
-    }
-#endif
+    AE_MOVIE_ASSERTION_RESULT( type < sizeof( resource_loaders ) / sizeof( resource_loaders[0] ), AE_RESULT_INVALID_STREAM );
 
     aeMovieResource * new_resource = AE_NULLPTR;
     ae_load_movie_resource_t resource_loader = resource_loaders[type];
 
-#ifdef AE_MOVIE_DEBUG
-    if( resource_loader == AE_NULLPTR )
-    {
-        AE_RETURN_ERROR_RESULT( AE_RESULT_INVALID_STREAM );
-    }
-#endif
+    AE_MOVIE_ASSERTION_RESULT( resource_loader, AE_RESULT_INVALID_STREAM );
 
-    AE_RESULT( (*resource_loader), (instance, _stream, _atlases, _resources, &new_resource) );
+    AE_RESULT( *resource_loader, (instance, _stream, _atlases, _resources, &new_resource) );
 
     new_resource->type = type;
     new_resource->name = name;
@@ -2774,17 +2742,8 @@ const ae_viewport_t * ae_get_movie_layer_data_viewport( const aeMovieLayerData *
 //////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_get_movie_layer_data_socket_polygon( const aeMovieLayerData * _layerData, ae_uint32_t _frame, const ae_polygon_t ** _polygon )
 {
-#ifdef AE_MOVIE_DEBUG
-    if( _layerData->type != AE_MOVIE_LAYER_TYPE_SOCKET )
-    {
-        return AE_FALSE;
-    }
-
-    if( _frame >= _layerData->frame_count )
-    {
-        return AE_FALSE;
-    }
-#endif
+    AE_MOVIE_ASSERTION_RESULT( _layerData->type == AE_MOVIE_LAYER_TYPE_SOCKET, AE_FALSE );
+    AE_MOVIE_ASSERTION_RESULT( _frame < _layerData->frame_count, AE_FALSE );
 
     const aeMovieLayerExtensionPolygon * polygon = _layerData->extensions->polygon;
 

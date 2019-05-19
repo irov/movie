@@ -62,7 +62,7 @@
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t ae_magic_read_value( aeMovieStream * _stream, ae_voidptr_t _ptr, ae_size_t _size )
 {
-    ae_size_t bytesRead = _stream->memory_read( _stream->read_userdata, _ptr, _stream->carriage, _size );
+    ae_size_t bytesRead = _stream->memory_read( _ptr, _stream->carriage, _size, _stream->read_userdata );
 
     _stream->carriage += bytesRead;
 }
@@ -72,12 +72,7 @@ AE_INTERNAL ae_bool_t ae_magic_read_bool( aeMovieStream * _stream )
     ae_uint8_t value;
     AE_READ( _stream, value );
 
-#ifdef AE_MOVIE_DEBUG
-    if( value != 0 && value != 1 )
-    {
-        __movie_break_point();
-    }
-#endif
+    AE_MOVIE_ASSERTION_RESULT( value == 0 || value == 1, AE_FALSE );
 
     return value;
 }

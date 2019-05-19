@@ -58,17 +58,19 @@ struct MemoryIO
     ae_size_t cursor;
 };
 //////////////////////////////////////////////////////////////////////////
-AE_CALLBACK ae_size_t my_io_read( ae_voidptr_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size ) 
+AE_CALLBACK ae_size_t my_io_read( ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size, ae_userdata_t _userdata )
 {
-    MemoryIO* io = reinterpret_cast<MemoryIO*>(_data);
+    MemoryIO* io = reinterpret_cast<MemoryIO*>(_userdata);
 
     memcpy( _buff, io->data + _carriage, _size );
 
     return _size;
 }
 //////////////////////////////////////////////////////////////////////////
-AE_CALLBACK ae_void_t my_memory_copy( ae_voidptr_t, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size ) 
+AE_CALLBACK ae_void_t my_memory_copy( ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size, ae_userdata_t _userdata )
 {
+    AE_UNUSED( _userdata );
+
     memcpy( _dst, _src, _size );
 }
 //////////////////////////////////////////////////////////////////////////
