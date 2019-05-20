@@ -48,7 +48,7 @@ AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_userdata_t _data, aeMovieErrorCo
     va_end( argList );
 }
 //////////////////////////////////////////////////////////////////////////
-AE_CALLBACK ae_size_t __read_file( ae_userdata_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size )
+AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size, ae_userdata_t _data )
 {
     AE_UNUSED( _carriage );
 
@@ -58,14 +58,14 @@ AE_CALLBACK ae_size_t __read_file( ae_userdata_t _data, ae_voidptr_t _buff, ae_s
 
     return s;
 }
-
-AE_CALLBACK ae_void_t __memory_copy( ae_userdata_t _data, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size )
+//////////////////////////////////////////////////////////////////////////
+AE_CALLBACK ae_void_t __memory_copy( ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size, ae_userdata_t _data )
 {
     AE_UNUSED( _data );
 
     memcpy( _dst, _src, _size );
 }
-
+//////////////////////////////////////////////////////////////////////////
 AE_CALLBACK ae_bool_t __resource_provider( const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud )
 {
     AE_UNUSED( _resource );
@@ -74,14 +74,14 @@ AE_CALLBACK ae_bool_t __resource_provider( const aeMovieResource * _resource, ae
 
     return AE_TRUE;
 }
-
+//////////////////////////////////////////////////////////////////////////
 AE_CALLBACK ae_void_t __resource_deleter( aeMovieResourceTypeEnum _type, ae_voidptr_t _data, ae_userdata_t _ud )
 {
     AE_UNUSED( _type );
     AE_UNUSED( _data );
     AE_UNUSED( _ud );
 }
-
+//////////////////////////////////////////////////////////////////////////
 int main( int argc, char *argv[] )
 {
     AE_UNUSED( argc );

@@ -84,14 +84,14 @@ AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_userdata_t _data, aeMovieErrorCo
     va_end( argList );
 }
 
-AE_CALLBACK ae_size_t __read_file( ae_userdata_t _data, ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size ) {
+AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size, ae_userdata_t _data ) {
     AE_UNUSED( _carriage );
     FILE * f = (FILE *)_data;
     ae_size_t s = fread( _buff, 1, _size, f );
     return s;
 }
 
-AE_CALLBACK ae_void_t __memory_copy( ae_userdata_t _data, ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size ) {
+AE_CALLBACK ae_void_t __memory_copy( ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size, ae_userdata_t _data ) {
     AE_UNUSED( _data );
     memcpy( _dst, _src, _size );
 }
