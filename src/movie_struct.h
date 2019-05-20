@@ -83,6 +83,7 @@ AE_INTERNAL ae_void_t __clear_layer_extensions( aeMovieLayerExtensions * _extens
     _extensions->shader = AE_NULLPTR;
     _extensions->viewport = AE_NULLPTR;
     _extensions->volume = AE_NULLPTR;
+    _extensions->dimension = AE_NULLPTR;
 }
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieInstance
