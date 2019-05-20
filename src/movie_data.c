@@ -1121,12 +1121,12 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extensions( aeMovieLayerData * _
 {
     aeMovieLayerExtensions * layer_extensions = AE_NULLPTR;
 
-    const func_load_movie_data_layer_extension_load_t extensions[] = {
-        (func_load_movie_data_layer_extension_load_t)AE_FUNCTION_NULL,
+    static const func_load_movie_data_layer_extension_load_t extensions[] = {
+        0,
         &__load_movie_data_layer_extension_timeremap,
         &__load_movie_data_layer_extension_mesh,
         &__load_movie_data_layer_extension_bezier_warp,
-        (func_load_movie_data_layer_extension_load_t)AE_FUNCTION_NULL,
+        0,
         &__load_movie_data_layer_extension_polygon,
         &__load_movie_data_layer_extension_shader,
         &__load_movie_data_layer_extension_viewport,
