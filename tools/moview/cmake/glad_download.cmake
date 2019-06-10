@@ -2,7 +2,7 @@ include(ExternalProject)
 
 ExternalProject_Add(glad_download PREFIX glad
         GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-		GIT_TAG "v0.1.24"
+		GIT_TAG "v0.1.30"
 		GIT_PROGRESS TRUE
             
         UPDATE_COMMAND ""
