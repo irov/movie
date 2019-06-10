@@ -198,6 +198,7 @@ Composition::Composition()
     , mContentScale( 1.f )
     , mContentOffX( 0.f )
     , mContentOffY( 0.f )
+    , mTimeSpeedFactor( 1.f )
 {
 }
 //////////////////////////////////////////////////////////////////////////
@@ -355,7 +356,17 @@ float Composition::GetCurrentPlayTime() const
     return ae_get_movie_composition_time( mComposition );
 }
 //////////////////////////////////////////////////////////////////////////
-void Composition::SetCurrentPlayTime( float time ) const 
+void Composition::SetCurrentPlayTimeSpeedFactor( float factor )
+{
+    mTimeSpeedFactor = factor;
+}
+//////////////////////////////////////////////////////////////////////////
+float Composition::GetCurrentPlayTimeSpeedFactor() const
+{
+    return mTimeSpeedFactor;
+}
+//////////////////////////////////////////////////////////////////////////
+void Composition::SetCurrentPlayTime( float time ) 
 {
     if( mComposition == nullptr )
     {
@@ -484,7 +495,9 @@ void Composition::Update( float deltaTime )
         return;
     }
 
-    ae_update_movie_composition( mComposition, deltaTime );
+    float totalDeltaTime = deltaTime * mTimeSpeedFactor;
+
+    ae_update_movie_composition( mComposition, totalDeltaTime );
 }
 //////////////////////////////////////////////////////////////////////////
 void Composition::Draw( const DrawMode mode )

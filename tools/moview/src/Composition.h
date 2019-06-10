@@ -39,8 +39,11 @@ public:
 
     const std::string & GetName() const;
     float GetDuration() const;
+    void SetCurrentPlayTimeSpeedFactor( float factor );
+    float GetCurrentPlayTimeSpeedFactor() const;
+    void SetCurrentPlayTime( float time );
     float GetCurrentPlayTime() const;
-    void SetCurrentPlayTime( float time ) const;
+    
 
     bool IsPlaying() const;
     void Play( float startTime = 0.f );
@@ -114,6 +117,7 @@ protected:
     float mContentScale;
     float mContentOffX;
     float mContentOffY;
+    float mTimeSpeedFactor;
 
 protected:
     friend class Movie;

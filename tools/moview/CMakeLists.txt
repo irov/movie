@@ -24,7 +24,7 @@ if(APPLE)
 endif()
 
 set(LIBMOVIE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
-set(DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
+set(LIBMOVIE_DEPENDENCIES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/dependencies)
 
 include(cmake/macro.cmake)
 include(cmake/glad_download.cmake)
@@ -66,7 +66,7 @@ include_directories(
     ${GLAD_INCLUDE_DIR}
     ${NATIVEFILEDIALOG_INCLUDE_DIR}
     ${LIBMOVIE_DIR}/include
-    ${DEPENDENCIES_DIR}/stb
+    ${LIBMOVIE_DEPENDENCIES_DIR}/stb
     ${ALSOFT_INCLUDE_DIR}
     ${TINYINI_INCLUDE_DIR}
 )

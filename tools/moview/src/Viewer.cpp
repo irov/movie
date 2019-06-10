@@ -9,7 +9,6 @@
 #include "imgui_impl_glfw_gl3_glad.h"
 #include "nfd.h"
 
-#define INI_IMPLEMENTATION
 #ifdef PLATFORM_WINDOWS
 # define INI_STRNICMP _strnicmp
 #endif
@@ -460,7 +459,7 @@ void Viewer::DoUI()
 
     float rightPanelWidth = 200.f;
     float leftPanelWidth = 300.f;
-    float panelHeight = 200.f;
+    float panelHeight = 250.f;
     float nextY = 0.f;
 
     bool openNewMovie = false;
@@ -630,6 +629,15 @@ void Viewer::DoUI()
             float playPos = playTime / duration;
 
             ImGui::Text( "Composition: %s", mComposition->GetName().c_str() );
+
+            ImGui::Text( "Speed:" );
+            ImGui::PushItemWidth( ImGui::GetWindowWidth() * 0.92f );
+            float fSpeedFactor = mComposition->GetCurrentPlayTimeSpeedFactor();
+            ImGui::SliderFloat( "##SpeedFactor", &fSpeedFactor, 0.f, 10.f );
+            ImGui::PopItemWidth();
+            mComposition->SetCurrentPlayTimeSpeedFactor( fSpeedFactor );
+
+
             ImGui::Text( "Duration: %0.2fs", duration );
             ImGui::Text( "Play time: %0.2fs", playTime );
 
