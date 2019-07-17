@@ -6,7 +6,7 @@ hello libMovie
 libMovie is a multiplatform 'C' library for render After Effects composition. It outputs vertex, index buffers that you can render in your render pipeline enabled application. It is fast, portable, renderer agnostic and no external dependencies.
 
 Individuals/hobbyists: support continued maintenance and development via PayPal:
-<br>&nbsp;&nbsp;[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QF8YSEMRD6D2C)
+<br>&nbsp;&nbsp;[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=43DSUFK9RM2G6)
 
 [![Beerpay](https://beerpay.io/irov/libmovie/badge.svg?style=flat)](https://beerpay.io/irov/libmovie)
 
