@@ -1,0 +1,14 @@
+@echo off
+
+set "CONFIGURATION=Release"
+set "SOLUTION_DIR=..\solutions\libmovie_msvc16_%CONFIGURATION%"
+
+@pushd ..
+@mkdir %SOLUTION_DIR%
+@pushd %SOLUTION_DIR%
+CMake -G "Visual Studio 16 2019" "%CD%\..\.." -DCMAKE_CONFIGURATION_TYPES:STRING=%CONFIGURATION% -DCMAKE_BUILD_TYPE:STRING=%CONFIGURATION% -DLIBMOVIE_EXAMPLES_BUILD:BOOL=TRUE -DLIBMOVIE_TEST:BOOL=TRUE
+@popd
+@popd
+
+@echo on
+@pause

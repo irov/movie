@@ -1152,7 +1152,7 @@ AE_INTERNAL ae_result_t __load_movie_data_layer_extensions( aeMovieLayerData * _
 
         AE_RESULT( __request_extensions, (_instance, &layer_extensions) );
 
-        AE_RESULT( *extension_load, (_layer, _stream, _instance, layer_extensions) );        
+        AE_RESULT( *extension_load, (_layer, _stream, _instance, layer_extensions) );
     }
 
     if( layer_extensions == AE_NULLPTR )
@@ -2583,8 +2583,8 @@ ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_la
     {
         const aeMovieCompositionData * compositionData = it_composition;
 
-        const aeMovieLayerData *it_layer = compositionData->layers;
-        const aeMovieLayerData *it_layer_end = compositionData->layers + compositionData->layer_count;
+        const aeMovieLayerData * it_layer = compositionData->layers;
+        const aeMovieLayerData * it_layer_end = compositionData->layers + compositionData->layer_count;
         for( ; it_layer != it_layer_end; ++it_layer )
         {
             const aeMovieLayerData * layerData = it_layer;

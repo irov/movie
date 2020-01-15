@@ -12,7 +12,8 @@ No resource or node providers.
 static const ae_char_t * ex_example_movie_path = "../../examples/resources/Knight/Knight.aem";
 static const ae_char_t * ex_example_composition_name = "Knight";
 
-int main( int argc, char *argv[] ) {
+int main( int argc, char * argv[] )
+{
     AE_UNUSED( argc );
     AE_UNUSED( argv );
     //

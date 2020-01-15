@@ -97,7 +97,7 @@ typedef enum aeMovieCompositionFlag
 
 typedef struct aeMovieDataCacheUVAvailableCallbackData
 {
-	ae_uint32_t dummy;
+    ae_uint32_t dummy;
 } aeMovieDataCacheUVAvailableCallbackData;
 
 typedef struct aeMovieDataCacheUVProviderCallbackData
@@ -131,7 +131,7 @@ typedef struct aeMovieDataProviders
     ae_movie_data_callback_resource_provider_t resource_provider;
     ae_movie_data_callback_resource_deleter_t resource_deleter;
 
-	ae_movie_data_callback_cache_uv_available_t cache_uv_available;
+    ae_movie_data_callback_cache_uv_available_t cache_uv_available;
     ae_movie_data_callback_cache_uv_provider_t cache_uv_provider;
     ae_movie_data_callback_cache_uv_deleter_t cache_uv_deleter;
 } aeMovieDataProviders;

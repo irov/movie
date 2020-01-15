@@ -12,7 +12,8 @@ static const ae_char_t * ex_example_license_hash = "52ad6f051099762d0a0787b4eb2d
 static const ae_char_t * ex_example_movie_path = "../../examples/resources/Knight/Knight.aem";
 static const ae_char_t * ex_example_composition_name = "Knight";
 
-int main( int argc, char *argv[] ) {
+int main( int argc, char * argv[] )
+{
     AE_UNUSED( argc );
     AE_UNUSED( argv );
 
@@ -39,7 +40,7 @@ int main( int argc, char *argv[] ) {
     // Set composition data provider callbacks here.
     //
 
-    ae_initialize_movie_composition_providers( &ex.comp_providers );    
+    ae_initialize_movie_composition_providers( &ex.comp_providers );
     ex.comp_providers.node_provider = &ex_callback_node_provider;
     ex.comp_providers.node_deleter = &ex_callback_node_destroyer;
     ex.comp_providers.node_update = &ex_callback_node_update;
@@ -64,7 +65,8 @@ int main( int argc, char *argv[] ) {
 
     ae_float_t last = ex_get_time();
 
-    while( ae_is_play_movie_composition( ex.composition ) == AE_TRUE ) {
+    while( ae_is_play_movie_composition( ex.composition ) == AE_TRUE )
+    {
         ae_float_t t = ex_get_time();
         ae_float_t dt = t - last;
         last = t;

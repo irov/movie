@@ -222,7 +222,7 @@ struct aeMovieComposition
 
     ae_uint32_t node_count;
     aeMovieNode * nodes;
-	aeMovieNode ** update_nodes;
+    aeMovieNode ** update_nodes;
 
     aeMovieNode * scene_effect_node;
     ae_userdata_t scene_effect_userdata;

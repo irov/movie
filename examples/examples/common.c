@@ -49,33 +49,39 @@ ae_void_t EX_LOG( const char * _format, ... )
 //
 // System time in milliseconds.
 //
-ae_float_t ex_get_time( ae_void_t ) {
+ae_float_t ex_get_time( ae_void_t )
+{
     clock_t c = clock();
     return (ae_float_t)c / (ae_float_t)CLOCKS_PER_SEC;
 }
 
-AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _data, ae_size_t _size ) {
+AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _data, ae_size_t _size )
+{
     AE_UNUSED( _data );
     return malloc( _size );
 }
 
-AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _data, ae_size_t _size, ae_size_t _count ) {
+AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _data, ae_size_t _size, ae_size_t _count )
+{
     AE_UNUSED( _data );
     ae_size_t total = _size * _count;
     return malloc( total );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free( ae_userdata_t _data, ae_constvoidptr_t _ptr )
+{
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_userdata_t _data, ae_constvoidptr_t _ptr ) {
+AE_CALLBACK ae_void_t stdlib_movie_free_n( ae_userdata_t _data, ae_constvoidptr_t _ptr )
+{
     AE_UNUSED( _data );
     free( (ae_voidptr_t)_ptr );
 }
 
-AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_userdata_t _data, aeMovieErrorCode _code, const ae_char_t * _format, ... ) {
+AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_userdata_t _data, aeMovieErrorCode _code, const ae_char_t * _format, ... )
+{
     AE_UNUSED( _data );
     AE_UNUSED( _code );
     va_list argList;
@@ -84,14 +90,16 @@ AE_CALLBACK ae_void_t stdlib_movie_logerror( ae_userdata_t _data, aeMovieErrorCo
     va_end( argList );
 }
 
-AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size, ae_userdata_t _data ) {
+AE_CALLBACK ae_size_t __read_file( ae_voidptr_t _buff, ae_size_t _carriage, ae_size_t _size, ae_userdata_t _data )
+{
     AE_UNUSED( _carriage );
     FILE * f = (FILE *)_data;
     ae_size_t s = fread( _buff, 1, _size, f );
     return s;
 }
 
-AE_CALLBACK ae_void_t __memory_copy( ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size, ae_userdata_t _data ) {
+AE_CALLBACK ae_void_t __memory_copy( ae_constvoidptr_t _src, ae_voidptr_t _dst, ae_size_t _size, ae_userdata_t _data )
+{
     AE_UNUSED( _data );
     memcpy( _dst, _src, _size );
 }
@@ -101,7 +109,8 @@ AE_CALLBACK ae_void_t __memory_copy( ae_constvoidptr_t _src, ae_voidptr_t _dst, 
 //
 // Empty callback.
 //
-ae_bool_t ex_callback_resource_provider_empty( const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud ) {
+ae_bool_t ex_callback_resource_provider_empty( const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud )
+{
     AE_UNUSED( _resource );
     AE_UNUSED( _rd );
     AE_UNUSED( _ud );
@@ -111,7 +120,8 @@ ae_bool_t ex_callback_resource_provider_empty( const aeMovieResource * _resource
     return AE_TRUE;
 }
 
-ae_void_t ex_callback_resource_deleter_empty( aeMovieResourceTypeEnum _type, ae_userdata_t _rd, ae_userdata_t _ud ) {
+ae_void_t ex_callback_resource_deleter_empty( aeMovieResourceTypeEnum _type, ae_userdata_t _rd, ae_userdata_t _ud )
+{
     AE_UNUSED( _type );
     AE_UNUSED( _rd );
     AE_UNUSED( _ud );
@@ -124,7 +134,8 @@ ae_void_t ex_callback_resource_deleter_empty( aeMovieResourceTypeEnum _type, ae_
 //
 // Return value goes into layer->resource_data, which in turn is used in node provider & aeMovieRenderMesh structure.
 //
-ae_bool_t ex_callback_resource_provider( const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud ) {
+ae_bool_t ex_callback_resource_provider( const aeMovieResource * _resource, ae_userdataptr_t _rd, ae_userdata_t _ud )
+{
     //
     // This would be our examples_t object if we used it here.
     //
@@ -134,7 +145,8 @@ ae_bool_t ex_callback_resource_provider( const aeMovieResource * _resource, ae_u
 
     EX_LOG( "Resource provider callback.\n" );
 
-    switch( _resource->type ) {
+    switch( _resource->type )
+    {
     case AE_MOVIE_RESOURCE_IMAGE:
         {
             const aeMovieResourceImage * r = (const aeMovieResourceImage *)_resource;
@@ -191,7 +203,8 @@ ae_bool_t ex_callback_resource_provider( const aeMovieResource * _resource, ae_u
 
 //==================================================
 
-ae_bool_t ex_callback_camera_provider( const aeMovieCameraProviderCallbackData * _callbackData, ae_userdataptr_t _cd, ae_userdata_t _ud ) {
+ae_bool_t ex_callback_camera_provider( const aeMovieCameraProviderCallbackData * _callbackData, ae_userdataptr_t _cd, ae_userdata_t _ud )
+{
     //
     // This would be our examples_t object if we used it here.
     //
@@ -212,14 +225,16 @@ ae_bool_t ex_callback_camera_provider( const aeMovieCameraProviderCallbackData *
     return AE_TRUE;
 }
 
-ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _callbackData, ae_userdataptr_t _nd, ae_userdata_t _ud ) {
+ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _callbackData, ae_userdataptr_t _nd, ae_userdata_t _ud )
+{
     AE_UNUSED( _nd );
     AE_UNUSED( _ud );
 
     EX_LOG( "Node provider callback.\n" );
 
 
-    if( ae_is_movie_layer_data_track_mate( _callbackData->layer ) == AE_TRUE ) {
+    if( ae_is_movie_layer_data_track_mate( _callbackData->layer ) == AE_TRUE )
+    {
         EX_LOG( " Is track matte layer.\n" );
         return AE_FALSE;
     }
@@ -228,22 +243,26 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
 
     EX_LOG( " Layer: '%s'", ae_get_movie_layer_data_name( _callbackData->layer ) );
 
-    if( _callbackData->track_matte_layer == AE_NULLPTR ) {
+    if( _callbackData->track_matte_layer == AE_NULLPTR )
+    {
         EX_LOG( " Has track matte: no\n" );
 
         EX_LOG( " Type:" );
 
-        switch( layerType ) {
+        switch( layerType )
+        {
         case AE_MOVIE_LAYER_TYPE_SLOT:
             {
                 EX_LOG( " slot\n" );
                 break;
             }
-        case AE_MOVIE_LAYER_TYPE_VIDEO: {
+        case AE_MOVIE_LAYER_TYPE_VIDEO:
+            {
                 EX_LOG( " video\n" );
                 break;
             }
-        case AE_MOVIE_LAYER_TYPE_SOUND: {
+        case AE_MOVIE_LAYER_TYPE_SOUND:
+            {
                 //				ex_sound_t *sound = (ex_sound_t *)ae_get_movie_layer_data_resource_data(_callbackData->layer);
 
                 EX_LOG( " sound\n" );
@@ -256,12 +275,14 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
             break;
         }
     }
-    else {
+    else
+    {
         EX_LOG( " Has track matte: yes\n" );
 
         EX_LOG( " Type:" );
 
-        switch( layerType ) {
+        switch( layerType )
+        {
         case AE_MOVIE_LAYER_TYPE_SHAPE:
             EX_LOG( " shape\n" );
             break;
@@ -294,7 +315,8 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
     return AE_TRUE;
 }
 
-ae_void_t ex_callback_node_destroyer( const aeMovieNodeDeleterCallbackData * _callbackData, ae_userdata_t _ud ) {
+ae_void_t ex_callback_node_destroyer( const aeMovieNodeDeleterCallbackData * _callbackData, ae_userdata_t _ud )
+{
     AE_UNUSED( _ud );
 
     EX_LOG( "Node destroyer callback.\n" );
@@ -304,7 +326,8 @@ ae_void_t ex_callback_node_destroyer( const aeMovieNodeDeleterCallbackData * _ca
     EX_LOG( " Layer type: %i\n", type );
 }
 
-ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callbackData, ae_userdata_t _ud ) {
+ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callbackData, ae_userdata_t _ud )
+{
     AE_UNUSED( _ud );
 
     EX_LOG( "Node update callback.\n" );
@@ -344,7 +367,8 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
 
             aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
 
-            switch( layer_type ) {
+            switch( layer_type )
+            {
             case AE_MOVIE_LAYER_TYPE_PARTICLE:
                 EX_LOG( " particle\n" );
                 break;
@@ -419,7 +443,8 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
     }
 }
 
-ae_bool_t ex_callback_track_matte_provider( const aeMovieTrackMatteProviderCallbackData * _callbackData, ae_userdataptr_t _tmd, ae_userdata_t _ud ) {
+ae_bool_t ex_callback_track_matte_provider( const aeMovieTrackMatteProviderCallbackData * _callbackData, ae_userdataptr_t _tmd, ae_userdata_t _ud )
+{
     AE_UNUSED( _callbackData );
     AE_UNUSED( _tmd );
     AE_UNUSED( _ud );
@@ -442,7 +467,8 @@ ae_bool_t ex_callback_track_matte_provider( const aeMovieTrackMatteProviderCallb
 }
 
 
-ae_void_t ex_callback_track_matte_update( const aeMovieTrackMatteUpdateCallbackData * _callbackData, ae_userdata_t _ud ) {
+ae_void_t ex_callback_track_matte_update( const aeMovieTrackMatteUpdateCallbackData * _callbackData, ae_userdata_t _ud )
+{
     AE_UNUSED( _ud );
 
     EX_LOG( "Track matte update callback.\n" );
@@ -501,7 +527,8 @@ ae_void_t ex_callback_track_matte_update( const aeMovieTrackMatteUpdateCallbackD
     }
 }
 
-ae_void_t ex_callback_track_matte_deleter( const aeMovieTrackMatteDeleterCallbackData * _callbackData, ae_userdata_t _ud ) {
+ae_void_t ex_callback_track_matte_deleter( const aeMovieTrackMatteDeleterCallbackData * _callbackData, ae_userdata_t _ud )
+{
     AE_UNUSED( _callbackData );
     AE_UNUSED( _ud );
 
@@ -509,7 +536,8 @@ ae_void_t ex_callback_track_matte_deleter( const aeMovieTrackMatteDeleterCallbac
 }
 
 
-ae_void_t ex_callback_composition_event( const aeMovieCompositionEventCallbackData * _callbackData, ae_userdata_t _ud ) {
+ae_void_t ex_callback_composition_event( const aeMovieCompositionEventCallbackData * _callbackData, ae_userdata_t _ud )
+{
     AE_UNUSED( _ud );
 
     EX_LOG( "Composition event callback.\n" );
@@ -519,7 +547,8 @@ ae_void_t ex_callback_composition_event( const aeMovieCompositionEventCallbackDa
     EX_LOG( " begin: %s\n", _callbackData->begin ? "TRUE" : "FALSE" );
 }
 
-ae_void_t ex_callback_composition_state( const aeMovieCompositionStateCallbackData * _callbackData, ae_userdata_t _ud ) {
+ae_void_t ex_callback_composition_state( const aeMovieCompositionStateCallbackData * _callbackData, ae_userdata_t _ud )
+{
     AE_UNUSED( _ud );
 
     EX_LOG( "Composition state callback.\n" );
@@ -530,7 +559,8 @@ ae_void_t ex_callback_composition_state( const aeMovieCompositionStateCallbackDa
     // Work with master composition here.
     //
 
-    switch( _callbackData->state ) {
+    switch( _callbackData->state )
+    {
     case AE_MOVIE_COMPOSITION_PLAY:
         EX_LOG( " COMPOSITION_PLAY\n" );
         break;
@@ -561,12 +591,14 @@ ae_void_t ex_callback_composition_state( const aeMovieCompositionStateCallbackDa
 //
 // This loads .AEM into a data structure which your resource manager should have a list of, similar to image or sound cache.
 //
-ae_void_t ex_load_movie_data( ae_void_t ) {
+ae_void_t ex_load_movie_data( ae_void_t )
+{
     EX_LOG( "Opening file '%s'.\n", ex.movie_path );
 
     FILE * f = fopen( ex.movie_path, "rb" );
 
-    if( f == NULL ) {
+    if( f == NULL )
+    {
         EX_LOG( "...failed.\n" );
         exit( 0 );
     }
@@ -584,12 +616,13 @@ ae_void_t ex_load_movie_data( ae_void_t ) {
     data_providers.resource_deleter = ex.resource_deleter;
 
     aeMovieData * movie_data = ae_create_movie_data( ex.instance, &data_providers, AE_USERDATA_NULL );
-    
+
     ae_uint32_t load_major_version;
     ae_uint32_t load_minor_version;
-	ae_result_t load_movie_data_result = ae_load_movie_data( movie_data, movie_stream, &load_major_version, &load_minor_version );
+    ae_result_t load_movie_data_result = ae_load_movie_data( movie_data, movie_stream, &load_major_version, &load_minor_version );
 
-    if( load_movie_data_result != AE_RESULT_SUCCESSFUL ) {
+    if( load_movie_data_result != AE_RESULT_SUCCESSFUL )
+    {
         const ae_char_t * load_movie_data_result_info = ae_get_result_string_info( load_movie_data_result );
         EX_LOG( "%s\n", load_movie_data_result_info );
         EX_LOG( "load major version %u\n", load_major_version );
@@ -616,12 +649,14 @@ ae_void_t ex_load_movie_data( ae_void_t ) {
     ex.data = movie_data;
 }
 
-ae_void_t ex_set_composition( ae_void_t ) {
+ae_void_t ex_set_composition( ae_void_t )
+{
     EX_LOG( "Getting data for composition '%s'.\n", ex.comp_name );
 
     const aeMovieCompositionData * comp_data = ae_get_movie_composition_data( ex.data, ex.comp_name );
 
-    if( comp_data == AE_NULLPTR ) {
+    if( comp_data == AE_NULLPTR )
+    {
         EX_LOG( "...failed.\n" );
         exit( 0 );
     }
@@ -630,7 +665,8 @@ ae_void_t ex_set_composition( ae_void_t ) {
 
     const aeMovieComposition * composition = ae_create_movie_composition( ex.data, comp_data, AE_TRUE, &ex.comp_providers, AE_NULLPTR );
 
-    if( composition == AE_NULLPTR ) {
+    if( composition == AE_NULLPTR )
+    {
         EX_LOG( "...failed.\n" );
         exit( 0 );
     }
@@ -648,7 +684,8 @@ ae_void_t ex_set_composition( ae_void_t ) {
 //
 // The update loop.
 //
-ae_void_t ex_update( ae_float_t dt ) {
+ae_void_t ex_update( ae_float_t dt )
+{
     EX_LOG( "\n====== Beginning of frame update =================\n\n" );
     EX_LOG( "dt: %f", dt );
 
@@ -660,13 +697,15 @@ ae_void_t ex_update( ae_float_t dt ) {
 //
 // The render loop.
 //
-ae_void_t ex_render( ae_void_t ) {
+ae_void_t ex_render( ae_void_t )
+{
     ae_uint32_t render_mesh_it = 0;
     aeMovieRenderMesh render_mesh;
 
     EX_LOG( "\n====== Beginning of frame render =================\n\n" );
 
-    while( ae_compute_movie_mesh( ex.composition, &render_mesh_it, &render_mesh ) == AE_TRUE ) {
+    while( ae_compute_movie_mesh( ex.composition, &render_mesh_it, &render_mesh ) == AE_TRUE )
+    {
         EX_LOG( "Rendering mesh %i.\n", render_mesh_it );
 
         //if( render_mesh.camera_data != AE_NULL )
@@ -676,7 +715,8 @@ ae_void_t ex_render( ae_void_t ) {
 
         EX_LOG( " Track matte: " );
 
-        if( render_mesh.track_matte_userdata == AE_NULLPTR ) {
+        if( render_mesh.track_matte_userdata == AE_NULLPTR )
+        {
             //
             // layer has no track matte
             //
@@ -771,29 +811,35 @@ ae_void_t ex_render( ae_void_t ) {
                     EX_LOG( "submovie\n" );
                     break;
                 }
-            case AE_MOVIE_LAYER_TYPE_SPRITE: {
+            case AE_MOVIE_LAYER_TYPE_SPRITE:
+                {
                     //Empty
                     break;
                 }
-            case AE_MOVIE_LAYER_TYPE_TEXT: {
+            case AE_MOVIE_LAYER_TYPE_TEXT:
+                {
                     //Empty
                     break;
                 }
-            case AE_MOVIE_LAYER_TYPE_EVENT: {
+            case AE_MOVIE_LAYER_TYPE_EVENT:
+                {
                     //Empty
                     break;
                 }
-            case AE_MOVIE_LAYER_TYPE_SOCKET: {
+            case AE_MOVIE_LAYER_TYPE_SOCKET:
+                {
                     //Empty
                     break;
                 }
-            case AE_MOVIE_LAYER_TYPE_NULL: {
+            case AE_MOVIE_LAYER_TYPE_NULL:
+                {
                     //Empty
                     break;
                 }
             }
         }
-        else {
+        else
+        {
             //
             // layer has track matte
             //
@@ -817,7 +863,8 @@ ae_void_t ex_render( ae_void_t ) {
             case AE_MOVIE_LAYER_TYPE_SEQUENCE:
             case AE_MOVIE_LAYER_TYPE_VIDEO:
             case AE_MOVIE_LAYER_TYPE_SOUND:
-            case AE_MOVIE_LAYER_TYPE_PARTICLE: {
+            case AE_MOVIE_LAYER_TYPE_PARTICLE:
+                {
                     //Empty
                 }break;
             case AE_MOVIE_LAYER_TYPE_IMAGE:
@@ -872,7 +919,8 @@ ae_void_t ex_render( ae_void_t ) {
                     // Render here using the main mesh & track matte data.
 
                 }break;
-            case AE_MOVIE_LAYER_TYPE_SUB_MOVIE: {
+            case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
+                {
                     //Empty                    
                 }break;
             }
@@ -887,7 +935,8 @@ ae_void_t ex_render( ae_void_t ) {
 //
 // Called at the application start.
 //
-ae_void_t ex_init( const ae_char_t * license, const ae_char_t * path, const ae_char_t * composition ) {
+ae_void_t ex_init( const ae_char_t * license, const ae_char_t * path, const ae_char_t * composition )
+{
     //
     // Set source file & composition name.
     //
@@ -915,38 +964,43 @@ ae_void_t ex_init( const ae_char_t * license, const ae_char_t * path, const ae_c
 //
 // Called at the application exit.
 //
-ae_void_t ex_shutdown( ae_void_t ) {
+ae_void_t ex_shutdown( ae_void_t )
+{
     //
     // Wait for a keypress.
     //
 
     EX_LOG( "\nPress ENTER to exit...\n" );
 
-	(void)getchar();
+    (void)getchar();
 
     //
     // Free the allocated memory.
     //
 
-    if( ex.composition ) {
+    if( ex.composition )
+    {
         EX_LOG( "Deleting movie composition.\n" );
         ae_delete_movie_composition( ex.composition );
         ex.composition = AE_NULLPTR;
     }
 
-	if( ex.data ) {
-		EX_LOG( "Deleting movie data.\n" );
-		ae_delete_movie_data( ex.data );
-		ex.data = AE_NULLPTR;
-	}
-
-    if( ex.data ) {
+    if( ex.data )
+    {
         EX_LOG( "Deleting movie data.\n" );
         ae_delete_movie_data( ex.data );
         ex.data = AE_NULLPTR;
     }
 
-    if( ex.instance ) {
+    if( ex.data )
+    {
+        EX_LOG( "Deleting movie data.\n" );
+        ae_delete_movie_data( ex.data );
+        ex.data = AE_NULLPTR;
+    }
+
+    if( ex.instance )
+    {
         EX_LOG( "Deleting library instance.\n" );
         ae_delete_movie_instance( ex.instance );
         ex.instance = AE_NULLPTR;

@@ -189,7 +189,7 @@ AE_INTERNAL ae_float_t __get_movie_layer_transformation_property_fixed( ae_const
 
             ae_uint32_t block_index = _index - property_index;
             const ae_float_t block_index_f = index256_to_float[block_index];
-            
+
             ae_float_t block_t = block_index_f * block_inv;
 
             ae_float_t block_value = block_begin + (block_end - block_begin) * block_t;
@@ -238,7 +238,7 @@ AE_INTERNAL ae_float_t __get_movie_layer_transformation_property_initial( ae_con
     case 1:
         {
             ae_float_t block_begin = property_ae_float_t[1];
-                        
+
             ae_float_t block_value = block_begin;
 
             return block_value;
@@ -1179,15 +1179,15 @@ ae_result_t ae_movie_load_layer_transformation( aeMovieStream * _stream, aeMovie
                 fixed_transformation |= 4;
             }
 
-            ae_movie_make_layer_transformation_intepolate_t transforamtion_interpolate_matrix[6] = { 
+            ae_movie_make_layer_transformation_intepolate_t transforamtion_interpolate_matrix[6] = {
                 &__make_layer_transformation3d_interpolate
                 , &__make_layer_transformation3d_interpolate_wsk
                 , &__make_layer_transformation3d_interpolate_wq
                 , &__make_layer_transformation3d_interpolate_wskq
                 , &__make_layer_transformation3d_interpolate_fq
-                , &__make_layer_transformation3d_interpolate_wskfq 
+                , &__make_layer_transformation3d_interpolate_wskfq
             };
-            
+
             ae_movie_make_layer_transformation_fixed_t transforamtion_fixed_matrix[6] = {
                 &__make_layer_transformation3d_fixed
                 , &__make_layer_transformation3d_fixed_wsk

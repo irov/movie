@@ -13,7 +13,7 @@ static const ae_char_t * test_example_file_paths[] = {
 //////////////////////////////////////////////////////////////////////////
 typedef struct memory_header_t
 {
-    ae_uint32_t size;
+    ae_size_t size;
     ae_char_t file[260];
     ae_uint32_t line;
 } memory_header_t;
@@ -263,7 +263,7 @@ int main( int argc, char *argv[] )
     for( ; index_memory_record != mi->memory_records_count; ++index_memory_record )
     {
         memory_header_t * header = mi->memory_records + index_memory_record;
-        printf( "file '%s[%d]' leak '%d' bytes\n"
+        printf( "file '%s[%d]' leak '%zu' bytes\n"
             , header->file
             , header->line
             , header->size );

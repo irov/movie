@@ -82,7 +82,7 @@ AE_CALLBACK ae_void_t __resource_deleter( aeMovieResourceTypeEnum _type, ae_void
     AE_UNUSED( _ud );
 }
 //////////////////////////////////////////////////////////////////////////
-int main( int argc, char *argv[] )
+int main( int argc, char * argv[] )
 {
     AE_UNUSED( argc );
     AE_UNUSED( argv );
@@ -117,8 +117,8 @@ int main( int argc, char *argv[] )
     ae_uint32_t load_minor_version;
     ae_result_t load_movie_data_result = ae_load_movie_data( movie_data, movie_stream, &load_major_version, &load_minor_version );
 
-	if( load_movie_data_result != AE_RESULT_SUCCESSFUL )
-	{
+    if( load_movie_data_result != AE_RESULT_SUCCESSFUL )
+    {
         const ae_char_t * load_movie_data_result_info = ae_get_result_string_info( load_movie_data_result );
         printf( "%s\n", load_movie_data_result_info );
         printf( "...failed.\n" );
@@ -128,7 +128,7 @@ int main( int argc, char *argv[] )
         fclose( f );
 
         return EXIT_FAILURE;
-	}
+    }
 
     ae_delete_movie_stream( movie_stream );
 

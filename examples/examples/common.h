@@ -9,31 +9,32 @@ ae_void_t EX_LOG( const char * _format, ... );
 // Working structure of our application.
 //
 
-typedef struct {
-	//
-	// Movie parameters.
-	//
+typedef struct
+{
+    //
+    // Movie parameters.
+    //
 
-	ae_char_t license[41];
-	ae_char_t license_padding[3];
-	ae_char_t movie_path[256];
-	ae_char_t comp_name[128];
+    ae_char_t license[41];
+    ae_char_t license_padding[3];
+    ae_char_t movie_path[256];
+    ae_char_t comp_name[128];
 
-	//
-	// Current working objects
-	//
+    //
+    // Current working objects
+    //
 
     const aeMovieInstance * instance;
     aeMovieData * data;
     const aeMovieComposition * composition;
 
-	//
-	// Callbacks for data loading & setup.
-	//
+    //
+    // Callbacks for data loading & setup.
+    //
 
-	ae_movie_data_callback_resource_provider_t resource_provider;
+    ae_movie_data_callback_resource_provider_t resource_provider;
     ae_movie_data_callback_resource_deleter_t resource_deleter;
-	aeMovieCompositionProviders comp_providers;
+    aeMovieCompositionProviders comp_providers;
 } examples_t;
 
 extern examples_t ex;

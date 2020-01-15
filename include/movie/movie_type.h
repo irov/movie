@@ -66,7 +66,7 @@ typedef ae_float_t ae_matrix34_t[12];
 
 typedef const ae_float_t * ae_vector3_ptr_t;
 typedef const ae_float_t * ae_matrix34_ptr_t;
-typedef void( *ae_function_t )(void);
+typedef void(*ae_function_t)(void);
 
 static const ae_bool_t AE_TRUE = 1;
 static const ae_bool_t AE_FALSE = 0;

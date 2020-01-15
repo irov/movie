@@ -20,6 +20,8 @@ IF( NOT LIBMOVIE_EXTERNAL_BUILD )
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
     elseif(${CMAKE_C_COMPILER_ID} STREQUAL MSVC)
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Wall /WX")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd5045")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4668")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4710")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4738")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4820")
@@ -56,8 +58,8 @@ public
     ${INCLUDE_DIR}/movie/movie_resource.h
     ${INCLUDE_DIR}/movie/movie_skeleton.h
     ${INCLUDE_DIR}/movie/movie_type.h
-    ${INCLUDE_DIR}/movie/movie_typedef.h    
-    ${INCLUDE_DIR}/movie/movie_version.h    
+    ${INCLUDE_DIR}/movie/movie_typedef.h
+    ${INCLUDE_DIR}/movie/movie_version.h
 )
 
 ADD_FILTER(
