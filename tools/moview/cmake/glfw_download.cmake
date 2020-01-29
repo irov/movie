@@ -2,8 +2,8 @@ include(ExternalProject)
 
 ExternalProject_Add(glfw_download PREFIX glfw
         GIT_REPOSITORY https://github.com/glfw/glfw.git
-		GIT_TAG "3.3"
-		GIT_PROGRESS TRUE
+        GIT_TAG "3.3"
+        GIT_PROGRESS TRUE
             
         UPDATE_COMMAND ""
       
@@ -11,10 +11,10 @@ ExternalProject_Add(glfw_download PREFIX glfw
             -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
             -DBUILD_SHARED_LIBS=OFF
             -DGLFW_BUILD_EXAMPLES=OFF
-			-DGLFW_BUILD_TESTS=OFF
-			-DGLFW_BUILD_DOCS=OFF
-			-DGLFW_INSTAL=ON
-			-DGLFW_VULKAN_STATIC=OFF			
+            -DGLFW_BUILD_TESTS=OFF
+            -DGLFW_BUILD_DOCS=OFF
+            -DGLFW_INSTALL=ON
+            -DGLFW_VULKAN_STATIC=OFF
             
     )
 
