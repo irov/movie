@@ -111,4 +111,4 @@ if(LIBMOVIE_TEST)
     enable_testing()
 
     add_subdirectory(tests)
-endif(LIBMOVIE_TEST)
+endif()
