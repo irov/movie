@@ -836,6 +836,7 @@ void Viewer::OffsetScene( float _dx, float _dy )
 
     mComposition->SetContentOffset( mContentOffset[0], mContentOffset[1] );
 }
+//////////////////////////////////////////////////////////////////////////
 void Viewer::ScaleAroundPoint( float _scale, float _x, float _y )
 {
     if( mComposition )
