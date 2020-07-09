@@ -246,6 +246,8 @@ const aeMovieCompositionData * ae_get_movie_composition_data( const aeMovieData 
 typedef ae_bool_t( *ae_movie_layer_data_visitor_t )(const aeMovieCompositionData * _compositionData, const aeMovieLayerData * _layer, ae_userdata_t _ud);
 
 ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud );
+ae_bool_t ae_visit_composition_layer_data( const aeMovieCompositionData * _compositionData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud );
+ae_bool_t ae_visit_nodes_layer_data( const aeMovieComposition * _composition, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud );
 
 /**
 @param [in] _layer Layer.
@@ -295,7 +297,7 @@ ae_uint32_t ae_get_movie_layer_data_option( const aeMovieLayerData * _layer, ae_
 
 /**
 @param [in] _layer Layer.
-@return resource linked to the layer.
+@return Resource linked to the layer.
 */
 const aeMovieResource * ae_get_movie_layer_data_resource( const aeMovieLayerData * _layer );
 
@@ -305,13 +307,19 @@ ae_userdata_t ae_get_movie_resource_userdata( const aeMovieResource * _resource 
 
 /**
 @param [in] _layer Layer.
+@return Type resource linked to the layer.
+*/
+aeMovieResourceTypeEnum ae_get_movie_layer_data_resource_type( const aeMovieLayerData * _layer );
+
+/**
+@param [in] _layer Layer.
 @return Pointer to the data referenced by the resource linked to the layer.
 */
 ae_userdata_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData * _layer );
 
 /**
 @param [in] _layer Layer.
-@return Pointer to the data referenced by the resource linked to the layer.
+@return Test layer opacity transparent.
 */
 ae_bool_t ae_test_movie_layer_data_opacity_transparent( const aeMovieLayerData * _layer );
 

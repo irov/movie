@@ -36,12 +36,12 @@
 
 #ifdef AE_MOVIE_MEMORY_DEBUG
 //////////////////////////////////////////////////////////////////////////
-#	define AE_NEW(instance, type) ((type *)__magic_memory_alloc( instance, #type, sizeof(type), __FILE__, __LINE__))
-#	define AE_NEWV(instance, size, doc) (__magic_memory_alloc( instance, doc, size, __FILE__, __LINE__))
-#	define AE_NEWN(instance, type, n) ((type *)__magic_memory_alloc_n(instance, #type, sizeof(type), n, __FILE__, __LINE__))
-#	define AE_DELETE(instance, ptr) (__magic_memory_free(instance, #ptr, ptr))
-#	define AE_DELETEN(instance, ptr) (__magic_memory_free_n(instance, #ptr, ptr))
-#	define AE_DELETE_STRING(instance, ptr) (__magic_memory_free_n(instance, #ptr, ptr))
+#   define AE_NEW(instance, type) ((type *)__magic_memory_alloc( instance, #type, sizeof(type), __FILE__, __LINE__))
+#   define AE_NEWV(instance, size, doc) (__magic_memory_alloc( instance, doc, size, __FILE__, __LINE__))
+#   define AE_NEWN(instance, type, n) ((type *)__magic_memory_alloc_n(instance, #type, sizeof(type), n, __FILE__, __LINE__))
+#   define AE_DELETE(instance, ptr) (__magic_memory_free(instance, #ptr, ptr))
+#   define AE_DELETEN(instance, ptr) (__magic_memory_free_n(instance, #ptr, ptr))
+#   define AE_DELETE_STRING(instance, ptr) (__magic_memory_free_n(instance, #ptr, ptr))
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_voidptr_t __magic_memory_alloc( const aeMovieInstance * _instance, const ae_char_t * _doc, ae_size_t _size, const ae_char_t * _file, ae_uint32_t _line )
 {
@@ -91,12 +91,12 @@ AE_INTERNAL ae_void_t __magic_memory_free_n( const aeMovieInstance * _instance, 
 //////////////////////////////////////////////////////////////////////////
 #else
 //////////////////////////////////////////////////////////////////////////
-#	define AE_NEW(instance, type) ((type *)instance->memory_alloc( instance->instance_userdata, sizeof(type) ))
-#	define AE_NEWV(instance, size, doc) (instance->memory_alloc( instance->instance_userdata, size ))
-#	define AE_NEWN(instance, type, n) ((type *)instance->memory_alloc_n( instance->instance_userdata, sizeof(type), n ))
-#	define AE_DELETE(instance, ptr) (instance->memory_free( instance->instance_userdata, ptr))
-#	define AE_DELETEN(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
-#	define AE_DELETE_STRING(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
+#   define AE_NEW(instance, type) ((type *)instance->memory_alloc( instance->instance_userdata, sizeof(type) ))
+#   define AE_NEWV(instance, size, doc) (instance->memory_alloc( instance->instance_userdata, size ))
+#   define AE_NEWN(instance, type, n) ((type *)instance->memory_alloc_n( instance->instance_userdata, sizeof(type), n ))
+#   define AE_DELETE(instance, ptr) (instance->memory_free( instance->instance_userdata, ptr))
+#   define AE_DELETEN(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
+#   define AE_DELETE_STRING(instance, ptr) (instance->memory_free_n( instance->instance_userdata, ptr))
 //////////////////////////////////////////////////////////////////////////
 #endif
 

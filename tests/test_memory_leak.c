@@ -44,7 +44,7 @@ static ae_voidptr_t memory_info_alloc( memory_info_t * _info, ae_size_t _size, c
         return AE_NULLPTR;
     }
 
-	ae_voidptr_t ptr_data = ptr_header + 1;
+    ae_voidptr_t ptr_data = ptr_header + 1;
 
     return ptr_data;
 }
@@ -91,7 +91,7 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _userdata, ae_size_t 
 
     info->memory_allocate += _size;
 
-	ae_voidptr_t ptr_data = memory_info_alloc( info, _size, _file, _line);
+    ae_voidptr_t ptr_data = memory_info_alloc( info, _size, _file, _line);
 
     return ptr_data;
 }
@@ -103,7 +103,7 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _userdata, ae_size_
 
     info->memory_allocate += total;
 
-	ae_voidptr_t ptr_data = memory_info_alloc( info, total, _file, _line );
+    ae_voidptr_t ptr_data = memory_info_alloc( info, total, _file, _line );
 
     return ptr_data;
 }
@@ -114,7 +114,7 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc( ae_userdata_t _userdata, ae_size_t 
 
     info->memory_allocate += _size;
 
-	ae_voidptr_t ptr_data = memory_info_alloc( info, _size, "", 0 );
+    ae_voidptr_t ptr_data = memory_info_alloc( info, _size, "", 0 );
 
     return ptr_data;
 }
@@ -126,7 +126,7 @@ AE_CALLBACK ae_voidptr_t stdlib_movie_alloc_n( ae_userdata_t _userdata, ae_size_
 
     info->memory_allocate += total;
 
-	ae_voidptr_t ptr_data = memory_info_alloc( info, total, "", 0 );
+    ae_voidptr_t ptr_data = memory_info_alloc( info, total, "", 0 );
 
     return ptr_data;
 }

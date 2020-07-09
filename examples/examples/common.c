@@ -166,7 +166,7 @@ ae_bool_t ex_callback_resource_provider( const aeMovieResource * _resource, ae_u
         }
     case AE_MOVIE_RESOURCE_VIDEO:
         {
-            //			const aeMovieResourceVideo * r = (const aeMovieResourceVideo *)_resource;
+            //const aeMovieResourceVideo * r = (const aeMovieResourceVideo *)_resource;
 
             EX_LOG( "Resource type: video.\n" );
 
@@ -263,10 +263,10 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
             }
         case AE_MOVIE_LAYER_TYPE_SOUND:
             {
-                //				ex_sound_t *sound = (ex_sound_t *)ae_get_movie_layer_data_resource_data(_callbackData->layer);
+                //ex_sound_t *sound = (ex_sound_t *)ae_get_movie_layer_data_resource_data(_callbackData->layer);
 
                 EX_LOG( " sound\n" );
-                //				EX_LOG("  name: '%s'", sound->path);
+                //EX_LOG("  name: '%s'", sound->path);
 
                 break;
             }
@@ -291,19 +291,19 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
             // Image pointer was set in resource provider previously.
             //
 
-//				ex_image_t * image = (ex_image_t *)ae_get_movie_layer_data_resource_data(_callbackData->trackmatteLayer);
+            //ex_image_t * image = (ex_image_t *)ae_get_movie_layer_data_resource_data(_callbackData->trackmatteLayer);
 
             EX_LOG( " image\n" );
-            //				EX_LOG("  name: '%s'\n", image->path);
+            //EX_LOG("  name: '%s'\n", image->path);
 
                             //
                             // Create a reference here to a user-provided structure.
                             // It should contain the track matte image & be used during rendering, but not updating.
                             //
 
-            //				ex_track_matte_ref_t track_matte_ref = ;
-            //				track_matte_ref->image = image;
-            //				return track_matte_ref;
+            //ex_track_matte_ref_t track_matte_ref = ;
+            //track_matte_ref->image = image;
+            //return track_matte_ref;
 
             break;
         default:
@@ -399,10 +399,10 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
                 EX_LOG( " video\n" );
                 break;
             case AE_MOVIE_LAYER_TYPE_SOUND:
-                //					ex_sound_node_t *sound_node = (ex_sound_node_t *)_callbackData->element;
+                //ex_sound_node_t *sound_node = (ex_sound_node_t *)_callbackData->element;
 
                 EX_LOG( " sound\n" );
-                //					EX_LOG("  name: '%s'\n", sound_node->sound->path);
+                //EX_LOG("  name: '%s'\n", sound_node->sound->path);
 
                 break;
             default:
@@ -423,10 +423,10 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
                 EX_LOG( " video\n" );
                 break;
             case AE_MOVIE_LAYER_TYPE_SOUND:
-                //					ex_sound_node_t *sound_node = (ex_sound_node_t *)_callbackData->element;
+                //ex_sound_node_t *sound_node = (ex_sound_node_t *)_callbackData->element;
 
                 EX_LOG( " sound\n" );
-                //					EX_LOG("  name: '%s'\n", sound_node->sound->path);
+                //EX_LOG("  name: '%s'\n", sound_node->sound->path);
 
                 break;
             default:
@@ -459,9 +459,9 @@ ae_bool_t ex_callback_track_matte_provider( const aeMovieTrackMatteProviderCallb
     // Return value goes into layer->track_matte_data.
     //
 
-    // 			ex_track_matte_data_t track_matte_data = ;
-    //			track_matte_data->mesh = *_callbackData->mesh;
-    //			return track_matte_data;
+    // ex_track_matte_data_t track_matte_data = ;
+    // track_matte_data->mesh = *_callbackData->mesh;
+    // return track_matte_data;
 
     return AE_TRUE;
 }

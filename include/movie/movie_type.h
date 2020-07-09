@@ -121,15 +121,15 @@ typedef struct
 typedef struct aeMovieStream aeMovieStream;
 
 #ifndef AE_MOVIE_MAX_LAYER_NAME
-#	define AE_MOVIE_MAX_LAYER_NAME 128U
+#   define AE_MOVIE_MAX_LAYER_NAME 128U
 #endif
 
 #ifndef AE_MOVIE_MAX_COMPOSITION_NAME
-#	define AE_MOVIE_MAX_COMPOSITION_NAME 128U
+#   define AE_MOVIE_MAX_COMPOSITION_NAME 128U
 #endif
 
 #ifndef AE_MOVIE_MAX_VERTICES
-#	define AE_MOVIE_MAX_VERTICES 1024U
+#   define AE_MOVIE_MAX_VERTICES 1024U
 #endif
 
 typedef enum
@@ -153,9 +153,9 @@ typedef enum
 } aeMovieShaderParameterTypeEnum;
 
 #define AE_MOVIE_RESOURCE_BASE()\
-	aeMovieResourceTypeEnum type;\
+    aeMovieResourceTypeEnum type;\
     ae_string_t name;\
-	ae_userdata_t userdata
+    ae_userdata_t userdata
 
 typedef struct aeMovieResource
 {

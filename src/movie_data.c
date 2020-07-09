@@ -2599,6 +2599,40 @@ ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_la
     return AE_TRUE;
 }
 //////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_visit_composition_layer_data( const aeMovieCompositionData * _compositionData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
+{
+    const aeMovieLayerData * it_layer = _compositionData->layers;
+    const aeMovieLayerData * it_layer_end = _compositionData->layers + _compositionData->layer_count;
+    for( ; it_layer != it_layer_end; ++it_layer )
+    {
+        const aeMovieLayerData * layerData = it_layer;
+
+        if( (*_visitor)(_compositionData, layerData, _ud) == AE_FALSE )
+        {
+            return AE_FALSE;
+        }
+    }
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_visit_nodes_layer_data( const aeMovieComposition * _composition, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
+{
+    const aeMovieNode * it_node = _composition->nodes;
+    const aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        const aeMovieNode * node = it_node;
+
+        if( (*_visitor)(node->layer->composition_data, node->layer, _ud) == AE_FALSE )
+        {
+            return AE_FALSE;
+        }
+    }
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
 const ae_char_t * ae_get_movie_layer_data_name( const aeMovieLayerData * _layer )
 {
     return _layer->name;
@@ -2684,9 +2718,26 @@ ae_userdata_t ae_get_movie_resource_userdata( const aeMovieResource * _resource 
     return _resource->userdata;
 }
 //////////////////////////////////////////////////////////////////////////
+aeMovieResourceTypeEnum ae_get_movie_layer_data_resource_type( const aeMovieLayerData * _layer )
+{
+    const aeMovieResource * resource = _layer->resource;
+
+    if( resource == AE_NULLPTR )
+    {
+        return AE_MOVIE_RESOURCE_NONE;
+    }
+
+    return resource->type;
+}
+//////////////////////////////////////////////////////////////////////////
 ae_userdata_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData * _layer )
 {
     const aeMovieResource * resource = _layer->resource;
+
+    if( resource == AE_NULLPTR )
+    {
+        return AE_USERDATA_NULL;
+    }
 
     return resource->userdata;
 }

@@ -422,7 +422,7 @@ struct aeMoviePropertyColor
     const struct aeMoviePropertyColorChannel * color_channel_b;
 };
 //////////////////////////////////////////////////////////////////////////
-#	define AE_MOVIE_SHADER_PARAMETER_BASE()\
+#define AE_MOVIE_SHADER_PARAMETER_BASE()\
     ae_string_t name;\
     ae_string_t uniform;\
     aeMovieShaderParameterTypeEnum type

@@ -26,6 +26,7 @@ IF( NOT LIBMOVIE_EXTERNAL_BUILD )
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4738")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4820")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4711")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /wd4061")
     endif()
 ENDIF()
 
@@ -38,8 +39,8 @@ IF(LIBMOVIE_COVERAGE AND CMAKE_COMPILER_IS_GNUCXX)
 ENDIF()
 
 MACRO( ADD_FILTER group_name )
-	SOURCE_GROUP( ${group_name} FILES ${ARGN} )
-	SET( SRC_FILES ${SRC_FILES} ${ARGN} )
+    SOURCE_GROUP( ${group_name} FILES ${ARGN} )
+    SET( SRC_FILES ${SRC_FILES} ${ARGN} )
 ENDMACRO()
 
 SET( INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include )
@@ -47,7 +48,7 @@ SET( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
 ADD_FILTER(
 public
-	${INCLUDE_DIR}/movie/movie.h
+    ${INCLUDE_DIR}/movie/movie.h
     ${INCLUDE_DIR}/movie/movie.hpp
     ${INCLUDE_DIR}/movie/movie_config.h
     ${INCLUDE_DIR}/movie/movie_data.h
@@ -67,7 +68,7 @@ source
     ${SOURCE_DIR}/movie_detail.h
     ${SOURCE_DIR}/movie_bezier.c
     ${SOURCE_DIR}/movie_bezier.h
-	${SOURCE_DIR}/movie_data.c
+    ${SOURCE_DIR}/movie_data.c
     ${SOURCE_DIR}/movie_debug.h
     ${SOURCE_DIR}/movie_instance.c
     ${SOURCE_DIR}/movie_math.c
