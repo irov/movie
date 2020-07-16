@@ -2599,7 +2599,7 @@ ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_la
     return AE_TRUE;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_visit_composition_layer_data( const aeMovieCompositionData * _compositionData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
+static ae_bool_t __ae_visit_composition_layer_data( const aeMovieCompositionData * _compositionData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
 {
     const aeMovieLayerData * it_layer = _compositionData->layers;
     const aeMovieLayerData * it_layer_end = _compositionData->layers + _compositionData->layer_count;
@@ -2611,9 +2611,21 @@ ae_bool_t ae_visit_composition_layer_data( const aeMovieCompositionData * _compo
         {
             return AE_FALSE;
         }
+
+        if( layerData->subcomposition_data != AE_NULLPTR )
+        {
+            __ae_visit_composition_layer_data( layerData->subcomposition_data, _visitor, _ud );
+        }
     }
 
     return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_visit_composition_layer_data( const aeMovieCompositionData * _compositionData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
+{
+    ae_bool_t result = __ae_visit_composition_layer_data( _compositionData, _visitor, _ud );
+
+    return result;
 }
 //////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_visit_nodes_layer_data( const aeMovieComposition * _composition, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
