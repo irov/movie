@@ -2575,30 +2575,6 @@ const aeMovieCompositionData * ae_get_movie_composition_data( const aeMovieData 
     return AE_NULLPTR;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
-{
-    const aeMovieCompositionData * it_composition = _movieData->compositions;
-    const aeMovieCompositionData * it_composition_end = _movieData->compositions + _movieData->composition_count;
-    for( ; it_composition != it_composition_end; ++it_composition )
-    {
-        const aeMovieCompositionData * compositionData = it_composition;
-
-        const aeMovieLayerData * it_layer = compositionData->layers;
-        const aeMovieLayerData * it_layer_end = compositionData->layers + compositionData->layer_count;
-        for( ; it_layer != it_layer_end; ++it_layer )
-        {
-            const aeMovieLayerData * layerData = it_layer;
-
-            if( (*_visitor)(compositionData, layerData, _ud) == AE_FALSE )
-            {
-                return AE_FALSE;
-            }
-        }
-    }
-
-    return AE_TRUE;
-}
-//////////////////////////////////////////////////////////////////////////
 static ae_bool_t __ae_visit_composition_layer_data( const aeMovieCompositionData * _compositionData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
 {
     const aeMovieLayerData * it_layer = _compositionData->layers;
@@ -2614,7 +2590,27 @@ static ae_bool_t __ae_visit_composition_layer_data( const aeMovieCompositionData
 
         if( layerData->subcomposition_data != AE_NULLPTR )
         {
-            __ae_visit_composition_layer_data( layerData->subcomposition_data, _visitor, _ud );
+            if( __ae_visit_composition_layer_data( layerData->subcomposition_data, _visitor, _ud ) == AE_FALSE )
+            {
+                return AE_FALSE;
+            }
+        }
+    }
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud )
+{
+    const aeMovieCompositionData * it_composition = _movieData->compositions;
+    const aeMovieCompositionData * it_composition_end = _movieData->compositions + _movieData->composition_count;
+    for( ; it_composition != it_composition_end; ++it_composition )
+    {
+        const aeMovieCompositionData * compositionData = it_composition;
+
+        if( __ae_visit_composition_layer_data( compositionData, _visitor, _ud ) == AE_FALSE )
+        {
+            return AE_FALSE;
         }
     }
 
