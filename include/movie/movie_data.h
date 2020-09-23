@@ -243,6 +243,10 @@ ae_bool_t ae_has_movie_composition_data( const aeMovieData * _movieData, const a
 */
 const aeMovieCompositionData * ae_get_movie_composition_data( const aeMovieData * _movieData, const ae_char_t * _name );
 
+typedef ae_bool_t( *ae_movie_composition_data_visitor_t )(const aeMovieData * _movieData, const aeMovieCompositionData * _compositionData, ae_userdata_t _ud);
+
+ae_bool_t ae_visit_movie_composition_data( const aeMovieData * _movieData, ae_movie_composition_data_visitor_t _visitor, ae_userdata_t _ud );
+
 typedef ae_bool_t( *ae_movie_layer_data_visitor_t )(const aeMovieCompositionData * _compositionData, const aeMovieLayerData * _layer, ae_userdata_t _ud);
 
 ae_bool_t ae_visit_movie_layer_data( const aeMovieData * _movieData, ae_movie_layer_data_visitor_t _visitor, ae_userdata_t _ud );

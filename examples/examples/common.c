@@ -233,15 +233,15 @@ ae_bool_t ex_callback_node_provider( const aeMovieNodeProviderCallbackData * _ca
     EX_LOG( "Node provider callback.\n" );
 
 
-    if( ae_is_movie_layer_data_track_mate( _callbackData->layer ) == AE_TRUE )
+    if( ae_is_movie_layer_data_track_mate( _callbackData->layer_data ) == AE_TRUE )
     {
         EX_LOG( " Is track matte layer.\n" );
         return AE_FALSE;
     }
 
-    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer );
+    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
-    EX_LOG( " Layer: '%s'", ae_get_movie_layer_data_name( _callbackData->layer ) );
+    EX_LOG( " Layer: '%s'", ae_get_movie_layer_data_name( _callbackData->layer_data ) );
 
     if( _callbackData->track_matte_layer == AE_NULLPTR )
     {
@@ -321,7 +321,7 @@ ae_void_t ex_callback_node_destroyer( const aeMovieNodeDeleterCallbackData * _ca
 
     EX_LOG( "Node destroyer callback.\n" );
 
-    aeMovieLayerTypeEnum type = ae_get_movie_layer_data_type( _callbackData->layer );
+    aeMovieLayerTypeEnum type = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
     EX_LOG( " Layer type: %i\n", type );
 }
@@ -340,7 +340,7 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
             EX_LOG( " AE_MOVIE_STATE_UPDATE_BEGIN\n" );
             EX_LOG( " Type:" );
 
-            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
+            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
             switch( layer_type )
             {
@@ -365,7 +365,7 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
             EX_LOG( " AE_MOVIE_STATE_UPDATE_PROCESS\n" );
             EX_LOG( " Type:" );
 
-            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
+            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
             switch( layer_type )
             {
@@ -391,7 +391,7 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
             EX_LOG( " AE_MOVIE_STATE_UPDATE_STOP\n" );
             EX_LOG( " Type:" );
 
-            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
+            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
             switch( layer_type )
             {
@@ -415,7 +415,7 @@ ae_void_t ex_callback_node_update( const aeMovieNodeUpdateCallbackData * _callba
             EX_LOG( " AE_MOVIE_STATE_UPDATE_END\n" );
             EX_LOG( " Type:" );
 
-            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer );
+            aeMovieLayerTypeEnum layer_type = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
             switch( layer_type )
             {

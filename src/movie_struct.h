@@ -147,18 +147,18 @@ struct aeMovieCompositionAnimation
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieSubComposition
 {
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
     const aeMovieCompositionData * composition_data;
     const aeMovieCompositionData * subcomposition_data;
 
-    struct aeMovieCompositionAnimation * animation;
+    aeMovieCompositionAnimation * animation;
 
     ae_userdata_t subcomposition_userdata;
 };
 //////////////////////////////////////////////////////////////////////////
 struct aeMovieNode
 {
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
 
     struct aeMovieNode * relative_node;
     struct aeMovieNode * track_matte_node;
@@ -214,7 +214,7 @@ struct aeMovieComposition
     const aeMovieData * movie_data;
     const aeMovieCompositionData * composition_data;
 
-    struct aeMovieCompositionAnimation * animation;
+    aeMovieCompositionAnimation * animation;
 
     ae_userdata_t camera_userdata;
 

@@ -117,12 +117,12 @@ AE_INTERNAL ae_bool_t __test_movie_skeleton_animation( aeMovieComposition * _bas
         const aeMovieNode * base_node = it_base;
         const aeMovieNode * animation_node = it_animation;
 
-        if( base_node->layer->type != animation_node->layer->type )
+        if( base_node->layer_data->type != animation_node->layer_data->type )
         {
             return AE_FALSE;
         }
 
-        if( instance->strncmp( instance->instance_userdata, base_node->layer->name, animation_node->layer->name, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        if( instance->strncmp( instance->instance_userdata, base_node->layer_data->name, animation_node->layer_data->name, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
         {
             return AE_FALSE;
         }

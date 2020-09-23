@@ -110,7 +110,9 @@ typedef struct aeMovieNodeProviderCallbackData
 {
     ae_uint32_t index;
 
-    const aeMovieLayerData * layer;
+    const aeMovieCompositionData * composition_data;
+
+    const aeMovieLayerData * layer_data;
 
     /// @brief if node incessantly timeline
     ae_bool_t incessantly;
@@ -138,7 +140,7 @@ typedef struct aeMovieNodeDeleterCallbackData
     ae_uint32_t index;
 
     ae_userdata_t element_userdata;
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
 
     const aeMovieLayerData * track_matte_layer;
 } aeMovieNodeDeleterCallbackData;
@@ -148,7 +150,7 @@ typedef struct aeMovieNodeUpdateCallbackData
     ae_uint32_t index;
 
     ae_userdata_t element_userdata;
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
 
     ae_bool_t loop;
     ae_bool_t interrupt;
@@ -177,7 +179,7 @@ typedef struct aeMovieTrackMatteProviderCallbackData
     ae_uint32_t index;
 
     ae_userdata_t element_userdata;
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
 
     ae_bool_t loop;
     ae_time_t offset;
@@ -205,7 +207,7 @@ typedef struct aeMovieTrackMatteUpdateCallbackData
     ae_uint32_t index;
 
     ae_userdata_t element_userdata;
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
 
     ae_bool_t interrupt;
     ae_bool_t loop;
@@ -235,7 +237,7 @@ typedef struct aeMovieTrackMatteDeleterCallbackData
     ae_uint32_t index;
 
     ae_userdata_t element_userdata;
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
 
     ae_userdata_t track_matte_userdata;
 } aeMovieTrackMatteDeleterCallbackData;
@@ -372,9 +374,9 @@ typedef struct aeMovieCompositionSceneEffectUpdateCallbackData
 
 typedef struct aeMovieSubCompositionProviderCallbackData
 {
-    const aeMovieLayerData * layer;
+    const aeMovieLayerData * layer_data;
     const aeMovieCompositionData * composition_data;
-    const struct aeMovieCompositionAnimation * animation;
+    const aeMovieCompositionAnimation * animation;
 } aeMovieSubCompositionProviderCallbackData;
 
 typedef struct aeMovieSubCompositionDeleterCallbackData

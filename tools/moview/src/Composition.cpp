@@ -1223,15 +1223,15 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
 
     ViewerLogger << "Node provider callback" << std::endl;
 
-    if( ae_is_movie_layer_data_track_mate( _callbackData->layer ) == AE_TRUE )
+    if( ae_is_movie_layer_data_track_mate( _callbackData->layer_data ) == AE_TRUE )
     {
         ViewerLogger << " Is track matte layer" << std::endl;
         return true;
     }
 
-    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer );
+    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
-    ViewerLogger << " Layer: '" << ae_get_movie_layer_data_name( _callbackData->layer ) << std::endl;
+    ViewerLogger << " Layer: '" << ae_get_movie_layer_data_name( _callbackData->layer_data ) << std::endl;
 
     if( _callbackData->track_matte_layer == nullptr )
     {
@@ -1252,7 +1252,7 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
             {
                 ViewerLogger << " sound" << std::endl;
 
-                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer );
+                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer_data );
 
                 ResourceSound * resourceSound = reinterpret_cast<ResourceSound*>( rd );
 
@@ -1262,7 +1262,7 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
             {
                 ViewerLogger << " image" << std::endl;
 
-                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer );
+                ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer_data );
 
                 ResourceImage* resourceImage = reinterpret_cast<ResourceImage*>( rd );
 
@@ -1308,7 +1308,7 @@ bool Composition::OnProvideNode( const aeMovieNodeProviderCallbackData* _callbac
 void Composition::OnDeleteNode( const aeMovieNodeDeleterCallbackData* _callbackData )
 {
     ViewerLogger << "Node destroyer callback." << std::endl;
-    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer );
+    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer_data );
     ViewerLogger << " Layer type: " << layerType << std::endl;
 }
 //////////////////////////////////////////////////////////////////////////
@@ -1316,11 +1316,11 @@ void Composition::OnUpdateNode( const aeMovieNodeUpdateCallbackData* _callbackDa
 {
     AE_UNUSED( _callbackData );
 
-    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer );
+    aeMovieLayerTypeEnum layerType = ae_get_movie_layer_data_type( _callbackData->layer_data );
 
     if( AE_MOVIE_LAYER_TYPE_SOUND == layerType )
     {
-        ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer );
+        ae_voidptr_t rd = ae_get_movie_layer_data_resource_userdata( _callbackData->layer_data );
 
         ResourceSound * resourceSound = reinterpret_cast<ResourceSound*>( rd );
 
