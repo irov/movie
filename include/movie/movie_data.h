@@ -203,7 +203,7 @@ ae_uint32_t ae_get_movie_sdk_minor_version( void );
 @param [in] _result code
 @return string info.
 */
-const ae_char_t * ae_get_result_string_info( ae_result_t _result );
+const ae_char_t * ae_get_movie_result_string_info( ae_result_t _result );
 
 /**
 @brief Fills movie data structure and loads resources through provider.
@@ -323,9 +323,15 @@ ae_userdata_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData 
 
 /**
 @param [in] _layer Layer.
-@return Test layer opacity transparent.
+@return get layer immutable opacity.
 */
-ae_bool_t ae_test_movie_layer_data_opacity_transparent( const aeMovieLayerData * _layer );
+ae_bool_t ae_get_movie_layer_data_immutable_opacity( const aeMovieLayerData * _layer, ae_float_t * _opacity );
+
+/**
+@param [in] _layer Layer.
+@return get layer immutable scale.
+*/
+ae_bool_t ae_get_movie_layer_data_immutable_scale( const aeMovieLayerData * _layer, ae_float_t * _scaleX, ae_float_t * _scaleY, ae_float_t * _scaleZ );
 
 /**
 @brief Get track matte type layer

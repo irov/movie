@@ -623,7 +623,7 @@ ae_void_t ex_load_movie_data( ae_void_t )
 
     if( load_movie_data_result != AE_RESULT_SUCCESSFUL )
     {
-        const ae_char_t * load_movie_data_result_info = ae_get_result_string_info( load_movie_data_result );
+        const ae_char_t * load_movie_data_result_info = ae_get_movie_result_string_info( load_movie_data_result );
         EX_LOG( "%s\n", load_movie_data_result_info );
         EX_LOG( "load major version %u\n", load_major_version );
         EX_LOG( "load minor version %u\n", load_minor_version );

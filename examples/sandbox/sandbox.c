@@ -119,7 +119,7 @@ int main( int argc, char * argv[] )
 
     if( load_movie_data_result != AE_RESULT_SUCCESSFUL )
     {
-        const ae_char_t * load_movie_data_result_info = ae_get_result_string_info( load_movie_data_result );
+        const ae_char_t * load_movie_data_result_info = ae_get_movie_result_string_info( load_movie_data_result );
         printf( "%s\n", load_movie_data_result_info );
         printf( "...failed.\n" );
 

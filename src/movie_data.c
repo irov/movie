@@ -1779,7 +1779,7 @@ ae_uint32_t ae_get_movie_sdk_minor_version( void )
     return AE_MOVIE_SDK_MINOR_VERSION;
 }
 //////////////////////////////////////////////////////////////////////////
-const ae_char_t * ae_get_result_string_info( ae_result_t _result )
+const ae_char_t * ae_get_movie_result_string_info( ae_result_t _result )
 {
     switch( _result )
     {
@@ -2767,16 +2767,45 @@ ae_userdata_t ae_get_movie_layer_data_resource_userdata( const aeMovieLayerData 
     return resource->userdata;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_test_movie_layer_data_opacity_transparent( const aeMovieLayerData * _layer )
+ae_bool_t ae_get_movie_layer_data_immutable_opacity( const aeMovieLayerData * _layer, ae_float_t * _opacity )
 {
     if( _layer->transformation->timeline_opacity != AE_NULLPTR )
     {
         return AE_FALSE;
     }
 
-    if( _layer->transformation->immutable_opacity > 0.00390625f )
+    *_opacity = _layer->transformation->immutable_opacity;
+
+    return AE_TRUE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_get_movie_layer_data_immutable_scale( const aeMovieLayerData * _layer, ae_float_t * _scaleX, ae_float_t * _scaleY, ae_float_t * _scaleZ )
+{
+    if( _layer->threeD == AE_FALSE )
     {
-        return AE_FALSE;
+        const struct aeMovieLayerTransformation2D * transformation2d = (const struct aeMovieLayerTransformation2D *)_layer->transformation;
+
+        if( transformation2d->timeline != AE_NULLPTR && (transformation2d->timeline->scale_x != AE_NULLPTR || transformation2d->timeline->scale_y != AE_NULLPTR) )
+        {
+            return AE_FALSE;
+        }
+
+        *_scaleX = transformation2d->immutable.scale_x;
+        *_scaleY = transformation2d->immutable.scale_y;
+        *_scaleZ = 1.f;
+    }
+    else
+    {
+        const struct aeMovieLayerTransformation3D * transformation3d = (const struct aeMovieLayerTransformation3D *)_layer->transformation;
+
+        if( transformation3d->timeline != AE_NULLPTR && (transformation3d->timeline->scale_x != AE_NULLPTR || transformation3d->timeline->scale_y != AE_NULLPTR || transformation3d->timeline->scale_z) )
+        {
+            return AE_FALSE;
+        }
+
+        *_scaleX = transformation3d->immutable.scale_x;
+        *_scaleY = transformation3d->immutable.scale_y;
+        *_scaleZ = transformation3d->immutable.scale_z;
     }
 
     return AE_TRUE;
