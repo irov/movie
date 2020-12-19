@@ -196,7 +196,7 @@ bool Movie::LoadFromMemory( const void* data, size_t dataLength, const std::stri
 
     if( movie_data_result != AE_RESULT_SUCCESSFUL ) 
     {
-        mLastErrorDescription = ae_get_result_string_info( movie_data_result );
+        mLastErrorDescription = ae_get_movie_result_string_info( movie_data_result );
         if( AE_RESULT_INVALID_VERSION == movie_data_result )
         {
             mLastErrorDescription += " (file version = " + std::to_string( major_version ) + "." + std::to_string( minor_version ) + ")";

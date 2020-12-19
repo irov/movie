@@ -1024,7 +1024,7 @@ em_movie_data_t * em_create_movie_data( em_player_t * _player, const uint8_t * _
 
     if( result_load != AE_RESULT_SUCCESSFUL )
     {
-        const ae_char_t * result_load_info = ae_get_result_string_info( result_load );
+        const ae_char_t * result_load_info = ae_get_movie_result_string_info( result_load );
 
         emscripten_log( EM_LOG_ERROR, "invalid load movie data 'result %s'"
             , result_load_info
