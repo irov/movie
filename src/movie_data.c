@@ -38,6 +38,32 @@
 #include "movie_stream.h"
 
 //////////////////////////////////////////////////////////////////////////
+ae_option_t ae_make_option( const ae_char_t * _option4 )
+{
+    ae_char_t o[4] = {'\0'};
+
+    ae_uint32_t len = 4;
+
+    for( ae_uint32_t index = 0; index != 4; ++index )
+    {
+        if( _option4[index] == '\0' )
+        {
+            len -= index + 1;
+
+            break;
+        }
+    }
+
+    for( ae_uint32_t index = 0; index != len; ++index )
+    {
+        o[4 - len + index] = _option4[index];
+    }
+
+    ae_option_t option = AE_OPTION( o[0], o[1], o[2], o[3] );
+
+    return option;
+}
+//////////////////////////////////////////////////////////////////////////
 aeMovieData * ae_create_movie_data( const aeMovieInstance * _instance, const aeMovieDataProviders * _providers, ae_userdata_t _userdata )
 {
     aeMovieData * movie = AE_NEW( _instance, aeMovieData );
@@ -2695,12 +2721,14 @@ ae_bool_t ae_is_movie_layer_data_incessantly( const aeMovieLayerData * _layer )
     return _layer->incessantly;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_bool_t ae_has_movie_layer_data_option( const aeMovieLayerData * _layer, ae_uint32_t _option )
+ae_bool_t ae_has_movie_layer_data_option( const aeMovieLayerData * _layer, ae_option_t _option )
 {
+    ae_uint32_t options_count = _layer->options_count;
+
     ae_uint32_t index = 0;
-    for( ; index != _layer->options_count; ++index )
+    for( ; index != options_count; ++index )
     {
-        ae_uint32_t option_value = _layer->options[index];
+        ae_option_t option_value = _layer->options[index];
 
         if( option_value != _option )
         {
@@ -2713,14 +2741,18 @@ ae_bool_t ae_has_movie_layer_data_option( const aeMovieLayerData * _layer, ae_ui
     return AE_FALSE;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_uint32_t ae_get_movie_layer_data_option_count( const aeMovieLayerData * _layer )
+ae_uint32_t ae_get_movie_layer_data_options_count( const aeMovieLayerData * _layer )
 {
-    return _layer->options_count;
+    ae_uint32_t options_count = _layer->options_count;
+
+    return options_count;
 }
 //////////////////////////////////////////////////////////////////////////
-ae_uint32_t ae_get_movie_layer_data_option( const aeMovieLayerData * _layer, ae_uint32_t _index )
+ae_option_t ae_get_movie_layer_data_option( const aeMovieLayerData * _layer, ae_option_t _index )
 {
-    return _layer->options[_index];
+    ae_option_t option = _layer->options[_index];
+
+    return option;
 }
 //////////////////////////////////////////////////////////////////////////
 const aeMovieResource * ae_get_movie_layer_data_resource( const aeMovieLayerData * _layer )

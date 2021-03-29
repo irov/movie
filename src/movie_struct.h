@@ -364,7 +364,7 @@ struct aeMovieLayerData
     ae_bool_t incessantly;
 
     ae_uint32_t options_count;
-    ae_uint32_t options[AE_MOVIE_LAYER_MAX_OPTIONS];
+    ae_option_t options[AE_MOVIE_LAYER_MAX_OPTIONS];
 
     ae_uint32_t play_count;
 

@@ -138,6 +138,8 @@ typedef struct aeMovieDataProviders
 
 ae_void_t ae_clear_movie_data_providers( aeMovieDataProviders * _providers );
 
+ae_uint32_t ae_make_option( const ae_char_t * _option4 );
+
 /**
 @brief Allocate a data structure to load movie file into.
 @param [in] _instance Instance.
@@ -294,10 +296,10 @@ ae_bool_t ae_is_movie_layer_data_incessantly( const aeMovieLayerData * _layer );
 @param [in] _option option identity.
 @return TRUE if the layer has this option.
 */
-ae_bool_t ae_has_movie_layer_data_option( const aeMovieLayerData * _layer, ae_uint32_t _option );
+ae_bool_t ae_has_movie_layer_data_option( const aeMovieLayerData * _layer, ae_option_t _option );
 
-ae_uint32_t ae_get_movie_layer_data_option_count( const aeMovieLayerData * _layer );
-ae_uint32_t ae_get_movie_layer_data_option( const aeMovieLayerData * _layer, ae_uint32_t _index );
+ae_uint32_t ae_get_movie_layer_data_options_count( const aeMovieLayerData * _layer );
+ae_option_t ae_get_movie_layer_data_option( const aeMovieLayerData * _layer, ae_uint32_t _index );
 
 /**
 @param [in] _layer Layer.

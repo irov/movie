@@ -46,6 +46,7 @@ typedef size_t ae_size_t;
 typedef int32_t ae_enum_t;
 typedef float ae_float_t;
 typedef float ae_time_t;
+typedef ae_uint32_t ae_option_t;
 typedef ae_uint32_t ae_frame_t;
 typedef ae_void_t * ae_voidptr_t;
 typedef ae_voidptr_t * ae_voidptrptr_t;
