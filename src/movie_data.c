@@ -38,23 +38,30 @@
 #include "movie_stream.h"
 
 //////////////////////////////////////////////////////////////////////////
+AE_INTERNAL ae_uint32_t __len_str_option( const ae_char_t * _option4 )
+{
+    ae_uint32_t index = 0;
+    for( ; index != 4; ++index )
+    {
+        if( _option4[index] != '\0' )
+        {
+            continue;
+        }
+
+        return index;
+    }
+
+    return 4;
+}
+//////////////////////////////////////////////////////////////////////////
 ae_option_t ae_make_option( const ae_char_t * _option4 )
 {
     ae_char_t o[4] = {'\0'};
 
-    ae_uint32_t len = 4;
+    ae_uint32_t len = __len_str_option( _option4 );
 
-    for( ae_uint32_t index = 0; index != 4; ++index )
-    {
-        if( _option4[index] == '\0' )
-        {
-            len -= index + 1;
-
-            break;
-        }
-    }
-
-    for( ae_uint32_t index = 0; index != len; ++index )
+    ae_uint32_t index = 0;
+    for( ; index != len; ++index )
     {
         o[4 - len + index] = _option4[index];
     }
