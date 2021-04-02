@@ -219,7 +219,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             __make_layer_mesh_vertices( layer->extensions->mesh, frame, _node->matrix, AE_NULLPTR, _render );
 
             _render->color = _node->color;
-            _render->opacity = _node->opacity;
+            _render->opacity = _node->opacity * _node->extra_opacity;
         }break;
     case AE_MOVIE_LAYER_TYPE_SOLID:
         {
@@ -244,7 +244,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             _render->color.r = _node->color.r * resource_solid->color.r;
             _render->color.g = _node->color.g * resource_solid->color.g;
             _render->color.b = _node->color.b * resource_solid->color.b;
-            _render->opacity = _node->opacity;
+            _render->opacity = _node->opacity * _node->extra_opacity;
         }break;
     case AE_MOVIE_LAYER_TYPE_SEQUENCE:
         {
@@ -327,7 +327,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             }
 
             _render->color = _node->color;
-            _render->opacity = _node->opacity;
+            _render->opacity = _node->opacity * _node->extra_opacity;
         }break;
     case AE_MOVIE_LAYER_TYPE_VIDEO:
         {
@@ -375,7 +375,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             }
 
             _render->color = _node->color;
-            _render->opacity = _node->opacity;
+            _render->opacity = _node->opacity * _node->extra_opacity;
         }break;
     case AE_MOVIE_LAYER_TYPE_IMAGE:
         {
@@ -432,7 +432,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             }
 
             _render->color = _node->color;
-            _render->opacity = _node->opacity;
+            _render->opacity = _node->opacity * _node->extra_opacity;
         }break;
     default:
         {
@@ -440,7 +440,7 @@ AE_INTERNAL ae_void_t __compute_movie_render_mesh( const aeMovieComposition * _c
             _render->indexCount = 0;
 
             _render->color = _node->color;
-            _render->opacity = _node->opacity;
+            _render->opacity = _node->opacity * _node->extra_opacity;
         }break;
     }
 }
@@ -617,8 +617,6 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
 
         _node->opacity = local_opacity;
 
-        _node->transparent = ae_equal_f_z( _node->opacity );
-
         return;
     }
 
@@ -656,8 +654,6 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_matrix( aeMovieNode * _nod
     _node->color.b = node_relative->composition_color.b * local_b;
 
     _node->opacity = node_relative->composition_opacity * local_opacity;
-
-    _node->transparent = ae_equal_f_z( _node->opacity );
 }
 //////////////////////////////////////////////////////////////////////////
 AE_INTERNAL ae_void_t __update_movie_composition_node_shader( aeMovieNode * _node, const aeMovieComposition * _composition, const aeMovieCompositionData * _compositionData, ae_uint32_t _frameId, ae_bool_t _interpolate, ae_float_t _t )
@@ -929,7 +925,7 @@ AE_INTERNAL ae_bool_t __setup_movie_node_track_matte2( aeMovieComposition * _com
             callbackData.matrix = node->matrix;
             callbackData.immutable_color = node->immutable_color;
             callbackData.color = node->color;
-            callbackData.opacity = node->opacity;
+            callbackData.opacity = node->opacity * node->extra_opacity;
             callbackData.mesh = &mesh;
             callbackData.track_matte_mode = layer->track_matte_mode;
 
@@ -1151,6 +1147,7 @@ AE_INTERNAL ae_void_t __setup_movie_node_initialize( aeMovieNode * _nodes, ae_ui
 
         node->subcomposition = AE_NULLPTR;
         node->volume = 1.f;
+        node->extra_opacity = 1.f;
     }
 }
 //////////////////////////////////////////////////////////////////////////
@@ -1848,7 +1845,7 @@ AE_INTERNAL ae_bool_t __setup_movie_composition_element( aeMovieComposition * _c
         callbackData.immutable_matrix = node->immutable_matrix;
         callbackData.matrix = node->matrix;
         callbackData.color = node->color;
-        callbackData.opacity = node->opacity;
+        callbackData.opacity = node->opacity * node->extra_opacity;
         callbackData.volume = node->volume;
         callbackData.track_matte_layer = track_matte_layer;
 
@@ -2451,7 +2448,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.mesh = &mesh;
                 callbackData.track_matte_userdata = node->track_matte_userdata;
 
@@ -2475,7 +2472,7 @@ AE_INTERNAL ae_void_t __notify_stop_nodies( const aeMovieComposition * _composit
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.volume = node->volume;
 
                 (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
@@ -2537,7 +2534,7 @@ AE_INTERNAL ae_void_t __notify_pause_nodies( const aeMovieComposition * _composi
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.mesh = &mesh;
                 callbackData.track_matte_userdata = node->track_matte_userdata;
 
@@ -2559,7 +2556,7 @@ AE_INTERNAL ae_void_t __notify_pause_nodies( const aeMovieComposition * _composi
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.volume = node->volume;
 
                 (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
@@ -2643,7 +2640,7 @@ AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _compos
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.mesh = &mesh;
                 callbackData.track_matte_userdata = node->track_matte_userdata;
 
@@ -2665,7 +2662,7 @@ AE_INTERNAL ae_void_t __notify_resume_nodies( const aeMovieComposition * _compos
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.volume = node->volume;
 
                 (*_composition->providers.node_update)(&callbackData, _composition->provider_userdata);
@@ -2777,7 +2774,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node_normal_state( const aeMovi
     callbackData.matrix = _node->matrix;
     callbackData.immutable_color = _node->immutable_color;
     callbackData.color = _node->color;
-    callbackData.opacity = _node->opacity;
+    callbackData.opacity = _node->opacity * _node->extra_opacity;
     callbackData.volume = _node->volume;
 
     if( _animation->play == AE_FALSE )
@@ -3172,7 +3169,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.begin = AE_TRUE;
 
                 (*_composition->providers.composition_event)(&callbackData, _composition->provider_userdata);
@@ -3190,7 +3187,7 @@ AE_INTERNAL ae_void_t __update_movie_composition_node( const aeMovieComposition 
                 callbackData.matrix = node->matrix;
                 callbackData.immutable_color = node->immutable_color;
                 callbackData.color = node->color;
-                callbackData.opacity = node->opacity;
+                callbackData.opacity = node->opacity * node->extra_opacity;
                 callbackData.begin = AE_FALSE;
 
                 (*_composition->providers.composition_event)(&callbackData, _composition->provider_userdata);
@@ -4038,7 +4035,7 @@ ae_bool_t ae_compute_movie_mesh( const aeMovieComposition * _composition, ae_uin
             continue;
         }
 
-        if( node->transparent == AE_TRUE )
+        if( node->opacity * node->extra_opacity < 0.00390625f )
         {
             continue;
         }
@@ -4163,6 +4160,113 @@ ae_bool_t ae_get_movie_composition_node_in_out_time( const aeMovieComposition * 
     return AE_FALSE;
 }
 //////////////////////////////////////////////////////////////////////////
+ae_void_t ae_set_movie_composition_nodes_extra_opacity( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_float_t _opacity )
+{
+    const aeMovieInstance * instance = _composition->movie_data->instance;
+
+    aeMovieNode * it_node = _composition->nodes;
+    aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        aeMovieNode * node = it_node;
+
+        const aeMovieLayerData * layer = node->layer_data;
+
+        if( layer->type != _type )
+        {
+            continue;
+        }
+
+        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        {
+            continue;
+        }
+
+        node->extra_opacity = _opacity;
+    }
+}
+//////////////////////////////////////////////////////////////////////////
+ae_void_t ae_set_movie_composition_nodes_extra_opacity_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_float_t _opacity )
+{
+    const aeMovieInstance * instance = _composition->movie_data->instance;
+
+    aeMovieNode * it_node = _composition->nodes;
+    aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        aeMovieNode * node = it_node;
+
+        const aeMovieLayerData * layer = node->layer_data;
+
+        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        {
+            continue;
+        }
+
+        node->extra_opacity = _opacity;
+    }
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_set_movie_composition_node_extra_opacity( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_float_t _opacity )
+{
+    const aeMovieInstance * instance = _composition->movie_data->instance;
+
+    aeMovieNode * it_node = _composition->nodes;
+    aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        aeMovieNode * node = it_node;
+
+        const aeMovieLayerData * layer = node->layer_data;
+
+        if( layer->type != _type )
+        {
+            continue;
+        }
+
+        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        {
+            continue;
+        }
+
+        node->extra_opacity = _opacity;
+
+        return AE_TRUE;
+    }
+
+    return AE_FALSE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_get_movie_composition_node_extra_opacity( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_float_t * _opactity )
+{
+    const aeMovieInstance * instance = _composition->movie_data->instance;
+
+    const aeMovieNode * it_node = _composition->nodes;
+    const aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        const aeMovieNode * node = it_node;
+
+        const aeMovieLayerData * layer = node->layer_data;
+
+        if( layer->type != _type )
+        {
+            continue;
+        }
+
+        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        {
+            continue;
+        }
+
+        *_opactity = node->extra_opacity;
+
+        return AE_TRUE;
+    }
+
+    return AE_FALSE;
+}
+//////////////////////////////////////////////////////////////////////////
 ae_void_t ae_set_movie_composition_nodes_enable( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_bool_t _enable )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
@@ -4179,6 +4283,27 @@ ae_void_t ae_set_movie_composition_nodes_enable( const aeMovieComposition * _com
         {
             continue;
         }
+
+        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        {
+            continue;
+        }
+
+        node->enable = _enable;
+    }
+}
+//////////////////////////////////////////////////////////////////////////
+ae_void_t ae_set_movie_composition_nodes_enable_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_bool_t _enable )
+{
+    const aeMovieInstance * instance = _composition->movie_data->instance;
+
+    aeMovieNode * it_node = _composition->nodes;
+    aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        aeMovieNode * node = it_node;
+
+        const aeMovieLayerData * layer = node->layer_data;
 
         if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
         {
@@ -4249,7 +4374,6 @@ ae_bool_t ae_get_movie_composition_node_enable( const aeMovieComposition * _comp
     return AE_FALSE;
 }
 //////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_has_movie_composition_node_any( const aeMovieComposition * _composition, const ae_char_t * _layerName )
 {
     const aeMovieInstance * instance = _composition->movie_data->instance;
@@ -4297,27 +4421,6 @@ ae_bool_t ae_get_movie_composition_node_in_out_time_any( const aeMovieCompositio
     }
 
     return AE_FALSE;
-}
-//////////////////////////////////////////////////////////////////////////
-ae_void_t ae_set_movie_composition_nodes_enable_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_bool_t _enable )
-{
-    const aeMovieInstance * instance = _composition->movie_data->instance;
-
-    aeMovieNode * it_node = _composition->nodes;
-    aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
-    for( ; it_node != it_node_end; ++it_node )
-    {
-        aeMovieNode * node = it_node;
-
-        const aeMovieLayerData * layer = node->layer_data;
-
-        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
-        {
-            continue;
-        }
-
-        node->enable = _enable;
-    }
 }
 //////////////////////////////////////////////////////////////////////////
 ae_bool_t ae_set_movie_composition_node_enable_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_bool_t _enable )

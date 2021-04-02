@@ -325,8 +325,32 @@ Returns interval on which node is active, i.e. being played, rendered, etc.
 */
 ae_bool_t ae_get_movie_composition_node_in_out_time( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_time_t * _in, ae_time_t * _out );
 
+ae_void_t ae_set_movie_composition_nodes_extra_opacity( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_float_t _opacity );
+ae_void_t ae_set_movie_composition_nodes_extra_opacity_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_float_t _opacity );
+
+/**
+@brief Toggle layer usage.
+@param [in] _composition Composition.
+@param [in] _layerName Node name.
+@param [in] _type Node type.
+@param [in] _enable If TRUE, enable usage.
+@return TRUE if the node is found.
+*/
+ae_bool_t ae_set_movie_composition_node_extra_opacity( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_float_t _opacity );
+
+/**
+@brief Query whether the given node is active or not.
+@param [in] _composition Composition.
+@param [in] _layerName Node name.
+@param [in] _type Node type.
+@param [out] _enable TRUE if enabled.
+@return TRUE if the node is found.
+*/
+ae_bool_t ae_get_movie_composition_node_extra_opacity( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_float_t * _opacity );
+
 
 ae_void_t ae_set_movie_composition_nodes_enable( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_bool_t _enable );
+ae_void_t ae_set_movie_composition_nodes_enable_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_bool_t _enable );
 
 /**
 @brief Toggle layer usage.
@@ -368,9 +392,6 @@ Returns interval on which node is active, i.e. being played, rendered, etc.
 @return TRUE if the node is found.
 */
 ae_bool_t ae_get_movie_composition_node_in_out_time_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_time_t * _in, ae_time_t * _out );
-
-
-ae_void_t ae_set_movie_composition_nodes_enable_any( const aeMovieComposition * _composition, const ae_char_t * _layerName, ae_bool_t _enable );
 
 /**
 @brief Toggle layer usage.

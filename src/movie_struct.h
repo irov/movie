@@ -196,8 +196,7 @@ struct aeMovieNode
 
     ae_color_t color;
     ae_color_channel_t opacity;
-
-    ae_bool_t transparent;
+    ae_color_channel_t extra_opacity;
 
     ae_float_t volume;
 
