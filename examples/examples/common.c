@@ -727,16 +727,18 @@ ae_void_t ex_render( ae_void_t )
 
             switch( render_mesh.layer_type )
             {
+            case AE_MOVIE_LAYER_TYPE_NONE:
+                {
+                    EX_LOG( "movie\n" );
+                } break;
             case AE_MOVIE_LAYER_TYPE_MOVIE:
                 {
                     EX_LOG( "movie\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SHAPE:
                 {
                     EX_LOG( "shape\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SLOT:
                 {
                     EX_LOG( "slot\n" );
@@ -750,30 +752,32 @@ ae_void_t ex_render( ae_void_t )
                                         // that you attached to this slot.
                                         //
 
-                    //					visit_node(slot_node);
-
-                    break;
-                }
+                    //					visit_node(slot_node);                    
+                }break;
             case AE_MOVIE_LAYER_TYPE_SCENE_EFFECT:
                 {
                     EX_LOG( "scene effect\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SOLID:
                 {
                     EX_LOG( "solid\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SEQUENCE:
             case AE_MOVIE_LAYER_TYPE_IMAGE:
                 {
                     if( render_mesh.layer_type == AE_MOVIE_LAYER_TYPE_SEQUENCE )
+                    {
                         EX_LOG( "image sequence\n" );
+                    }
                     else
+                    {
                         EX_LOG( "image\n" );
+                    }
 
                     if( render_mesh.vertexCount == 0 || render_mesh.indexCount == 0 )
+                    {
                         break;
+                    }
 
                     EX_LOG( "Mesh info:\n" );
                     EX_LOG( " Vertex count = %i\n", render_mesh.vertexCount );
@@ -787,55 +791,44 @@ ae_void_t ex_render( ae_void_t )
                     // resource provider callback previously.
                     //
 
-                    // Render here using the mesh data.
-
-                    break;
-                }
+                    // Render here using the mesh data.                    
+                }break;
             case AE_MOVIE_LAYER_TYPE_VIDEO:
                 {
                     EX_LOG( "video\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SOUND:
                 {
                     EX_LOG( "sound\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_PARTICLE:
                 {
                     EX_LOG( "particle\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SUB_MOVIE:
                 {
                     EX_LOG( "submovie\n" );
-                    break;
-                }
+                }break;
             case AE_MOVIE_LAYER_TYPE_SPRITE:
                 {
-                    //Empty
-                    break;
-                }
+                    //Empty                    
+                }break;
             case AE_MOVIE_LAYER_TYPE_TEXT:
                 {
-                    //Empty
-                    break;
-                }
+                    //Empty                    
+                }break;
             case AE_MOVIE_LAYER_TYPE_EVENT:
                 {
-                    //Empty
-                    break;
-                }
+                    //Empty                    
+                }break;
             case AE_MOVIE_LAYER_TYPE_SOCKET:
                 {
-                    //Empty
-                    break;
-                }
+                    //Empty                    
+                }break;
             case AE_MOVIE_LAYER_TYPE_NULL:
                 {
-                    //Empty
-                    break;
-                }
+                    //Empty                    
+                }break;
             }
         }
         else
@@ -850,6 +843,7 @@ ae_void_t ex_render( ae_void_t )
 
             switch( render_mesh.layer_type )
             {
+            case AE_MOVIE_LAYER_TYPE_NONE:
             case AE_MOVIE_LAYER_TYPE_MOVIE:
             case AE_MOVIE_LAYER_TYPE_SPRITE:
             case AE_MOVIE_LAYER_TYPE_TEXT:

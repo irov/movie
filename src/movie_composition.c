@@ -4113,7 +4113,7 @@ ae_bool_t ae_has_movie_composition_node( const aeMovieComposition * _composition
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4141,7 +4141,7 @@ ae_bool_t ae_get_movie_composition_node_in_out_time( const aeMovieComposition * 
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4153,6 +4153,38 @@ ae_bool_t ae_get_movie_composition_node_in_out_time( const aeMovieComposition * 
 
         *_in = AE_TIME_OUTSCALE( node->in_time );
         *_out = AE_TIME_OUTSCALE( node->out_time );
+
+        return AE_TRUE;
+    }
+
+    return AE_FALSE;
+}
+//////////////////////////////////////////////////////////////////////////
+ae_bool_t ae_has_movie_composition_node_option( const aeMovieComposition * _composition, const ae_char_t * _layerName, aeMovieLayerTypeEnum _type, ae_option_t _option, ae_bool_t * _result )
+{
+    const aeMovieInstance * instance = _composition->movie_data->instance;
+
+    const aeMovieNode * it_node = _composition->nodes;
+    const aeMovieNode * it_node_end = _composition->nodes + _composition->node_count;
+    for( ; it_node != it_node_end; ++it_node )
+    {
+        const aeMovieNode * node = it_node;
+
+        const aeMovieLayerData * layer = node->layer_data;
+
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
+        {
+            continue;
+        }
+
+        if( AE_STRNCMP( instance, layer->name, _layerName, AE_MOVIE_MAX_LAYER_NAME ) != 0 )
+        {
+            continue;
+        }
+
+        ae_bool_t result = ae_has_movie_layer_data_option( layer, _option );
+
+        *_result = result;
 
         return AE_TRUE;
     }
@@ -4172,7 +4204,7 @@ ae_void_t ae_set_movie_composition_nodes_extra_opacity( const aeMovieComposition
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4219,7 +4251,7 @@ ae_bool_t ae_set_movie_composition_node_extra_opacity( const aeMovieComposition 
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4249,7 +4281,7 @@ ae_bool_t ae_get_movie_composition_node_extra_opacity( const aeMovieComposition 
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4279,7 +4311,7 @@ ae_void_t ae_set_movie_composition_nodes_enable( const aeMovieComposition * _com
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4326,7 +4358,7 @@ ae_bool_t ae_set_movie_composition_node_enable( const aeMovieComposition * _comp
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
@@ -4356,7 +4388,7 @@ ae_bool_t ae_get_movie_composition_node_enable( const aeMovieComposition * _comp
 
         const aeMovieLayerData * layer = node->layer_data;
 
-        if( layer->type != _type )
+        if( _type != AE_MOVIE_LAYER_TYPE_NONE && layer->type != _type )
         {
             continue;
         }
